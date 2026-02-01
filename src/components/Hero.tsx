@@ -44,7 +44,7 @@ export function Hero() {
                     key={i}
                     className={`flex whitespace-nowrap gap-8 will-change-transform flex`}
                     style={{
-                      animation: `diagonal-scroll ${baseDuration + (i % 3) * 5}s linear infinite ${i % 2 === 0 ? 'normal' : 'reverse'}`,
+                      animation: `diagonal-scroll ${baseDuration + (i % 3) * 8}s linear infinite ${i % 2 === 0 ? 'normal' : 'reverse'}`,
                       width: 'max-content'
                     }}
                   >
@@ -53,7 +53,7 @@ export function Hero() {
                         key={j} 
                         className={`md:text-8xl text-6xl font-black uppercase text-transparent [-webkit-text-stroke:2px_rgba(255,255,255,0.8)] ${j >= 4 ? 'hidden md:inline' : 'inline'}`}
                       >
-                        BARELLA ÉPÜLETGÉPÉSZET
+                        {scrollingTexts[j % scrollingTexts.length]}
                       </span>
                     ))}
                   </div>
