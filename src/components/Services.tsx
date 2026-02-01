@@ -1,9 +1,10 @@
 "use client";
 
 import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
-import { Snowflake, Zap, Layers, ThermometerSun } from "lucide-react";
-import { MouseEvent } from "react";
+import { Snowflake, Zap, Layers, ThermometerSun, ArrowRight, Phone } from "lucide-react";
+import { MouseEvent, useState, useEffect } from "react";
 import Image from "next/image";
+import { useQuote } from "@/components/QuoteContext";
 
 const services = [
   {
@@ -45,19 +46,32 @@ const services = [
 ];
 
 export function Services() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   return (
-    <section id="services" className="py-32 bg-background relative border-t border-white/5 overflow-hidden">
-      {/* Background Gradients */}
-      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[128px] pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-blue-600/5 rounded-full blur-[128px] pointer-events-none" />
+    <section id="services" className="py-20 md:py-32 bg-background relative border-t border-white/5 overflow-hidden">
+      {/* Background Gradients - DISABLED ON MOBILE */}
+      {!isMobile && (
+        <>
+          <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[128px] pointer-events-none" />
+          <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-blue-600/5 rounded-full blur-[128px] pointer-events-none" />
+        </>
+      )}
 
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={isMobile ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="mb-20"
+          className="mb-12 md:mb-20"
         >
           <div className="flex items-center gap-4 mb-6">
              <div className="h-[1px] w-12 bg-primary" />
@@ -74,7 +88,7 @@ export function Services() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {services.map((service, index) => (
-            <ServiceCard key={service.title} service={service} index={index} />
+            <ServiceCard key={service.title} service={service} index={index} isMobile={isMobile} />
           ))}
         </div>
       </div>
@@ -82,11 +96,13 @@ export function Services() {
   );
 }
 
-function ServiceCard({ service, index }: { service: any, index: number }) {
+function ServiceCard({ service, index, isMobile }: { service: any, index: number, isMobile: boolean }) {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
+  const { openQuote } = useQuote();
 
   function handleMouseMove({ currentTarget, clientX, clientY }: MouseEvent) {
+    if (isMobile) return;
     const { left, top } = currentTarget.getBoundingClientRect();
     mouseX.set(clientX - left);
     mouseY.set(clientY - top);
@@ -94,50 +110,53 @@ function ServiceCard({ service, index }: { service: any, index: number }) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={isMobile ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      className={`group relative rounded-3xl border border-white/10 bg-black overflow-hidden ${service.colSpan}`}
+      transition={{ duration: 0.5, delay: isMobile ? 0 : index * 0.1 }}
+      className={`group relative rounded-3xl border border-white/10 bg-black overflow-hidden ${service.colSpan} flex flex-col`}
       onMouseMove={handleMouseMove}
     >
-      {/* Spotlight Effect */}
-      <motion.div
-        className="pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition duration-300 group-hover:opacity-100"
-        style={{
-          background: useMotionTemplate`
-            radial-gradient(
-              650px circle at ${mouseX}px ${mouseY}px,
-              rgba(45, 212, 191, 0.15),
-              transparent 80%
-            )
-          `,
-        }}
-      />
+      {/* Spotlight Effect - DISABLED ON MOBILE */}
+      {!isMobile && (
+        <motion.div
+          className="pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition duration-300 group-hover:opacity-100"
+          style={{
+            background: useMotionTemplate`
+              radial-gradient(
+                650px circle at ${mouseX}px ${mouseY}px,
+                rgba(45, 212, 191, 0.15),
+                transparent 80%
+              )
+            `,
+          }}
+        />
+      )}
 
-      {/* Background Image (Subtle) */}
-      <div className="absolute inset-0 opacity-20 group-hover:opacity-40 transition-opacity duration-700 mix-blend-luminosity group-hover:mix-blend-normal transform scale-105 group-hover:scale-110 transition-transform duration-700">
+      {/* Background Image (Subtle) - SIMPLIFIED ON MOBILE */}
+      <div className={`absolute inset-0 opacity-20 ${!isMobile && "group-hover:opacity-40 transition-opacity duration-700 mix-blend-luminosity group-hover:mix-blend-normal transform scale-105 group-hover:scale-110 transition-transform duration-700"}`}>
         <Image
           src={service.image}
           alt={service.title}
           fill
           className="object-cover object-center"
           sizes="(max-width: 768px) 100vw, 33vw"
+          priority={index === 0} // Prioritize first image loading
         />
       </div>
       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-black/40" />
 
-      <div className="relative z-10 h-full flex flex-col p-8 md:p-10">
-        <div className="flex justify-between items-start mb-8">
-          <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center backdrop-blur-md group-hover:scale-110 group-hover:bg-primary/20 group-hover:border-primary/50 transition-all duration-300 shadow-[0_0_20px_rgba(0,0,0,0.2)]">
-            <service.icon size={28} className="text-gray-300 group-hover:text-primary transition-colors" />
+      <div className="relative z-10 h-full flex flex-col p-6 md:p-10">
+        <div className="flex justify-between items-start mb-6 md:mb-8">
+          <div className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center backdrop-blur-md group-hover:scale-110 group-hover:bg-primary/20 group-hover:border-primary/50 transition-all duration-300 shadow-[0_0_20px_rgba(0,0,0,0.2)]">
+            <service.icon size={24} className="text-gray-300 group-hover:text-primary transition-colors md:w-7 md:h-7" />
           </div>
           <span className="text-[10px] font-black text-primary/70 uppercase tracking-[0.2em] border border-primary/20 rounded-full px-4 py-1.5 backdrop-blur-md bg-black/20 group-hover:bg-primary/10 group-hover:text-primary transition-all">
             {service.subtitle}
           </span>
         </div>
         
-        <h3 className="text-3xl md:text-4xl font-black mb-4 text-white group-hover:text-primary transition-colors uppercase tracking-tight">{service.title}</h3>
+        <h3 className="text-2xl md:text-4xl font-black mb-4 text-white group-hover:text-primary transition-colors uppercase tracking-tight">{service.title}</h3>
         <p className="text-gray-400 leading-relaxed mb-8 flex-grow font-light text-base md:text-lg">
           {service.description}
         </p>
@@ -149,6 +168,22 @@ function ServiceCard({ service, index }: { service: any, index: number }) {
               {detail}
             </div>
           ))}
+          
+          {/* Inline CTA Buttons */}
+          <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4">
+             <button 
+               onClick={openQuote}
+               className="flex-1 bg-white/10 hover:bg-primary hover:text-black border border-white/10 text-white py-3 rounded-xl font-bold uppercase text-xs tracking-wider transition-all duration-300 flex items-center justify-center gap-2"
+             >
+               Ajánlatkérés <ArrowRight size={14} />
+             </button>
+             <a 
+               href="tel:+36301738866"
+               className="flex-1 bg-transparent hover:bg-white/10 border border-white/10 text-white py-3 rounded-xl font-bold uppercase text-xs tracking-wider transition-all duration-300 flex items-center justify-center gap-2"
+             >
+               Hívás <Phone size={14} />
+             </a>
+          </div>
         </div>
       </div>
     </motion.div>

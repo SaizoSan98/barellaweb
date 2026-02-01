@@ -2,23 +2,33 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
-import { useRef } from "react";
-import { ArrowUpRight } from "lucide-react";
+import { useRef, useState, useEffect } from "react";
+import { ArrowUpRight, ArrowRight, Phone } from "lucide-react";
 import { projectsData } from "@/lib/data";
 import Link from "next/link";
+import { useQuote } from "@/components/QuoteContext";
 
 // Take only the first 3 projects for the home page
 const projects = projectsData.slice(0, 3);
 
 export function References() {
   const containerRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"],
   });
 
   return (
-    <section id="references" ref={containerRef} className="py-32 bg-black relative overflow-hidden">
+    <section id="references" ref={containerRef} className="py-20 md:py-32 bg-black relative overflow-hidden">
       {/* Background Text Decoration */}
       <div className="absolute top-20 right-0 opacity-[0.03] select-none pointer-events-none">
         <span className="text-[20vw] font-black text-white leading-none">WORK</span>
@@ -26,11 +36,11 @@ export function References() {
 
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={isMobile ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="mb-24 flex flex-col md:flex-row md:items-end justify-between gap-8"
+          className="mb-12 md:mb-24 flex flex-col md:flex-row md:items-end justify-between gap-8"
         >
           <div>
             <div className="flex items-center gap-4 mb-6">
@@ -50,9 +60,9 @@ export function References() {
           </a>
         </motion.div>
 
-        <div className="space-y-32">
+        <div className="space-y-20 md:space-y-32">
           {projects.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} />
+            <ProjectCard key={project.id} project={project} index={index} isMobile={isMobile} />
           ))}
         </div>
       </div>
@@ -60,8 +70,9 @@ export function References() {
   );
 }
 
-function ProjectCard({ project, index }: { project: any, index: number }) {
+function ProjectCard({ project, index, isMobile }: { project: any, index: number, isMobile: boolean }) {
   const ref = useRef(null);
+  const { openQuote } = useQuote();
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
@@ -73,35 +84,43 @@ function ProjectCard({ project, index }: { project: any, index: number }) {
   return (
     <motion.div 
       ref={ref}
-      initial={{ opacity: 0, y: 50 }}
+      initial={isMobile ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-10%" }}
-      transition={{ duration: 0.8 }}
-      className={`flex flex-col ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'} gap-12 items-center`}
+      transition={{ duration: 0.5 }}
+      className={`flex flex-col ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'} gap-8 md:gap-12 items-center`}
     >
       <div className="w-full md:w-3/5 relative group perspective-1000">
         <div className="overflow-hidden rounded-2xl shadow-2xl transition-all duration-700 group-hover:shadow-[0_20px_50px_rgba(45,212,191,0.2)]">
-          <motion.div style={{ y: isEven ? y : y }} className="relative aspect-[16/9] w-full transform transition-transform duration-700 group-hover:scale-105">
+          <motion.div style={{ y: isMobile ? 0 : (isEven ? y : y) }} className={`relative aspect-[16/9] w-full ${!isMobile && "transform transition-transform duration-700 group-hover:scale-105"}`}>
              <Image
               src={project.coverImage || project.image}
               alt={project.title}
               fill
-              className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-110"
+              className={`object-cover ${!isMobile && "grayscale group-hover:grayscale-0 transition-all duration-700 scale-110"}`}
+              sizes="(max-width: 768px) 100vw, 60vw"
+              priority={index === 0}
             />
-            <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-700" />
+            {!isMobile && <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-700" />}
             
-            {/* Overlay Content on Hover */}
-            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                <div className="w-20 h-20 rounded-full border border-white/30 backdrop-blur-md flex items-center justify-center bg-black/20">
-                    <ArrowUpRight className="text-white w-8 h-8" />
+            {/* Overlay Content on Hover - Desktop Only */}
+            {!isMobile && (
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                    <div className="w-20 h-20 rounded-full border border-white/30 backdrop-blur-md flex items-center justify-center bg-black/20">
+                        <ArrowUpRight className="text-white w-8 h-8" />
+                    </div>
                 </div>
-            </div>
+            )}
           </motion.div>
         </div>
         
-        {/* Corner Accents - Enhanced */}
-        <div className="absolute -top-4 -left-4 w-16 h-16 border-t-2 border-l-2 border-primary/50 opacity-0 group-hover:opacity-100 transition-all duration-500 delay-100" />
-        <div className="absolute -bottom-4 -right-4 w-16 h-16 border-b-2 border-r-2 border-primary/50 opacity-0 group-hover:opacity-100 transition-all duration-500 delay-100" />
+        {/* Corner Accents - Enhanced (Desktop Only) */}
+        {!isMobile && (
+            <>
+                <div className="absolute -top-4 -left-4 w-16 h-16 border-t-2 border-l-2 border-primary/50 opacity-0 group-hover:opacity-100 transition-all duration-500 delay-100" />
+                <div className="absolute -bottom-4 -right-4 w-16 h-16 border-b-2 border-r-2 border-primary/50 opacity-0 group-hover:opacity-100 transition-all duration-500 delay-100" />
+            </>
+        )}
       </div>
 
       <div className="w-full md:w-2/5 md:px-8">
@@ -109,24 +128,45 @@ function ProjectCard({ project, index }: { project: any, index: number }) {
             <div className="h-[1px] w-8 bg-primary/50" />
             <span className="text-primary font-black tracking-[0.2em] text-xs uppercase">{project.category}</span>
         </div>
-        <h3 className="text-4xl md:text-5xl font-black text-white mb-6 uppercase tracking-tighter leading-none">
+        <h3 className="text-3xl md:text-5xl font-black text-white mb-4 md:mb-6 uppercase tracking-tighter leading-none">
             {project.title}
         </h3>
-        <p className="text-gray-400 text-lg leading-relaxed mb-8 font-light border-l-2 border-white/10 pl-6">
+        <p className="text-gray-400 text-base md:text-lg leading-relaxed mb-6 md:mb-8 font-light border-l-2 border-white/10 pl-6">
           {project.description}
         </p>
-        <Link 
-          href={`/referenciak/${project.id}`}
-          className="group inline-flex items-center gap-4 text-white font-bold text-sm uppercase tracking-widest hover:text-primary transition-colors"
-        >
-          <span className="relative">
-            Projekt megtekintése
-            <span className="absolute -bottom-2 left-0 w-0 h-[1px] bg-primary transition-all duration-300 group-hover:w-full" />
-          </span>
-          <div className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center group-hover:border-primary group-hover:bg-primary group-hover:text-black transition-all duration-300">
-            <ArrowUpRight size={14} />
-          </div>
-        </Link>
+        
+        <div className="flex flex-col gap-4">
+            <Link 
+              href={`/referenciak/${project.id}`}
+              className="group inline-flex items-center gap-4 text-white font-bold text-sm uppercase tracking-widest hover:text-primary transition-colors"
+            >
+              <span className="relative">
+                Projekt megtekintése
+                <span className="absolute -bottom-2 left-0 w-0 h-[1px] bg-primary transition-all duration-300 group-hover:w-full" />
+              </span>
+              <div className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center group-hover:border-primary group-hover:bg-primary group-hover:text-black transition-all duration-300">
+                <ArrowUpRight size={14} />
+              </div>
+            </Link>
+
+            {/* Inline CTA Buttons for Mobile */}
+            {isMobile && (
+                <div className="flex gap-3 mt-2">
+                     <button 
+                       onClick={openQuote}
+                       className="flex-1 bg-white/10 text-white py-3 rounded-xl font-bold uppercase text-xs tracking-wider flex items-center justify-center gap-2"
+                     >
+                       Ajánlatkérés <ArrowRight size={14} />
+                     </button>
+                     <a 
+                       href="tel:+36301738866"
+                       className="flex-1 border border-white/10 text-white py-3 rounded-xl font-bold uppercase text-xs tracking-wider flex items-center justify-center gap-2"
+                     >
+                       Hívás <Phone size={14} />
+                     </a>
+                </div>
+            )}
+        </div>
       </div>
     </motion.div>
   );
