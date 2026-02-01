@@ -101,7 +101,6 @@ export function Hero() {
             <h1 className="text-6xl sm:text-5xl font-black tracking-tighter mb-8 leading-[0.9] drop-shadow-2xl">
               <span className="text-white relative inline-block">
                 BARELLA
-                <span className="absolute -bottom-2 left-0 h-1 bg-primary w-full" />
               </span> <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white via-50% to-gray-600 block mt-4 break-words w-full text-3xl sm:text-4xl tracking-normal sm:tracking-[0.1em] font-bold">
                 ÉPÜLETGÉPÉSZET
