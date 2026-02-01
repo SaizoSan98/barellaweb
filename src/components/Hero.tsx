@@ -48,7 +48,7 @@ export function Hero() {
                 {Array.from({ length: 15 }).map((_, i) => (
                   <div
                     key={i}
-                    className={`flex whitespace-nowrap gap-8 will-change-transform hero-marquee-row ${i % 3 !== 0 ? 'hidden md:flex' : 'flex'}`}
+                    className={`flex whitespace-nowrap gap-8 will-change-transform hero-marquee-row ${i % 5 !== 0 ? 'hidden md:flex' : 'flex'}`}
                     style={{
                       animation: `diagonal-scroll ${baseDuration + (i % 3) * 8}s linear infinite ${i % 2 === 0 ? 'normal' : 'reverse'}`,
                       width: 'max-content',
@@ -92,43 +92,79 @@ export function Hero() {
 
       <div className="container relative z-20 px-4">
         <div className="max-w-4xl mx-auto md:text-left text-center">
+          
+          {/* TITLE: CSS FadeIn for Mobile (Instant LCP), Motion for Desktop */}
+          <div className="md:hidden block animate-[fadeIn_1s_ease-out_forwards] opacity-0" style={{ animationDelay: '0.1s' }}>
+            <h1 className="text-6xl sm:text-5xl font-black tracking-tighter mb-8 leading-[0.9] drop-shadow-2xl">
+              <span className="text-white relative inline-block">
+                BARELLA
+                <span className="absolute -bottom-2 left-0 h-1 bg-primary w-full animate-[widthGrow_1s_ease-out_forwards]" />
+              </span> <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white via-50% to-gray-600 block mt-4 break-words w-full text-4xl tracking-[0.1em] font-bold">
+                ÉPÜLETGÉPÉSZET
+              </span>
+            </h1>
+          </div>
+          
           <motion.h1
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-            className="text-6xl sm:text-5xl md:text-8xl font-black tracking-tighter mb-8 md:mb-8 leading-[0.9] drop-shadow-2xl"
+            className="hidden md:block text-5xl md:text-8xl font-black tracking-tighter mb-8 md:mb-8 leading-[0.9] drop-shadow-2xl"
           >
             <span className="text-white relative inline-block">
               BARELLA
-              <motion.span 
-                initial={{ width: 0 }}
-                animate={{ width: "100%" }}
-                transition={{ delay: 1, duration: 0.8 }}
-                className="absolute -bottom-2 left-0 h-1 bg-primary md:hidden"
-              />
             </span> <br />
-            {/* Fixed overflow on mobile with break-words and reduced size if needed */}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white via-50% to-gray-600 block mt-4 md:mt-4 break-words w-full md:text-7xl text-4xl tracking-[0.1em] md:tracking-normal font-bold md:font-black">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white via-50% to-gray-600 block mt-4 break-words w-full text-7xl font-black">
               ÉPÜLETGÉPÉSZET
             </span>
           </motion.h1>
+
+          {/* DESCRIPTION: CSS FadeIn for Mobile, Motion for Desktop */}
+          <div className="md:hidden block animate-[fadeIn_1s_ease-out_forwards] opacity-0" style={{ animationDelay: '0.3s' }}>
+             <p className="text-lg text-gray-300 max-w-2xl mb-10 font-light leading-relaxed mx-auto">
+              A jövő épületgépészete. Kompromisszumok nélküli minőség, 
+              <span className="text-white font-medium"> ipari precizitás</span> és 
+              <span className="text-white font-medium"> intelligens rendszerek</span> egy kézben.
+            </p>
+          </div>
 
           <motion.p
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-            className="text-lg md:text-2xl text-gray-300 max-w-2xl mb-10 md:mb-12 font-light leading-relaxed mx-auto md:mx-0"
+            className="hidden md:block text-2xl text-gray-300 max-w-2xl mb-12 font-light leading-relaxed"
           >
             A jövő épületgépészete. Kompromisszumok nélküli minőség, 
-            <span className="text-white font-medium"> ipari precizitás</span> és 
-            <span className="text-white font-medium"> intelligens rendszerek</span> egy kézben.
+            <span className="text-white font-medium block md:inline"> ipari precizitás</span> és 
+            <span className="text-white font-medium block md:inline"> intelligens rendszerek</span> egy kézben.
           </motion.p>
+
+          {/* BUTTONS: CSS FadeIn for Mobile, Motion for Desktop */}
+          <div className="md:hidden flex flex-col gap-4 items-center justify-center animate-[fadeIn_1s_ease-out_forwards] opacity-0" style={{ animationDelay: '0.5s' }}>
+             <button 
+              onClick={openQuote}
+              className="w-full group relative bg-primary text-black px-6 py-3 font-bold text-base tracking-wide overflow-hidden rounded-none skew-x-[-10deg] active:scale-95 transition-transform"
+            >
+              <span className="block skew-x-[10deg] flex items-center gap-2 justify-center whitespace-nowrap">
+                AJÁNLATKÉRÉS <ArrowRight className="w-4 h-4" />
+              </span>
+            </button>
+            <a 
+              href="/referenciak"
+              className="w-full group px-6 py-3 font-bold text-base text-white border border-white/20 skew-x-[-10deg] backdrop-blur-sm inline-block text-center active:scale-95 transition-transform"
+            >
+              <span className="block skew-x-[10deg] whitespace-nowrap">
+                REFERENCIÁK
+              </span>
+            </a>
+          </div>
 
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
-            className="flex flex-col sm:flex-row gap-4 md:gap-6 items-center md:items-start justify-center md:justify-start"
+            className="hidden md:flex flex-col sm:flex-row gap-4 md:gap-6 items-center md:items-start justify-center md:justify-start"
           >
             <button 
               onClick={openQuote}
