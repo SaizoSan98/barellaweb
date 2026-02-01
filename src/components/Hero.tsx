@@ -33,8 +33,9 @@ export function Hero() {
         {USE_ANIMATED_BACKGROUND ? (
            // ANIMATED MOSAIC BACKGROUND - OPTIMIZED CSS VERSION
            <div className="absolute inset-0 flex flex-col items-center justify-center bg-black">
-              <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/80 z-10" />
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_20%,rgba(0,0,0,0.8)_100%)] z-10 pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/90 z-10" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.8)_100%)] z-10 pointer-events-none" />
+              <div className="absolute inset-0 bg-black/30 backdrop-blur-[2px] z-10" />
               
               {/* Tilted Container for Diagonal Movement */}
               <div className={`absolute inset-0 flex flex-col md:gap-8 gap-4 -rotate-[15deg] scale-150 opacity-60 blur-0 select-none pointer-events-none overflow-hidden`}>
