@@ -31,8 +31,6 @@ export function Hero() {
   const USE_ANIMATED_BACKGROUND = true;
 
   // Optimized animation settings
-  const rowCount = isMobile ? 10 : 15;
-  const textRepeat = isMobile ? 4 : 8;
   const baseDuration = 20;
 
   return (
@@ -48,20 +46,20 @@ export function Hero() {
               <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/80 z-10" />
               
               {/* Tilted Container for Diagonal Movement */}
-              <div className={`absolute inset-0 flex flex-col ${isMobile ? 'gap-4' : 'gap-8'} -rotate-[15deg] scale-150 opacity-20 blur-[3px] select-none pointer-events-none overflow-hidden`}>
-                {isLoaded && Array.from({ length: rowCount }).map((_, i) => (
+              <div className={`absolute inset-0 flex flex-col md:gap-8 gap-4 -rotate-[15deg] scale-150 opacity-20 blur-[3px] select-none pointer-events-none overflow-hidden`}>
+                {Array.from({ length: 15 }).map((_, i) => (
                   <div
                     key={i}
-                    className="flex whitespace-nowrap gap-8 will-change-transform"
+                    className={`flex whitespace-nowrap gap-8 will-change-transform ${i >= 10 ? 'hidden md:flex' : 'flex'}`}
                     style={{
                       animation: `diagonal-scroll ${baseDuration + (i % 3) * 5}s linear infinite ${i % 2 === 0 ? 'normal' : 'reverse'}`,
                       width: 'max-content'
                     }}
                   >
-                    {Array.from({ length: textRepeat }).map((_, j) => (
+                    {Array.from({ length: 8 }).map((_, j) => (
                       <span 
                         key={j} 
-                        className={`${isMobile ? 'text-6xl' : 'text-8xl'} font-black uppercase text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.5)]`}
+                        className={`md:text-8xl text-6xl font-black uppercase text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.5)] ${j >= 4 ? 'hidden md:inline' : 'inline'}`}
                       >
                         BARELLA ÉPÜLETGÉPÉSZET
                       </span>
