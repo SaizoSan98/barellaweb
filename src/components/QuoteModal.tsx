@@ -51,7 +51,8 @@ export function QuoteModal() {
                 </div>
                 <button 
                   onClick={closeQuote}
-                  className="p-2 hover:bg-gray-200 rounded-full transition-colors text-gray-400 hover:text-black"
+                  className="p-4 -m-4 md:p-2 md:m-0 hover:bg-gray-200 rounded-full transition-colors text-gray-400 hover:text-black active:scale-95 touch-manipulation"
+                  aria-label="Bezárás"
                 >
                   <X size={24} />
                 </button>
