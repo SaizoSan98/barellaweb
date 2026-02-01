@@ -120,8 +120,8 @@ export function Hero() {
             className="text-lg md:text-2xl text-gray-300 max-w-2xl mb-10 md:mb-12 font-light leading-relaxed mx-auto md:mx-0"
           >
             A jövő épületgépészete. Kompromisszumok nélküli minőség, 
-            <span className="text-white font-medium block md:inline"> ipari precizitás</span> és 
-            <span className="text-white font-medium block md:inline"> intelligens rendszerek</span> egy kézben.
+            <span className="text-white font-medium"> ipari precizitás</span> és 
+            <span className="text-white font-medium"> intelligens rendszerek</span> egy kézben.
           </motion.p>
 
           <motion.div
