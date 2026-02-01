@@ -67,12 +67,8 @@ export function Services() {
       )}
 
       <div className="container mx-auto px-4 relative z-10">
-        <motion.div
-          initial={isMobile ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="mb-12 md:mb-20"
+        <div
+          className={`mb-12 md:mb-20 ${!isMobile ? 'opacity-0 animate-[fadeIn_0.5s_ease-out_forwards]' : ''}`}
         >
           <div className="flex items-center gap-4 mb-6">
              <div className="h-[1px] w-12 bg-primary" />
@@ -85,7 +81,7 @@ export function Services() {
             Nem csak szerelünk. Tervezünk, optimalizálunk és rendszert építünk.
             Ismerje meg high-end épületgépészeti szolgáltatásainkat.
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {services.map((service, index) => (
@@ -123,11 +119,7 @@ function ServiceCard({ service, index, isMobile, openQuote }: { service: any, in
   }
 
   return (
-    <motion.div
-      initial={isMobile ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: isMobile ? 0 : index * 0.1 }}
+    <div
       className={`group relative rounded-3xl border border-white/10 bg-black overflow-hidden ${service.colSpan} flex flex-col`}
       onMouseMove={handleMouseMove}
     >
@@ -192,6 +184,6 @@ function ServiceCard({ service, index, isMobile, openQuote }: { service: any, in
           </div>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }

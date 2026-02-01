@@ -21,16 +21,18 @@ export function Logo({ className = "w-10 h-10" }: { className?: string }) {
           </filter>
         </defs>
 
-        {/* House Outline */}
+        {/* House Outline - Static on mobile/default, animated only on desktop if needed, but keeping it simple for now */}
         <motion.path
           d="M50 10 L90 40 V90 H10 V40 L50 10Z"
           stroke="url(#logoGradient)"
           strokeWidth="8"
           strokeLinecap="round"
           strokeLinejoin="round"
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: 1, opacity: 1 }}
-          transition={{ duration: 1.5, ease: "easeInOut" }}
+          // Disable path animation on mobile by default using conditional rendering logic if passed prop, 
+          // but simpler is to just remove the heavy draw animation or make it very fast/instant.
+          // For max performance as requested:
+          initial={{ opacity: 1 }}
+          animate={{ opacity: 1 }}
         />
 
         {/* Inner B Shape */}
@@ -40,9 +42,8 @@ export function Logo({ className = "w-10 h-10" }: { className?: string }) {
           strokeWidth="6"
           strokeLinecap="round"
           strokeLinejoin="round"
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: 1, opacity: 1 }}
-          transition={{ duration: 1.5, delay: 0.5, ease: "easeInOut" }}
+          initial={{ opacity: 1 }}
+          animate={{ opacity: 1 }}
         />
         
         {/* Shine effect */}
