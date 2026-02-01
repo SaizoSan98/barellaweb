@@ -119,11 +119,11 @@ export const projectsData = [
 export const blogData = [
   {
     id: 1,
-    title: "Hőszivattyú vs. Gázfűtés: Melyik éri meg jobban 2024-ben?",
-    slug: "hoszivattyu-vs-gazfutes-2024",
+    title: "Hőszivattyú vs. Gázfűtés: Melyik éri meg jobban 2026-ban?",
+    slug: "hoszivattyu-vs-gazfutes-2026",
     category: "SZAKMAI TANÁCSOK",
     coverImage: "https://images.unsplash.com/photo-1581094288338-2314dddb7ece?q=80&w=2070&auto=format&fit=crop",
-    date: "2024. Január 15.",
+    date: "2026. Január 15.",
     readTime: "5 perc olvasás",
     excerpt: "Részletes összehasonlítás a modern hőszivattyús rendszerek és a hagyományos kondenzációs gázkazánok között. Megtérülés, hatékonyság és fenntarthatóság.",
     fullDescription: "A fűtési rendszerek korszerűsítése során a legtöbb ingatlantulajdonos dilemmája: maradjunk a bevált gázfűtésnél, vagy váltsunk modern hőszivattyúra? Ebben a cikkben részletesen körbejárjuk a témát, figyelembe véve a bekerülési költségeket, az üzemeltetési kiadásokat és a környezetvédelmi szempontokat is.\n\nA hőszivattyúk technológiai fejlődése az elmúlt években robbanásszerű volt. A modern levegő-víz hőszivattyúk már -20°C alatt is képesek hatékonyan fűteni, miközben nyáron hűtésre is használhatók. Ezzel szemben a gázfűtés egy kiforrott, de fosszilis energiahordozóra épülő technológia, amelynek jövője bizonytalanabb az európai uniós szabályozások tükrében.",
