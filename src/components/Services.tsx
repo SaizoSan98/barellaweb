@@ -46,15 +46,7 @@ const services = [
 ];
 
 export function Services() {
-  const [isMobile, setIsMobile] = useState(false);
   const { openQuote } = useQuote();
-
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
 
   return (
     <section id="services" className="py-20 md:py-32 bg-background relative border-t border-white/5 overflow-hidden">
@@ -87,7 +79,6 @@ export function Services() {
               key={service.title} 
               service={service} 
               index={index} 
-              isMobile={isMobile} 
               openQuote={openQuote} 
             />
           ))}
@@ -97,7 +88,7 @@ export function Services() {
   );
 }
 
-function ServiceCard({ service, index, isMobile, openQuote }: { service: any, index: number, isMobile: boolean, openQuote: () => void }) {
+function ServiceCard({ service, index, openQuote }: { service: any, index: number, openQuote: () => void }) {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 

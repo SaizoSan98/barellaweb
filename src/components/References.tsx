@@ -13,14 +13,6 @@ const projects = projectsData.slice(0, 3);
 
 export function References() {
   const containerRef = useRef(null);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -58,7 +50,7 @@ export function References() {
 
         <div className="space-y-20 md:space-y-32">
           {projects.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} isMobile={isMobile} />
+            <ProjectCard key={project.id} project={project} index={index} />
           ))}
         </div>
       </div>
@@ -66,7 +58,7 @@ export function References() {
   );
 }
 
-function ProjectCard({ project, index, isMobile }: { project: any, index: number, isMobile: boolean }) {
+function ProjectCard({ project, index }: { project: any, index: number }) {
   const ref = useRef(null);
   const { openQuote } = useQuote();
   const { scrollYProgress } = useScroll({
@@ -84,42 +76,48 @@ function ProjectCard({ project, index, isMobile }: { project: any, index: number
     >
       <div className={`w-full md:w-3/5 relative group perspective-1000 ${!isEven && "md:order-last"}`}>
         <div className="overflow-hidden rounded-2xl shadow-2xl transition-all duration-700 group-hover:shadow-[0_20px_50px_rgba(45,212,191,0.2)]">
-          <motion.div style={{ y: isMobile ? 0 : (isEven ? y : y) }} className={`relative aspect-[16/9] w-full ${!isMobile && "transform transition-transform duration-700 group-hover:scale-105"}`}>
+          {/* Mobile: Static position. Desktop: Parallax y */}
+          <motion.div style={{ y: 0 }} className="hidden md:block relative aspect-[16/9] w-full transform transition-transform duration-700 group-hover:scale-105">
              <Image
               src={project.coverImage || project.image}
               alt={project.title}
               fill
-              className={`object-cover ${!isMobile && "grayscale group-hover:grayscale-0 transition-all duration-700 scale-110"}`}
-              sizes="(max-width: 768px) 100vw, 60vw"
+              className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-110"
+              sizes="60vw"
               priority={index === 0}
             />
-            {!isMobile && <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-700" />}
+            <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-700" />
             
             {/* Overlay Content on Hover - Desktop Only */}
-            {!isMobile && (
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    <div className="w-20 h-20 rounded-full border border-white/30 backdrop-blur-md flex items-center justify-center bg-black/20">
-                        <ArrowUpRight className="text-white w-8 h-8" />
-                    </div>
+            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <div className="w-20 h-20 rounded-full border border-white/30 backdrop-blur-md flex items-center justify-center bg-black/20">
+                    <ArrowUpRight className="text-white w-8 h-8" />
                 </div>
-            )}
-
-            {/* Mobile "Open" Badge */}
-            {isMobile && (
-              <div className="absolute bottom-4 right-4 bg-primary text-black text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1 shadow-lg z-10">
-                MEGNYITÁS <ArrowUpRight size={12} />
-              </div>
-            )}
+            </div>
           </motion.div>
+
+          {/* Mobile Image Version (Static, Optimized) */}
+          <div className="md:hidden relative aspect-[16/9] w-full">
+             <Image
+              src={project.coverImage || project.image}
+              alt={project.title}
+              fill
+              className="object-cover"
+              sizes="100vw"
+              priority={index === 0}
+            />
+            {/* Mobile "Open" Badge */}
+            <div className="absolute bottom-4 right-4 bg-primary text-black text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1 shadow-lg z-10">
+              MEGNYITÁS <ArrowUpRight size={12} />
+            </div>
+          </div>
         </div>
         
         {/* Corner Accents - Enhanced (Desktop Only) */}
-        {!isMobile && (
-            <>
-                <div className="absolute -top-4 -left-4 w-16 h-16 border-t-2 border-l-2 border-primary/50 opacity-0 group-hover:opacity-100 transition-all duration-500 delay-100" />
-                <div className="absolute -bottom-4 -right-4 w-16 h-16 border-b-2 border-r-2 border-primary/50 opacity-0 group-hover:opacity-100 transition-all duration-500 delay-100" />
-            </>
-        )}
+        <div className="hidden md:block">
+            <div className="absolute -top-4 -left-4 w-16 h-16 border-t-2 border-l-2 border-primary/50 opacity-0 group-hover:opacity-100 transition-all duration-500 delay-100" />
+            <div className="absolute -bottom-4 -right-4 w-16 h-16 border-b-2 border-r-2 border-primary/50 opacity-0 group-hover:opacity-100 transition-all duration-500 delay-100" />
+        </div>
       </div>
 
       <div className="w-full md:w-2/5 md:px-8">
@@ -150,22 +148,20 @@ function ProjectCard({ project, index, isMobile }: { project: any, index: number
             </Link>
 
             {/* Inline CTA Buttons for Mobile */}
-            {isMobile && (
-                <div className="flex gap-3 mt-2">
-                     <button 
-                       onClick={openQuote}
-                       className="flex-1 bg-white/10 text-white py-3 rounded-xl font-bold uppercase text-xs tracking-wider flex items-center justify-center gap-2"
-                     >
-                       Ajánlatkérés <ArrowRight size={14} />
-                     </button>
-                     <a 
-                       href="tel:+36301738866"
-                       className="flex-1 border border-white/10 text-white py-3 rounded-xl font-bold uppercase text-xs tracking-wider flex items-center justify-center gap-2"
-                     >
-                       Hívás <Phone size={14} />
-                     </a>
-                </div>
-            )}
+            <div className="md:hidden flex gap-3 mt-2">
+                 <button 
+                   onClick={openQuote}
+                   className="flex-1 bg-white/10 text-white py-3 rounded-xl font-bold uppercase text-xs tracking-wider flex items-center justify-center gap-2"
+                 >
+                   Ajánlatkérés <ArrowRight size={14} />
+                 </button>
+                 <a 
+                   href="tel:+36301738866"
+                   className="flex-1 border border-white/10 text-white py-3 rounded-xl font-bold uppercase text-xs tracking-wider flex items-center justify-center gap-2"
+                 >
+                   Hívás <Phone size={14} />
+                 </a>
+            </div>
         </div>
       </div>
     </div>
