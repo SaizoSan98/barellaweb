@@ -82,25 +82,33 @@ export function Hero() {
         )}
       </motion.div>
 
-      {/* Decorative Glow Elements - DESKTOP ONLY */}
-      <div className="hidden md:block absolute top-0 left-0 w-full h-full overflow-hidden z-10 pointer-events-none">
+      {/* Decorative Glow Elements - VISIBLE ON MOBILE TOO NOW */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-10 pointer-events-none">
           <div className="absolute top-1/4 -left-32 w-96 h-96 bg-primary/20 rounded-full blur-[128px]" />
           <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-blue-600/10 rounded-full blur-[128px]" />
+          {/* Mobile Specific Glow */}
+          <div className="md:hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-primary/10 rounded-full blur-[80px]" />
       </div>
 
       <div className="container relative z-20 px-4">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-4xl mx-auto md:text-left text-center">
           <motion.h1
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-            className="text-4xl sm:text-5xl md:text-8xl font-black tracking-tighter mb-6 md:mb-8 leading-[0.9]"
+            className="text-6xl sm:text-5xl md:text-8xl font-black tracking-tighter mb-8 md:mb-8 leading-[0.9] drop-shadow-2xl"
           >
-            <span className="text-white">
+            <span className="text-white relative inline-block">
               BARELLA
+              <motion.span 
+                initial={{ width: 0 }}
+                animate={{ width: "100%" }}
+                transition={{ delay: 1, duration: 0.8 }}
+                className="absolute -bottom-2 left-0 h-1 bg-primary md:hidden"
+              />
             </span> <br />
             {/* Fixed overflow on mobile with break-words and reduced size if needed */}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white via-50% to-gray-600 block mt-2 md:mt-4 break-words w-full">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white via-50% to-gray-600 block mt-4 md:mt-4 break-words w-full md:text-7xl text-4xl tracking-[0.1em] md:tracking-normal font-bold md:font-black">
               ÉPÜLETGÉPÉSZET
             </span>
           </motion.h1>
@@ -109,18 +117,18 @@ export function Hero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-            className="text-lg md:text-2xl text-gray-400 max-w-2xl mb-8 md:mb-12 font-light leading-relaxed"
+            className="text-lg md:text-2xl text-gray-300 max-w-2xl mb-10 md:mb-12 font-light leading-relaxed mx-auto md:mx-0"
           >
             A jövő épületgépészete. Kompromisszumok nélküli minőség, 
-            <span className="text-white font-medium"> ipari precizitás</span> és 
-            <span className="text-white font-medium"> intelligens rendszerek</span> egy kézben.
+            <span className="text-white font-medium block md:inline"> ipari precizitás</span> és 
+            <span className="text-white font-medium block md:inline"> intelligens rendszerek</span> egy kézben.
           </motion.p>
 
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
-            className="flex flex-col sm:flex-row gap-4 md:gap-6 items-start sm:items-center"
+            className="flex flex-col sm:flex-row gap-4 md:gap-6 items-center md:items-start justify-center md:justify-start"
           >
             <button 
               onClick={openQuote}
