@@ -86,11 +86,11 @@ export function Hero() {
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
             className="text-4xl sm:text-5xl md:text-8xl font-black tracking-tighter mb-6 md:mb-8 leading-[0.9]"
           >
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F5E6CA] via-[#D4AF37] to-[#F5E6CA]">
+            <span className="text-white">
               BARELLA
             </span> <br />
             {/* Fixed overflow on mobile with break-words and reduced size if needed */}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F5E6CA] via-[#D4AF37] to-[#F5E6CA] block mt-2 md:mt-4 break-words w-full">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-white/50 block mt-2 md:mt-4 break-words w-full">
               ÉPÜLETGÉPÉSZET
             </span>
           </motion.h1>
