@@ -39,12 +39,18 @@ export function Hero() {
         {USE_ANIMATED_BACKGROUND ? (
            // ANIMATED MOSAIC BACKGROUND - OPTIMIZED CSS VERSION
            <div className="absolute inset-0 flex flex-col items-center justify-center bg-black">
+              {/* Mobile Static Background Image */}
+              <div 
+                className="md:hidden absolute inset-0 bg-cover bg-center bg-no-repeat opacity-60"
+                style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?q=80&w=2070&auto=format&fit=crop")' }}
+              />
+              
               <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/90 z-10" />
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.8)_100%)] z-10 pointer-events-none" />
               <div className="absolute inset-0 bg-black/30 md:backdrop-blur-[2px] z-10" />
               
               {/* Tilted Container for Diagonal Movement */}
-              <div className={`absolute inset-0 flex flex-col md:gap-8 gap-4 -rotate-[15deg] scale-150 opacity-60 blur-0 select-none pointer-events-none overflow-hidden`}>
+              <div className={`absolute inset-0 flex flex-col md:gap-8 gap-4 -rotate-[15deg] scale-150 opacity-60 blur-0 select-none pointer-events-none overflow-hidden ${typeof window !== 'undefined' && window.innerWidth < 768 ? 'hidden' : 'flex'}`}>
                 {Array.from({ length: 15 }).map((_, i) => (
                   <div
                     key={i}
