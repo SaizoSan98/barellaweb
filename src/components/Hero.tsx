@@ -30,9 +30,9 @@ export function Hero() {
   // TOGGLE: Set this to true to use the animated text mosaic background, false for the original image background
   const USE_ANIMATED_BACKGROUND = true;
 
-  // Optimized animation settings - DISABLE ANIMATION ON MOBILE
-  const rowCount = 15;
-  const textRepeat = 8;
+  // Optimized animation settings
+  const rowCount = isMobile ? 10 : 15;
+  const textRepeat = isMobile ? 4 : 8;
   const baseDuration = 20;
 
   return (
@@ -42,13 +42,13 @@ export function Hero() {
         style={{ y, opacity }}
         className="absolute inset-0 z-0 overflow-hidden"
       >
-        {USE_ANIMATED_BACKGROUND && !isMobile ? (
-           // ANIMATED MOSAIC BACKGROUND - DESKTOP ONLY
+        {USE_ANIMATED_BACKGROUND ? (
+           // ANIMATED MOSAIC BACKGROUND
            <div className="absolute inset-0 flex flex-col items-center justify-center bg-black">
-              <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/80 z-10" />
+              <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/60 z-10" />
               
               {/* Tilted Container for Diagonal Movement */}
-              <div className="absolute inset-0 flex flex-col gap-8 -rotate-[15deg] scale-150 opacity-20 select-none pointer-events-none">
+              <div className={`absolute inset-0 flex flex-col gap-${isMobile ? '4' : '8'} -rotate-[15deg] scale-150 opacity-40 select-none pointer-events-none`}>
                 {isLoaded && Array.from({ length: rowCount }).map((_, i) => (
                   <motion.div
                     key={i}
@@ -63,7 +63,7 @@ export function Hero() {
                     {Array.from({ length: textRepeat }).map((_, j) => (
                       <span 
                         key={j} 
-                        className="text-8xl font-black uppercase text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.3)]"
+                        className={`${isMobile ? 'text-5xl' : 'text-8xl'} font-black uppercase text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.4)]`}
                       >
                         BARELLA ÉPÜLETGÉPÉSZET
                       </span>
@@ -73,7 +73,7 @@ export function Hero() {
               </div>
            </div>
         ) : (
-           // STATIC IMAGE BACKGROUND - MOBILE OR FALLBACK
+           // STATIC IMAGE BACKGROUND - FALLBACK
            <>
             <div 
               className="absolute inset-0 bg-cover bg-center bg-no-repeat"

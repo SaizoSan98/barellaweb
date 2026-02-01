@@ -36,8 +36,8 @@ export function QuoteModal() {
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            transition={{ type: "spring", duration: 0.3 }} // Faster transition
+            exit={{ opacity: 0, scale: 0.95, y: 20, transition: { duration: 0.15, ease: "easeOut" } }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
             className="fixed inset-0 z-[101] flex items-center justify-center p-0 md:p-4 pointer-events-none"
           >
             {/* Modal Content - Changed to Light/White Theme */}
@@ -156,7 +156,7 @@ export function QuoteModal() {
               </div>
 
               {/* Footer Actions */}
-              <div className="p-6 border-t border-gray-100 bg-gray-50 shrink-0 sticky bottom-0 md:relative">
+              <div className="p-6 border-t border-gray-100 bg-gray-50 shrink-0 relative">
                 <button className="w-full bg-black text-white py-4 rounded-xl font-bold uppercase tracking-wider hover:bg-primary hover:text-black transition-all duration-300 flex items-center justify-center gap-2 group">
                   <span>Ajánlatkérés Küldése</span>
                   <Send size={18} className="group-hover:translate-x-1 transition-transform" />

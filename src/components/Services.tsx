@@ -47,6 +47,7 @@ const services = [
 
 export function Services() {
   const [isMobile, setIsMobile] = useState(false);
+  const { openQuote } = useQuote();
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -88,7 +89,13 @@ export function Services() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {services.map((service, index) => (
-            <ServiceCard key={service.title} service={service} index={index} isMobile={isMobile} />
+            <ServiceCard 
+              key={service.title} 
+              service={service} 
+              index={index} 
+              isMobile={isMobile} 
+              openQuote={openQuote} 
+            />
           ))}
         </div>
       </div>
@@ -96,10 +103,17 @@ export function Services() {
   );
 }
 
-function ServiceCard({ service, index, isMobile }: { service: any, index: number, isMobile: boolean }) {
+function ServiceCard({ service, index, isMobile, openQuote }: { service: any, index: number, isMobile: boolean, openQuote: () => void }) {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
-  const { openQuote } = useQuote();
+
+  const background = useMotionTemplate`
+    radial-gradient(
+      650px circle at ${mouseX}px ${mouseY}px,
+      rgba(45, 212, 191, 0.15),
+      transparent 80%
+    )
+  `;
 
   function handleMouseMove({ currentTarget, clientX, clientY }: MouseEvent) {
     if (isMobile) return;
@@ -121,15 +135,7 @@ function ServiceCard({ service, index, isMobile }: { service: any, index: number
       {!isMobile && (
         <motion.div
           className="pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition duration-300 group-hover:opacity-100"
-          style={{
-            background: useMotionTemplate`
-              radial-gradient(
-                650px circle at ${mouseX}px ${mouseY}px,
-                rgba(45, 212, 191, 0.15),
-                transparent 80%
-              )
-            `,
-          }}
+          style={{ background }}
         />
       )}
 
