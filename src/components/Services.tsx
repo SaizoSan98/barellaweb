@@ -57,6 +57,9 @@ export function Services() {
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
+        {/* Subtle Fluid Background Element */}
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-b from-primary/5 to-transparent rounded-full blur-[100px] -z-10 opacity-30 pointer-events-none" />
+
         <div
           className="mb-12 md:mb-20"
         >

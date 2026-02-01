@@ -33,10 +33,10 @@ export function HeroBackground() {
             <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/90 z-10" />
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.8)_100%)] z-10" />
             
-            {/* Lightweight CSS Marquee for Mobile */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center opacity-30 select-none overflow-hidden -rotate-[15deg] scale-125">
-                 {/* Reduced number of rows for mobile performance */}
-                 {Array.from({ length: 5 }).map((_, i) => (
+            {/* Lightweight CSS Marquee for Mobile - Full Height */}
+            <div className="absolute inset-0 flex flex-col items-center justify-center opacity-30 select-none overflow-hidden -rotate-[15deg] scale-150">
+                 {/* Increased rows to cover full height from top to bottom */}
+                 {Array.from({ length: 12 }).map((_, i) => (
                   <div
                     key={i}
                     className="flex whitespace-nowrap gap-6 hero-marquee-row"

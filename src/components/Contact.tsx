@@ -9,8 +9,8 @@ export function Contact() {
     <footer id="contact" className="relative bg-black pt-20 pb-0 overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0 bg-black z-0" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-primary/20 blur-[150px] rounded-full opacity-30 pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-[800px] h-[800px] bg-teal-900/20 blur-[150px] rounded-full opacity-30 pointer-events-none" />
+      {/* Fluid Gradient Background */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1000px] h-[600px] bg-gradient-to-b from-primary/10 via-teal-900/5 to-transparent blur-[100px] rounded-full opacity-40 pointer-events-none" />
       
       {/* Grid Pattern Overlay */}
       <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 z-[1] pointer-events-none mix-blend-overlay" />

@@ -25,6 +25,9 @@ export function References() {
       <div className="absolute top-20 right-0 opacity-[0.03] select-none pointer-events-none">
         <span className="text-[20vw] font-black text-white leading-none">WORK</span>
       </div>
+      
+      {/* Fluid Background Gradient */}
+      <div className="absolute top-1/4 left-0 w-[500px] h-[500px] bg-gradient-to-b from-blue-600/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
 
       <div className="container mx-auto px-4 relative z-10">
         <div
