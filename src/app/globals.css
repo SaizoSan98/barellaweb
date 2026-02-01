@@ -53,6 +53,12 @@
   }
 }
 
+/* Global Keyframes for Accessibility */
+@keyframes diagonal-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-25%); }
+}
+
 :root {
   /* Default to Dark Mode aesthetics for premium feel */
   --background: #030303; /* Almost black */
