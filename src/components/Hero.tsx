@@ -34,9 +34,10 @@ export function Hero() {
            // ANIMATED MOSAIC BACKGROUND - OPTIMIZED CSS VERSION
            <div className="absolute inset-0 flex flex-col items-center justify-center bg-black">
               <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/80 z-10" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_20%,rgba(0,0,0,0.8)_100%)] z-10 pointer-events-none" />
               
               {/* Tilted Container for Diagonal Movement */}
-              <div className={`absolute inset-0 flex flex-col md:gap-8 gap-4 -rotate-[15deg] scale-150 opacity-40 blur-[1px] select-none pointer-events-none overflow-hidden`}>
+              <div className={`absolute inset-0 flex flex-col md:gap-8 gap-4 -rotate-[15deg] scale-150 opacity-60 blur-0 select-none pointer-events-none overflow-hidden`}>
                 {Array.from({ length: 15 }).map((_, i) => (
                   <div
                     key={i}
@@ -49,7 +50,7 @@ export function Hero() {
                     {Array.from({ length: 8 }).map((_, j) => (
                       <span 
                         key={j} 
-                        className={`md:text-8xl text-6xl font-black uppercase text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.5)] ${j >= 4 ? 'hidden md:inline' : 'inline'}`}
+                        className={`md:text-8xl text-6xl font-black uppercase text-transparent [-webkit-text-stroke:2px_rgba(255,255,255,0.8)] ${j >= 4 ? 'hidden md:inline' : 'inline'}`}
                       >
                         BARELLA ÉPÜLETGÉPÉSZET
                       </span>
