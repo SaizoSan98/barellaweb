@@ -9,11 +9,13 @@ export function Hero() {
   const { openQuote } = useQuote();
   const ref = useRef(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
     window.addEventListener("resize", checkMobile);
+    setIsLoaded(true);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
@@ -28,10 +30,10 @@ export function Hero() {
   // TOGGLE: Set this to true to use the animated text mosaic background, false for the original image background
   const USE_ANIMATED_BACKGROUND = true;
 
-  // Optimized animation settings
-  const rowCount = isMobile ? 8 : 15; // Reduced from 20 for better performance
-  const textRepeat = isMobile ? 4 : 8; // Reduced from 10
-  const baseDuration = isMobile ? 25 : 20; // Slower on mobile for smoother feel
+  // Optimized animation settings - DISABLE ANIMATION ON MOBILE
+  const rowCount = 15;
+  const textRepeat = 8;
+  const baseDuration = 20;
 
   return (
     <section ref={ref} className="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden bg-black">
@@ -40,18 +42,18 @@ export function Hero() {
         style={{ y, opacity }}
         className="absolute inset-0 z-0 overflow-hidden"
       >
-        {USE_ANIMATED_BACKGROUND ? (
-           // ANIMATED MOSAIC BACKGROUND
+        {USE_ANIMATED_BACKGROUND && !isMobile ? (
+           // ANIMATED MOSAIC BACKGROUND - DESKTOP ONLY
            <div className="absolute inset-0 flex flex-col items-center justify-center bg-black">
               <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/80 z-10" />
               
               {/* Tilted Container for Diagonal Movement */}
-              <div className="absolute inset-0 flex flex-col gap-4 md:gap-8 -rotate-[15deg] scale-150 opacity-20 select-none pointer-events-none">
-                {Array.from({ length: rowCount }).map((_, i) => (
+              <div className="absolute inset-0 flex flex-col gap-8 -rotate-[15deg] scale-150 opacity-20 select-none pointer-events-none">
+                {isLoaded && Array.from({ length: rowCount }).map((_, i) => (
                   <motion.div
                     key={i}
-                    className="flex whitespace-nowrap gap-4 md:gap-8 will-change-transform" // Optimized for GPU
-                    animate={{ x: i % 2 === 0 ? ["-25%", "0%"] : ["0%", "-25%"] }} // Reduced movement range
+                    className="flex whitespace-nowrap gap-8 will-change-transform"
+                    animate={{ x: i % 2 === 0 ? ["-25%", "0%"] : ["0%", "-25%"] }}
                     transition={{ 
                       repeat: Infinity, 
                       ease: "linear", 
@@ -61,7 +63,7 @@ export function Hero() {
                     {Array.from({ length: textRepeat }).map((_, j) => (
                       <span 
                         key={j} 
-                        className="text-4xl md:text-8xl font-black uppercase text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.3)]"
+                        className="text-8xl font-black uppercase text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.3)]"
                       >
                         BARELLA ÉPÜLETGÉPÉSZET
                       </span>
@@ -71,7 +73,7 @@ export function Hero() {
               </div>
            </div>
         ) : (
-           // ORIGINAL IMAGE BACKGROUND
+           // STATIC IMAGE BACKGROUND - MOBILE OR FALLBACK
            <>
             <div 
               className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -84,11 +86,13 @@ export function Hero() {
         )}
       </motion.div>
 
-      {/* Decorative Glow Elements - Reduced blur for performance */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-10 pointer-events-none">
-        <div className="absolute top-1/4 -left-32 w-64 h-64 md:w-96 md:h-96 bg-primary/20 rounded-full blur-[80px] md:blur-[128px]" />
-        <div className="absolute bottom-1/4 -right-32 w-64 h-64 md:w-96 md:h-96 bg-blue-600/10 rounded-full blur-[80px] md:blur-[128px]" />
-      </div>
+      {/* Decorative Glow Elements - DESKTOP ONLY */}
+      {!isMobile && (
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-10 pointer-events-none">
+            <div className="absolute top-1/4 -left-32 w-96 h-96 bg-primary/20 rounded-full blur-[128px]" />
+            <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-blue-600/10 rounded-full blur-[128px]" />
+        </div>
+      )}
 
       <div className="container relative z-20 px-4">
         <div className="max-w-4xl mx-auto">
@@ -132,13 +136,13 @@ export function Hero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
-            className="flex flex-col sm:flex-row gap-4 md:gap-6"
+            className="flex flex-col sm:flex-row gap-4 md:gap-6 items-start sm:items-center"
           >
             <button 
               onClick={openQuote}
-              className="group relative bg-primary text-black px-6 py-3 md:px-8 md:py-4 font-bold text-base md:text-lg tracking-wide overflow-hidden rounded-none skew-x-[-10deg] hover:bg-white transition-colors duration-300"
+              className="w-full sm:w-auto group relative bg-primary text-black px-6 py-3 md:px-8 md:py-4 font-bold text-base md:text-lg tracking-wide overflow-hidden rounded-none skew-x-[-10deg] hover:bg-white transition-colors duration-300"
             >
-              <span className="block skew-x-[10deg] flex items-center gap-2 justify-center">
+              <span className="block skew-x-[10deg] flex items-center gap-2 justify-center whitespace-nowrap">
                 AJÁNLATKÉRÉS <ArrowRight className="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform" />
               </span>
               <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
@@ -146,9 +150,9 @@ export function Hero() {
             
             <a 
               href="/referenciak"
-              className="group px-6 py-3 md:px-8 md:py-4 font-bold text-base md:text-lg text-white border border-white/20 hover:border-primary hover:text-primary transition-all duration-300 skew-x-[-10deg] backdrop-blur-sm inline-block text-center"
+              className="w-full sm:w-auto group px-6 py-3 md:px-8 md:py-4 font-bold text-base md:text-lg text-white border border-white/20 hover:border-primary hover:text-primary transition-all duration-300 skew-x-[-10deg] backdrop-blur-sm inline-block text-center"
             >
-              <span className="block skew-x-[10deg]">
+              <span className="block skew-x-[10deg] whitespace-nowrap">
                 REFERENCIÁK
               </span>
             </a>
