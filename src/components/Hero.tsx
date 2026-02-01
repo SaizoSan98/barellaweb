@@ -43,32 +43,29 @@ export function Hero() {
         className="absolute inset-0 z-0 overflow-hidden"
       >
         {USE_ANIMATED_BACKGROUND ? (
-           // ANIMATED MOSAIC BACKGROUND
+           // ANIMATED MOSAIC BACKGROUND - OPTIMIZED CSS VERSION
            <div className="absolute inset-0 flex flex-col items-center justify-center bg-black">
               <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/60 z-10" />
               
               {/* Tilted Container for Diagonal Movement */}
-              <div className={`absolute inset-0 flex flex-col gap-${isMobile ? '4' : '8'} -rotate-[15deg] scale-150 opacity-40 select-none pointer-events-none`}>
+              <div className={`absolute inset-0 flex flex-col ${isMobile ? 'gap-4' : 'gap-8'} -rotate-[15deg] scale-150 opacity-40 blur-[1px] select-none pointer-events-none overflow-hidden`}>
                 {isLoaded && Array.from({ length: rowCount }).map((_, i) => (
-                  <motion.div
+                  <div
                     key={i}
                     className="flex whitespace-nowrap gap-8 will-change-transform"
-                    animate={{ x: i % 2 === 0 ? ["-25%", "0%"] : ["0%", "-25%"] }}
-                    transition={{ 
-                      repeat: Infinity, 
-                      ease: "linear", 
-                      duration: baseDuration + (i % 3) * 2,
+                    style={{
+                      animation: `diagonal-scroll ${baseDuration + (i % 3) * 5}s linear infinite ${i % 2 === 0 ? 'normal' : 'reverse'}`
                     }}
                   >
                     {Array.from({ length: textRepeat }).map((_, j) => (
                       <span 
                         key={j} 
-                        className={`${isMobile ? 'text-5xl' : 'text-8xl'} font-black uppercase text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.4)]`}
+                        className={`${isMobile ? 'text-6xl' : 'text-8xl'} font-black uppercase text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.5)]`}
                       >
                         BARELLA ÉPÜLETGÉPÉSZET
                       </span>
                     ))}
-                  </motion.div>
+                  </div>
                 ))}
               </div>
            </div>

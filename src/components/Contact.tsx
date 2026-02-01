@@ -91,14 +91,13 @@ export function Contact() {
              <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black z-10 pointer-events-none" />
              
              <div className="w-full overflow-hidden mb-8 opacity-10 select-none pointer-events-none">
-                <motion.div 
-                    animate={{ x: ["0%", "-50%"] }}
-                    transition={{ repeat: Infinity, ease: "linear", duration: 30 }}
+                <div 
                     className="flex whitespace-nowrap gap-12 will-change-transform"
+                    style={{ animation: "marquee 30s linear infinite" }}
                 >
                     <span className="text-[5rem] md:text-[8rem] font-black uppercase leading-none text-transparent [-webkit-text-stroke:2px_white]">BARELLA ÉPÜLETGÉPÉSZET</span>
                     <span className="text-[5rem] md:text-[8rem] font-black uppercase leading-none text-transparent [-webkit-text-stroke:2px_white]">BARELLA ÉPÜLETGÉPÉSZET</span>
-                </motion.div>
+                </div>
              </div>
              
              <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-gray-500 text-xs relative z-20 pb-8">

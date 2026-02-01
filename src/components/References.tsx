@@ -111,6 +111,13 @@ function ProjectCard({ project, index, isMobile }: { project: any, index: number
                     </div>
                 </div>
             )}
+
+            {/* Mobile "Open" Badge */}
+            {isMobile && (
+              <div className="absolute bottom-4 right-4 bg-primary text-black text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1 shadow-lg z-10">
+                MEGNYITÁS <ArrowUpRight size={12} />
+              </div>
+            )}
           </motion.div>
         </div>
         
