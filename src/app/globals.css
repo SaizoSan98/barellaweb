@@ -55,8 +55,8 @@
 
 /* Global Keyframes for Accessibility */
 @keyframes diagonal-scroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-25%); }
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(-20%, -20%); }
 }
 
 :root {

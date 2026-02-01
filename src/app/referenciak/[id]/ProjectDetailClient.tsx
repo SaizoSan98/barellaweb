@@ -141,7 +141,6 @@ export default function ProjectDetailClient({ project }: { project: any }) {
         </div>
 
         <Contact />
-        <MobileStickyBar />
         <QuoteModal />
       </main>
     </QuoteProvider>

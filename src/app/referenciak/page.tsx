@@ -50,11 +50,16 @@ export default function ReferencesPage() {
                     />
                     <div className="absolute inset-0 bg-black/50 group-hover:bg-black/20 transition-colors duration-500" />
                     
-                    {/* Hover Overlay Icon */}
-                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    {/* Hover Overlay Icon - Desktop */}
+                    <div className="absolute inset-0 hidden md:flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         <div className="bg-primary/90 text-black px-4 py-2 rounded-full font-bold text-sm transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                             MEGTEKINTÉS
                         </div>
+                    </div>
+
+                    {/* Mobile Badge - Always Visible */}
+                    <div className="absolute bottom-4 right-4 md:hidden bg-primary text-black text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1 shadow-lg z-10">
+                      MEGNYITÁS
                     </div>
                   </div>
                   
@@ -72,7 +77,6 @@ export default function ReferencesPage() {
         </div>
 
         <Contact />
-        <MobileStickyBar />
         <QuoteModal />
       </main>
     </QuoteProvider>
