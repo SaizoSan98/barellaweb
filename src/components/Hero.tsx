@@ -26,8 +26,7 @@ export function Hero() {
     "BARELLA ÉPÜLETGÉPÉSZET",
     "HŐSZIVATTYÚK",
     "KLÍMÁK",
-    "FŰTÉSI ÉS HŰTÉSI RENDSZEREK",
-    "BARELLA ÉPÜLETGÉPÉSZET"
+    "FŰTÉSI ÉS HŰTÉSI RENDSZEREK"
   ];
 
   return (
@@ -49,10 +48,12 @@ export function Hero() {
                 {Array.from({ length: 15 }).map((_, i) => (
                   <div
                     key={i}
-                    className={`flex whitespace-nowrap gap-8 will-change-transform`}
+                    className={`flex whitespace-nowrap gap-8 will-change-transform hero-marquee-row`}
                     style={{
                       animation: `diagonal-scroll ${baseDuration + (i % 3) * 8}s linear infinite ${i % 2 === 0 ? 'normal' : 'reverse'}`,
-                      width: 'max-content'
+                      width: 'max-content',
+                      // @ts-ignore
+                      '--base-duration': `${baseDuration + (i % 3) * 8}s`
                     }}
                   >
                     {Array.from({ length: 8 }).map((_, j) => (
