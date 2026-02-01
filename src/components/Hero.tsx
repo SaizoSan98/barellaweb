@@ -80,27 +80,17 @@ export function Hero() {
 
       <div className="container relative z-20 px-4">
         <div className="max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="flex items-center gap-4 mb-6 md:mb-8"
-          >
-            <div className="h-[1px] w-8 md:w-12 bg-primary" />
-            <span className="text-primary font-bold tracking-[0.2em] uppercase text-xs md:text-sm">
-              Prémium Épületgépészet
-            </span>
-          </motion.div>
-
           <motion.h1
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-            className="text-4xl sm:text-5xl md:text-8xl font-black tracking-tighter text-white mb-6 md:mb-8 leading-[0.9]"
+            className="text-4xl sm:text-5xl md:text-8xl font-black tracking-tighter mb-6 md:mb-8 leading-[0.9]"
           >
-            BARELLA <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F5E6CA] via-[#D4AF37] to-[#F5E6CA]">
+              BARELLA
+            </span> <br />
             {/* Fixed overflow on mobile with break-words and reduced size if needed */}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-white/50 block mt-2 md:mt-4 break-words w-full">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F5E6CA] via-[#D4AF37] to-[#F5E6CA] block mt-2 md:mt-4 break-words w-full">
               ÉPÜLETGÉPÉSZET
             </span>
           </motion.h1>
