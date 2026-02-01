@@ -2,6 +2,7 @@ import { QuoteProvider } from "@/components/QuoteContext";
 import { QuoteModal } from "@/components/QuoteModal";
 import { Hero } from "@/components/Hero";
 import { Navbar } from "@/components/Navbar";
+import { ScrollToTop } from "@/components/ScrollToTop";
 import dynamic from 'next/dynamic';
 
 // Lazy load below-fold components
@@ -21,6 +22,7 @@ export default function Home() {
         <References />
         <Contact />
         <QuoteModal />
+        <ScrollToTop />
       </main>
     </QuoteProvider>
   );

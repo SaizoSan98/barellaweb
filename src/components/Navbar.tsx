@@ -110,10 +110,10 @@ export function Navbar() {
             className="fixed inset-0 bg-black z-[100] flex flex-col items-center justify-center h-[100dvh] w-screen overflow-hidden"
             style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}
           >
-            {/* Background decoration */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <div className="absolute top-1/4 -left-20 w-80 h-80 bg-primary/10 rounded-full blur-[100px]" />
-              <div className="absolute bottom-1/4 -right-20 w-80 h-80 bg-blue-600/10 rounded-full blur-[100px]" />
+            {/* Background decoration - Simplified for mobile performance */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-50">
+              <div className="absolute top-1/4 -left-20 w-80 h-80 bg-primary/5 rounded-full blur-[30px]" />
+              <div className="absolute bottom-1/4 -right-20 w-80 h-80 bg-blue-600/5 rounded-full blur-[30px]" />
             </div>
 
             {/* Logo in Mobile Menu */}

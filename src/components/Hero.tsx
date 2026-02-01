@@ -8,16 +8,6 @@ import { useQuote } from "@/components/QuoteContext";
 export function Hero() {
   const { openQuote } = useQuote();
   const ref = useRef(null);
-  const [isMobile, setIsMobile] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    setIsLoaded(true);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -46,11 +36,11 @@ export function Hero() {
               <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/80 z-10" />
               
               {/* Tilted Container for Diagonal Movement */}
-              <div className={`absolute inset-0 flex flex-col md:gap-8 gap-4 -rotate-[15deg] scale-150 opacity-20 blur-[3px] select-none pointer-events-none overflow-hidden`}>
+              <div className={`absolute inset-0 flex flex-col md:gap-8 gap-4 -rotate-[15deg] scale-150 opacity-30 blur-[1px] select-none pointer-events-none overflow-hidden`}>
                 {Array.from({ length: 15 }).map((_, i) => (
                   <div
                     key={i}
-                    className={`flex whitespace-nowrap gap-8 will-change-transform ${i >= 10 ? 'hidden md:flex' : 'flex'}`}
+                    className={`flex whitespace-nowrap gap-8 will-change-transform flex`}
                     style={{
                       animation: `diagonal-scroll ${baseDuration + (i % 3) * 5}s linear infinite ${i % 2 === 0 ? 'normal' : 'reverse'}`,
                       width: 'max-content'
@@ -83,12 +73,10 @@ export function Hero() {
       </motion.div>
 
       {/* Decorative Glow Elements - DESKTOP ONLY */}
-      {!isMobile && (
-        <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-10 pointer-events-none">
-            <div className="absolute top-1/4 -left-32 w-96 h-96 bg-primary/20 rounded-full blur-[128px]" />
-            <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-blue-600/10 rounded-full blur-[128px]" />
-        </div>
-      )}
+      <div className="hidden md:block absolute top-0 left-0 w-full h-full overflow-hidden z-10 pointer-events-none">
+          <div className="absolute top-1/4 -left-32 w-96 h-96 bg-primary/20 rounded-full blur-[128px]" />
+          <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-blue-600/10 rounded-full blur-[128px]" />
+      </div>
 
       <div className="container relative z-20 px-4">
         <div className="max-w-4xl mx-auto">
