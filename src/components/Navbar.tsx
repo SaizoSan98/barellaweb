@@ -43,7 +43,7 @@ export function Navbar() {
     <nav 
       className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 border-b ${
         scrolled 
-          ? "bg-black/80 backdrop-blur-xl border-white/10 h-20" 
+          ? "bg-black/95 border-white/10 h-20" // Removed backdrop-blur for performance
           : "bg-transparent border-transparent h-24"
       }`}
     >
@@ -104,10 +104,10 @@ export function Navbar() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, clipPath: "circle(0% at 100% 0)" }}
-            animate={{ opacity: 1, clipPath: "circle(150% at 100% 0)" }}
-            exit={{ opacity: 0, clipPath: "circle(0% at 100% 0)" }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.1 }}
             className="fixed inset-0 bg-black z-[100] flex flex-col items-center justify-center h-[100dvh] w-screen overflow-hidden"
             style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}
           >
@@ -118,10 +118,7 @@ export function Navbar() {
             </div>
 
             {/* Logo in Mobile Menu */}
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.05, duration: 0.2 }}
+            <div
               className="absolute top-8 left-8 flex items-center gap-4"
             >
               <Logo className="w-10 h-10" />
@@ -129,15 +126,12 @@ export function Navbar() {
                 <span className="text-xl font-black tracking-tighter text-white leading-none">BARELLA</span>
                 <span className="text-[10px] tracking-[0.2em] text-primary uppercase font-bold leading-none">Épületgépészet</span>
               </div>
-            </motion.div>
+            </div>
 
             <div className="flex flex-col gap-6 text-center relative z-10 w-full px-8">
               {navItems.map((item, index) => (
-                <motion.div
+                <div
                   key={item.name}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.02 + index * 0.03, duration: 0.15 }}
                 >
                   <Link
                     href={item.href}
@@ -146,7 +140,7 @@ export function Navbar() {
                   >
                     {item.name}
                   </Link>
-                </motion.div>
+                </div>
               ))}
             </div>
           </motion.div>
