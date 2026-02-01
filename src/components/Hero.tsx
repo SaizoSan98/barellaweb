@@ -21,7 +21,14 @@ export function Hero() {
   const USE_ANIMATED_BACKGROUND = true;
 
   // Optimized animation settings
-  const baseDuration = 20;
+  const baseDuration = 40;
+  const scrollingTexts = [
+    "BARELLA ÉPÜLETGÉPÉSZET",
+    "HŐSZIVATTYÚK",
+    "KLÍMÁK",
+    "FŰTÉSI ÉS HŰTÉSI RENDSZEREK",
+    "BARELLA ÉPÜLETGÉPÉSZET"
+  ];
 
   return (
     <section ref={ref} className="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden bg-black">
@@ -42,7 +49,7 @@ export function Hero() {
                 {Array.from({ length: 15 }).map((_, i) => (
                   <div
                     key={i}
-                    className={`flex whitespace-nowrap gap-8 will-change-transform flex`}
+                    className={`flex whitespace-nowrap gap-8 will-change-transform`}
                     style={{
                       animation: `diagonal-scroll ${baseDuration + (i % 3) * 8}s linear infinite ${i % 2 === 0 ? 'normal' : 'reverse'}`,
                       width: 'max-content'
