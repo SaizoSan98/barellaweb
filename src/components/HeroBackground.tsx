@@ -4,6 +4,15 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 
 export function HeroBackground() {
+  // Optimized animation settings
+  const baseDuration = 40;
+  const scrollingTexts = [
+    "BARELLA ÉPÜLETGÉPÉSZET",
+    "HŐSZIVATTYÚK",
+    "KLÍMÁK",
+    "FŰTÉSI ÉS HŰTÉSI RENDSZEREK"
+  ];
+
   const [isMobile, setIsMobile] = useState(true);
 
   useEffect(() => {
@@ -22,11 +31,34 @@ export function HeroBackground() {
     return (
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none bg-black">
             <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/90 z-10" />
-            {/* Simple static gradient for mobile - NO ANIMATION, NO HOOKS */}
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.8)_100%)] z-10" />
             
+            {/* Lightweight CSS Marquee for Mobile */}
+            <div className="absolute inset-0 flex flex-col items-center justify-center opacity-30 select-none overflow-hidden -rotate-[15deg] scale-125">
+                 {/* Reduced number of rows for mobile performance */}
+                 {Array.from({ length: 5 }).map((_, i) => (
+                  <div
+                    key={i}
+                    className="flex whitespace-nowrap gap-6 hero-marquee-row"
+                    style={{
+                      animation: `diagonal-scroll 40s linear infinite ${i % 2 === 0 ? 'normal' : 'reverse'}`,
+                      width: 'max-content',
+                    }}
+                  >
+                    {Array.from({ length: 4 }).map((_, j) => (
+                      <span 
+                        key={j} 
+                        className="text-6xl font-black uppercase text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.6)]"
+                      >
+                        {scrollingTexts[j % scrollingTexts.length]}
+                      </span>
+                    ))}
+                  </div>
+                ))}
+            </div>
+
             {/* Simple decorative glow - static CSS only */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-primary/5 rounded-full blur-[60px]" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-primary/5 rounded-full blur-[60px] z-20" />
         </div>
     );
   }

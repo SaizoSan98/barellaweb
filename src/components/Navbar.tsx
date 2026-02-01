@@ -93,10 +93,14 @@ export function Navbar() {
 
         {/* Mobile Menu Toggle */}
         <button
-          className="md:hidden p-2 text-white z-[101] relative"
+          className="md:hidden p-2 text-white z-[101] relative group"
           onClick={() => setIsOpen(!isOpen)}
         >
-          {isOpen ? <X /> : <Menu />}
+          <div className="relative w-6 h-6 flex items-center justify-center">
+             <span className={`absolute w-full h-0.5 bg-white transition-all duration-300 ${isOpen ? 'rotate-45' : '-translate-y-2'}`} />
+             <span className={`absolute w-full h-0.5 bg-white transition-all duration-300 ${isOpen ? 'opacity-0' : 'opacity-100'}`} />
+             <span className={`absolute w-full h-0.5 bg-white transition-all duration-300 ${isOpen ? '-rotate-45' : 'translate-y-2'}`} />
+          </div>
         </button>
       </div>
 
