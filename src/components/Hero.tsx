@@ -54,7 +54,8 @@ export function Hero() {
                     key={i}
                     className="flex whitespace-nowrap gap-8 will-change-transform"
                     style={{
-                      animation: `diagonal-scroll ${baseDuration + (i % 3) * 5}s linear infinite ${i % 2 === 0 ? 'normal' : 'reverse'}`
+                      animation: `diagonal-scroll ${baseDuration + (i % 3) * 5}s linear infinite ${i % 2 === 0 ? 'normal' : 'reverse'}`,
+                      width: 'max-content'
                     }}
                   >
                     {Array.from({ length: textRepeat }).map((_, j) => (
