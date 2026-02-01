@@ -41,14 +41,14 @@ export function Hero() {
            <div className="absolute inset-0 flex flex-col items-center justify-center bg-black">
               <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/90 z-10" />
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.8)_100%)] z-10 pointer-events-none" />
-              <div className="absolute inset-0 bg-black/30 backdrop-blur-[2px] z-10" />
+              <div className="absolute inset-0 bg-black/30 md:backdrop-blur-[2px] z-10" />
               
               {/* Tilted Container for Diagonal Movement */}
               <div className={`absolute inset-0 flex flex-col md:gap-8 gap-4 -rotate-[15deg] scale-150 opacity-60 blur-0 select-none pointer-events-none overflow-hidden`}>
                 {Array.from({ length: 15 }).map((_, i) => (
                   <div
                     key={i}
-                    className={`flex whitespace-nowrap gap-8 will-change-transform hero-marquee-row`}
+                    className={`flex whitespace-nowrap gap-8 will-change-transform hero-marquee-row ${i % 3 !== 0 ? 'hidden md:flex' : 'flex'}`}
                     style={{
                       animation: `diagonal-scroll ${baseDuration + (i % 3) * 8}s linear infinite ${i % 2 === 0 ? 'normal' : 'reverse'}`,
                       width: 'max-content',
