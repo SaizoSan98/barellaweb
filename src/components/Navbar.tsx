@@ -107,7 +107,7 @@ export function Navbar() {
             initial={{ opacity: 0, clipPath: "circle(0% at 100% 0)" }}
             animate={{ opacity: 1, clipPath: "circle(150% at 100% 0)" }}
             exit={{ opacity: 0, clipPath: "circle(0% at 100% 0)" }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
             className="fixed inset-0 bg-black z-[100] flex flex-col items-center justify-center h-[100dvh] w-screen overflow-hidden"
             style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}
           >
@@ -119,9 +119,9 @@ export function Navbar() {
 
             {/* Logo in Mobile Menu */}
             <motion.div
-              initial={{ opacity: 0, y: -20 }}
+              initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1, duration: 0.3 }}
+              transition={{ delay: 0.05, duration: 0.2 }}
               className="absolute top-8 left-8 flex items-center gap-4"
             >
               <Logo className="w-10 h-10" />
@@ -135,9 +135,9 @@ export function Navbar() {
               {navItems.map((item, index) => (
                 <motion.div
                   key={item.name}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.05 + index * 0.05, duration: 0.3 }}
+                  transition={{ delay: 0.02 + index * 0.03, duration: 0.15 }}
                 >
                   <Link
                     href={item.href}
