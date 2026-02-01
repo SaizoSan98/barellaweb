@@ -20,30 +20,25 @@ export function Contact() {
         {/* CTA Section - More Compact */}
         <div className="mb-16 flex flex-col md:flex-row items-end justify-between gap-8 border-b border-white/10 pb-12">
             <div className="max-w-3xl">
-                <motion.h2 
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
+                <div 
                     className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter leading-none mb-6"
                 >
                     Valósítsuk meg <br />
                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-teal-400">elképzeléseit.</span>
-                </motion.h2>
+                </div>
                 <p className="text-lg text-gray-400 max-w-xl border-l-2 border-primary/50 pl-6">
                     Legyen szó tervezésről vagy kivitelezésről, mi készen állunk a kihívásokra.
                 </p>
             </div>
             
-            <motion.a 
+            <a 
                 href="mailto:barella.gep@gmail.com"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="group relative inline-flex items-center gap-3 px-8 py-4 bg-white text-black rounded-xl text-sm font-bold uppercase tracking-widest overflow-hidden shrink-0"
+                className="group relative inline-flex items-center gap-3 px-8 py-4 bg-white text-black rounded-xl text-sm font-bold uppercase tracking-widest overflow-hidden shrink-0 transition-transform active:scale-95 hover:scale-105"
             >
                 <span className="relative z-10 group-hover:text-white transition-colors duration-300">Kapcsolatfelvétel</span>
                 <div className="absolute inset-0 bg-primary translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
                 <ArrowUpRight className="relative z-10 group-hover:text-white transition-colors duration-300 w-5 h-5" />
-            </motion.a>
+            </a>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-12">

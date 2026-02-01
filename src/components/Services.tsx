@@ -58,7 +58,7 @@ export function Services() {
 
       <div className="container mx-auto px-4 relative z-10">
         <div
-          className="mb-12 md:mb-20 md:opacity-0 md:animate-[fadeIn_0.5s_ease-out_forwards]"
+          className="mb-12 md:mb-20"
         >
           <div className="flex items-center gap-4 mb-6">
              <div className="h-[1px] w-12 bg-primary" />

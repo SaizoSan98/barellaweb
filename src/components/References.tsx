@@ -28,7 +28,7 @@ export function References() {
 
       <div className="container mx-auto px-4 relative z-10">
         <div
-          className="mb-12 md:mb-24 flex flex-col md:flex-row md:items-end justify-between gap-8 md:opacity-0 md:animate-[fadeIn_0.5s_ease-out_forwards]"
+          className="mb-12 md:mb-24 flex flex-col md:flex-row md:items-end justify-between gap-8"
         >
           <div>
             <div className="flex items-center gap-4 mb-6">
@@ -71,8 +71,7 @@ function ProjectCard({ project, index }: { project: any, index: number }) {
 
   return (
     <div 
-      className="flex flex-col md:flex-row gap-8 md:gap-12 items-center md:opacity-0 md:animate-[fadeIn_0.5s_ease-out_forwards]"
-      style={{ animationDelay: '0.2s' }}
+      className="flex flex-col md:flex-row gap-8 md:gap-12 items-center"
     >
       <div className={`w-full md:w-3/5 relative group perspective-1000 ${!isEven && "md:order-last"}`}>
         <div className="overflow-hidden rounded-2xl shadow-2xl transition-all duration-700 group-hover:shadow-[0_20px_50px_rgba(45,212,191,0.2)]">
