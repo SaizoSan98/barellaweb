@@ -45,10 +45,10 @@ export function Hero() {
         {USE_ANIMATED_BACKGROUND ? (
            // ANIMATED MOSAIC BACKGROUND - OPTIMIZED CSS VERSION
            <div className="absolute inset-0 flex flex-col items-center justify-center bg-black">
-              <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/60 z-10" />
+              <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/80 z-10" />
               
               {/* Tilted Container for Diagonal Movement */}
-              <div className={`absolute inset-0 flex flex-col ${isMobile ? 'gap-4' : 'gap-8'} -rotate-[15deg] scale-150 opacity-40 blur-[1px] select-none pointer-events-none overflow-hidden`}>
+              <div className={`absolute inset-0 flex flex-col ${isMobile ? 'gap-4' : 'gap-8'} -rotate-[15deg] scale-150 opacity-20 blur-[3px] select-none pointer-events-none overflow-hidden`}>
                 {isLoaded && Array.from({ length: rowCount }).map((_, i) => (
                   <div
                     key={i}
