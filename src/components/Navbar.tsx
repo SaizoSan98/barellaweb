@@ -40,7 +40,7 @@ export function Navbar() {
 
   return (
     <nav 
-      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 border-b ${
+      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 border-b ${
         scrolled 
           ? "bg-black/80 backdrop-blur-xl border-white/10 h-20" 
           : "bg-transparent border-transparent h-24"
@@ -106,7 +106,7 @@ export function Navbar() {
             initial={{ opacity: 0, clipPath: "circle(0% at 100% 0)" }}
             animate={{ opacity: 1, clipPath: "circle(150% at 100% 0)" }}
             exit={{ opacity: 0, clipPath: "circle(0% at 100% 0)" }}
-            transition={{ duration: 0.5, ease: "easeInOut" }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
             className="fixed inset-0 bg-black z-[100] flex flex-col items-center justify-center h-[100dvh] w-screen overflow-hidden"
             style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}
           >
@@ -120,7 +120,7 @@ export function Navbar() {
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
+              transition={{ delay: 0.1, duration: 0.3 }}
               className="absolute top-8 left-8 flex items-center gap-4"
             >
               <Logo className="w-10 h-10" />
@@ -130,13 +130,13 @@ export function Navbar() {
               </div>
             </motion.div>
 
-            <div className="flex flex-col gap-8 text-center relative z-10 w-full px-8">
+            <div className="flex flex-col gap-6 text-center relative z-10 w-full px-8">
               {navItems.map((item, index) => (
                 <motion.div
                   key={item.name}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 + index * 0.1 }}
+                  transition={{ delay: 0.05 + index * 0.05, duration: 0.3 }}
                 >
                   <Link
                     href={item.href}
@@ -147,31 +147,6 @@ export function Navbar() {
                   </Link>
                 </motion.div>
               ))}
-
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
-                className="mt-8 space-y-4"
-              >
-                <button 
-                  onClick={() => {
-                    setIsOpen(false);
-                    openQuote();
-                  }}
-                  className="w-full bg-primary text-black py-4 rounded-xl font-bold text-lg hover:bg-white transition-colors"
-                >
-                  AJÁNLATKÉRÉS
-                </button>
-                
-                <a 
-                  href="tel:+36301738866" 
-                  className="w-full border border-white/20 text-white py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 hover:border-primary hover:text-primary transition-colors"
-                >
-                  <Phone size={20} />
-                  HÍVÁS MOST
-                </a>
-              </motion.div>
             </div>
           </motion.div>
         )}
