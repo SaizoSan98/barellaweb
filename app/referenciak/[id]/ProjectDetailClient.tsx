@@ -44,11 +44,7 @@ export default function ProjectDetailClient({ project }: { project: any }) {
               Vissza a referenciákhoz
             </Link>
             
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
+            <div className="animate-[fadeIn_0.5s_ease-out_forwards]">
               <span className="text-primary font-bold tracking-widest uppercase mb-2 block">{project.category}</span>
               <h1 className="text-4xl md:text-6xl font-black text-white uppercase mb-4">{project.title}</h1>
               <div className="flex flex-wrap gap-6 text-gray-300 text-sm font-medium">
@@ -61,7 +57,7 @@ export default function ProjectDetailClient({ project }: { project: any }) {
                   {project.year}
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
 

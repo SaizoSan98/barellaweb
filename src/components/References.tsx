@@ -82,13 +82,9 @@ function ProjectCard({ project, index, isMobile }: { project: any, index: number
   const isEven = index % 2 === 0;
 
   return (
-    <motion.div 
-      ref={ref}
-      initial={isMobile ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-10%" }}
-      transition={{ duration: 0.5 }}
-      className={`flex flex-col ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'} gap-8 md:gap-12 items-center`}
+    <div 
+      className={`flex flex-col ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'} gap-8 md:gap-12 items-center opacity-0 animate-[fadeIn_0.5s_ease-out_forwards]`}
+      style={{ animationDelay: '0.2s' }}
     >
       <div className="w-full md:w-3/5 relative group perspective-1000">
         <div className="overflow-hidden rounded-2xl shadow-2xl transition-all duration-700 group-hover:shadow-[0_20px_50px_rgba(45,212,191,0.2)]">
@@ -145,6 +141,7 @@ function ProjectCard({ project, index, isMobile }: { project: any, index: number
         <div className="flex flex-col gap-4">
             <Link 
               href={`/referenciak/${project.id}`}
+              prefetch={false}
               className="group inline-flex items-center gap-4 text-white font-bold text-sm uppercase tracking-widest hover:text-primary transition-colors"
             >
               <span className="relative">
@@ -175,6 +172,6 @@ function ProjectCard({ project, index, isMobile }: { project: any, index: number
             )}
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
