@@ -35,12 +35,8 @@ export function References() {
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
-        <motion.div
-          initial={isMobile ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="mb-12 md:mb-24 flex flex-col md:flex-row md:items-end justify-between gap-8"
+        <div
+          className="mb-12 md:mb-24 flex flex-col md:flex-row md:items-end justify-between gap-8 md:opacity-0 md:animate-[fadeIn_0.5s_ease-out_forwards]"
         >
           <div>
             <div className="flex items-center gap-4 mb-6">
@@ -58,7 +54,7 @@ export function References() {
           >
             Összes megtekintése <ArrowUpRight size={16} />
           </a>
-        </motion.div>
+        </div>
 
         <div className="space-y-20 md:space-y-32">
           {projects.map((project, index) => (
@@ -83,10 +79,10 @@ function ProjectCard({ project, index, isMobile }: { project: any, index: number
 
   return (
     <div 
-      className={`flex flex-col ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'} gap-8 md:gap-12 items-center opacity-0 animate-[fadeIn_0.5s_ease-out_forwards]`}
+      className="flex flex-col md:flex-row gap-8 md:gap-12 items-center md:opacity-0 md:animate-[fadeIn_0.5s_ease-out_forwards]"
       style={{ animationDelay: '0.2s' }}
     >
-      <div className="w-full md:w-3/5 relative group perspective-1000">
+      <div className={`w-full md:w-3/5 relative group perspective-1000 ${!isEven && "md:order-last"}`}>
         <div className="overflow-hidden rounded-2xl shadow-2xl transition-all duration-700 group-hover:shadow-[0_20px_50px_rgba(45,212,191,0.2)]">
           <motion.div style={{ y: isMobile ? 0 : (isEven ? y : y) }} className={`relative aspect-[16/9] w-full ${!isMobile && "transform transition-transform duration-700 group-hover:scale-105"}`}>
              <Image

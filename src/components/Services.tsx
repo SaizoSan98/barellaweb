@@ -59,16 +59,14 @@ export function Services() {
   return (
     <section id="services" className="py-20 md:py-32 bg-background relative border-t border-white/5 overflow-hidden">
       {/* Background Gradients - DISABLED ON MOBILE */}
-      {!isMobile && (
-        <>
+      <div className="hidden md:block">
           <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[128px] pointer-events-none" />
           <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-blue-600/5 rounded-full blur-[128px] pointer-events-none" />
-        </>
-      )}
+      </div>
 
       <div className="container mx-auto px-4 relative z-10">
         <div
-          className={`mb-12 md:mb-20 ${!isMobile ? 'opacity-0 animate-[fadeIn_0.5s_ease-out_forwards]' : ''}`}
+          className="mb-12 md:mb-20 md:opacity-0 md:animate-[fadeIn_0.5s_ease-out_forwards]"
         >
           <div className="flex items-center gap-4 mb-6">
              <div className="h-[1px] w-12 bg-primary" />
@@ -112,7 +110,7 @@ function ServiceCard({ service, index, isMobile, openQuote }: { service: any, in
   `;
 
   function handleMouseMove({ currentTarget, clientX, clientY }: MouseEvent) {
-    if (isMobile) return;
+    // Only track mouse on desktop
     const { left, top } = currentTarget.getBoundingClientRect();
     mouseX.set(clientX - left);
     mouseY.set(clientY - top);
@@ -124,15 +122,13 @@ function ServiceCard({ service, index, isMobile, openQuote }: { service: any, in
       onMouseMove={handleMouseMove}
     >
       {/* Spotlight Effect - DISABLED ON MOBILE */}
-      {!isMobile && (
-        <motion.div
-          className="pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition duration-300 group-hover:opacity-100"
-          style={{ background }}
-        />
-      )}
+      <motion.div
+        className="hidden md:block pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition duration-300 group-hover:opacity-100"
+        style={{ background }}
+      />
 
       {/* Background Image (Subtle) - SIMPLIFIED ON MOBILE */}
-      <div className={`absolute inset-0 opacity-20 ${!isMobile && "group-hover:opacity-40 transition-opacity duration-700 mix-blend-luminosity group-hover:mix-blend-normal transform scale-105 group-hover:scale-110 transition-transform duration-700"}`}>
+      <div className="absolute inset-0 opacity-20 md:group-hover:opacity-40 transition-opacity duration-700 md:mix-blend-luminosity md:group-hover:mix-blend-normal md:transform md:scale-105 md:group-hover:scale-110 transition-transform duration-700">
         <Image
           src={service.image}
           alt={service.title}
