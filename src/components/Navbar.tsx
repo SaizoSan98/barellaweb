@@ -11,6 +11,7 @@ const navItems = [
   { name: "Kezdőlap", href: "/" },
   { name: "Szolgáltatások", href: "/#services" },
   { name: "Referenciák", href: "/referenciak" },
+  { name: "Hasznos cikkek", href: "/cikkek" },
   { name: "Kapcsolat", href: "#contact" },
 ];
 
