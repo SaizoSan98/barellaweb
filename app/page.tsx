@@ -6,6 +6,8 @@ import { ScrollToTop } from "@/components/ScrollToTop";
 import { Services } from "@/components/Services";
 import { References } from "@/components/References";
 import { Contact } from "@/components/Contact";
+import { Process } from "@/components/Process";
+import { FAQ } from "@/components/FAQ";
 
 export default function Home() {
   return (
@@ -14,7 +16,9 @@ export default function Home() {
         <Navbar />
         <Hero />
         <Services />
+        <Process />
         <References />
+        <FAQ />
         <Contact />
         <QuoteModal />
         <ScrollToTop />
