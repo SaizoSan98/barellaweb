@@ -38,26 +38,28 @@ export function Hero() {
           </div>
           
           <div className="hidden md:block">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="mb-8 flex md:justify-start justify-center"
-            >
-               <Logo className="w-24 h-24 md:w-32 md:h-32" variant="white" />
-            </motion.div>
             <motion.h1
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-              className="text-5xl md:text-8xl font-black tracking-tighter mb-8 md:mb-8 leading-[0.9] drop-shadow-2xl"
+              className="text-5xl md:text-8xl font-black tracking-tighter mb-8 md:mb-8 leading-[0.9] drop-shadow-2xl flex flex-wrap items-center gap-6"
             >
-              <span className="text-white relative inline-block">
-                BARELLA
-              </span> <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white via-50% to-gray-600 block mt-4 break-words w-full text-7xl font-black">
-                ÉPÜLETGÉPÉSZET
-              </span>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                className="inline-flex"
+              >
+                 <Logo className="w-20 h-20 md:w-32 md:h-32" variant="white" />
+              </motion.div>
+              <div className="inline-flex flex-col">
+                <span className="text-white relative inline-block">
+                  BARELLA
+                </span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white via-50% to-gray-600 block mt-2 break-words w-full text-7xl font-black">
+                  ÉPÜLETGÉPÉSZET
+                </span>
+              </div>
             </motion.h1>
           </div>
 
