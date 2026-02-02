@@ -8,6 +8,7 @@ import { References } from "@/components/References";
 import { Contact } from "@/components/Contact";
 import { Process } from "@/components/Process";
 import { FAQ } from "@/components/FAQ";
+import { Brands } from "@/components/Brands";
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
       <main className="min-h-screen bg-background text-foreground">
         <Navbar />
         <Hero />
+        <Brands />
         <Services />
         <Process />
         <References />
