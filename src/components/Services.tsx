@@ -99,6 +99,12 @@ export function Services() {
           </p>
         </div>
 
+        {/* Mobile Scroll Hint */}
+        <div className="md:hidden flex items-center gap-2 text-primary/60 text-xs font-bold uppercase tracking-widest mb-4 animate-pulse">
+            <ArrowRight size={16} />
+            <span>Húzza el a folytatáshoz</span>
+        </div>
+
         {/* MOBILE LAYOUT: Horizontal Snap Scroll with "Extreme" Cards */}
         <div className="md:hidden flex overflow-x-auto snap-x snap-mandatory gap-4 pb-8 -mx-4 px-4 scrollbar-hide">
             {services.map((service, index) => (
