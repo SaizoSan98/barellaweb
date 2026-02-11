@@ -2,7 +2,7 @@
 
 import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
 import { Snowflake, Zap, Layers, ThermometerSun, ArrowRight, Phone } from "lucide-react";
-import { MouseEvent, useState, useEffect, ElementType } from "react";
+import { MouseEvent, ElementType } from "react";
 import Image from "next/image";
 import { useQuote } from "@/components/QuoteContext";
 
@@ -64,8 +64,8 @@ const services = [
   },
   {
     icon: Layers,
-    title: "VÍZVEZETÉK–CSATORNA KIVITELEZÉS",
-    subtitle: "Víz- és szennyvízrendszer",
+    title: "VÍZVEZETÉK–CSATORNA",
+    subtitle: "Kivitelezés",
     description: "Feltöltés alatt..",
     image: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?q=80&w=2070&auto=format&fit=crop",
     details: [],
@@ -78,19 +78,14 @@ export function Services() {
 
   return (
     <section id="services" className="py-20 md:py-32 bg-background relative border-t border-white/5 overflow-hidden">
-      {/* Background Gradients - DISABLED ON MOBILE */}
-      <div className="hidden md:block">
-          <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[128px] pointer-events-none" />
-          <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-blue-600/5 rounded-full blur-[128px] pointer-events-none" />
+      {/* Background Gradients */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[128px]" />
+          <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-blue-600/5 rounded-full blur-[128px]" />
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
-        {/* Subtle Fluid Background Element */}
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-b from-primary/5 to-transparent rounded-full blur-[100px] -z-10 opacity-30 pointer-events-none" />
-
-        <div
-          className="mb-12 md:mb-20"
-        >
+        <div className="mb-12 md:mb-20">
           <div className="flex items-center gap-4 mb-6">
              <div className="h-[1px] w-12 bg-primary" />
              <span className="text-primary font-bold tracking-[0.2em] uppercase text-sm">Szolgáltatások</span>
@@ -104,9 +99,21 @@ export function Services() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* MOBILE LAYOUT: Horizontal Snap Scroll with "Extreme" Cards */}
+        <div className="md:hidden flex overflow-x-auto snap-x snap-mandatory gap-4 pb-8 -mx-4 px-4 scrollbar-hide">
+            {services.map((service, index) => (
+                <div key={service.title} className="snap-center shrink-0 w-[85vw]">
+                     <ServiceCardMobile service={service} index={index} openQuote={openQuote} />
+                </div>
+            ))}
+            {/* Spacer for end of list */}
+            <div className="w-2 shrink-0" />
+        </div>
+
+        {/* DESKTOP LAYOUT: Grid */}
+        <div className="hidden md:grid grid-cols-3 gap-6">
           {services.map((service, index) => (
-            <ServiceCard 
+            <ServiceCardDesktop 
               key={service.title} 
               service={service} 
               index={index} 
@@ -119,7 +126,64 @@ export function Services() {
   );
 }
 
-function ServiceCard({ service, index, openQuote }: { service: ServiceItem; index: number; openQuote: () => void }) {
+function ServiceCardMobile({ service, index, openQuote }: { service: ServiceItem; index: number; openQuote: () => void }) {
+    return (
+        <div className="relative h-[500px] rounded-3xl overflow-hidden group border border-white/10 shadow-2xl">
+            {/* Full Height Background Image */}
+            <div className="absolute inset-0">
+                <Image
+                    src={service.image}
+                    alt={service.title}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    sizes="85vw"
+                />
+                {/* Gradient Overlay - Darker at bottom */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
+            </div>
+
+            {/* Content Container */}
+            <div className="relative h-full flex flex-col justify-end p-6">
+                
+                {/* Icon Badge */}
+                <div className="absolute top-6 right-6 w-12 h-12 rounded-2xl bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center">
+                     <service.icon size={20} className="text-primary" />
+                </div>
+
+                <div className="mb-2">
+                     <span className="inline-block px-3 py-1 rounded-full bg-primary/20 backdrop-blur-md border border-primary/30 text-primary text-[10px] font-bold uppercase tracking-widest mb-3">
+                        {service.subtitle}
+                     </span>
+                     <h3 className="text-3xl font-black text-white uppercase leading-none mb-2 drop-shadow-lg">
+                        {service.title}
+                     </h3>
+                </div>
+
+                <p className="text-gray-300 text-sm font-medium mb-6 line-clamp-3">
+                    {service.description}
+                </p>
+
+                {/* Action Buttons */}
+                <div className="grid grid-cols-2 gap-3">
+                    <button 
+                        onClick={openQuote}
+                        className="bg-primary text-black py-3 rounded-xl font-bold uppercase text-xs tracking-wider flex items-center justify-center gap-2 hover:bg-white transition-colors"
+                    >
+                        Ajánlat <ArrowRight size={14} />
+                    </button>
+                    <a 
+                        href="tel:+36301738866"
+                        className="bg-white/10 backdrop-blur-md border border-white/20 text-white py-3 rounded-xl font-bold uppercase text-xs tracking-wider flex items-center justify-center gap-2 hover:bg-white/20 transition-colors"
+                    >
+                        Hívás <Phone size={14} />
+                    </a>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+function ServiceCardDesktop({ service, index, openQuote }: { service: ServiceItem; index: number; openQuote: () => void }) {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
@@ -132,7 +196,6 @@ function ServiceCard({ service, index, openQuote }: { service: ServiceItem; inde
   `;
 
   function handleMouseMove({ currentTarget, clientX, clientY }: MouseEvent) {
-    // Only track mouse on desktop
     const { left, top } = currentTarget.getBoundingClientRect();
     mouseX.set(clientX - left);
     mouseY.set(clientY - top);
@@ -143,37 +206,36 @@ function ServiceCard({ service, index, openQuote }: { service: ServiceItem; inde
       className={`group relative rounded-3xl border border-white/10 bg-black overflow-hidden ${service.colSpan} flex flex-col`}
       onMouseMove={handleMouseMove}
     >
-      {/* Spotlight Effect - DISABLED ON MOBILE */}
+      {/* Spotlight Effect */}
       <motion.div
-        className="hidden md:block pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition duration-300 group-hover:opacity-100"
+        className="pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition duration-300 group-hover:opacity-100"
         style={{ background }}
       />
 
-      {/* Background Image (Subtle) - SIMPLIFIED ON MOBILE */}
-      <div className="absolute inset-0 opacity-20 md:group-hover:opacity-40 transition-opacity duration-700 md:mix-blend-luminosity md:group-hover:mix-blend-normal md:transform md:scale-105 md:group-hover:scale-110 transition-transform duration-700">
+      {/* Background Image */}
+      <div className="absolute inset-0 opacity-20 group-hover:opacity-40 transition-opacity duration-700 mix-blend-luminosity group-hover:mix-blend-normal transform scale-105 group-hover:scale-110 transition-transform">
         <Image
           src={service.image}
           alt={service.title}
           fill
           className="object-cover object-center"
-          sizes="(max-width: 768px) 100vw, 33vw"
-          priority={index === 0} // Prioritize first image loading
+          sizes="33vw"
         />
       </div>
       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-black/40" />
 
-      <div className="relative z-10 h-full flex flex-col p-6 md:p-10">
-        <div className="flex justify-between items-start mb-6 md:mb-8">
-          <div className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center backdrop-blur-md group-hover:scale-110 group-hover:bg-primary/20 group-hover:border-primary/50 transition-all duration-300 shadow-[0_0_20px_rgba(0,0,0,0.2)]">
-            <service.icon size={24} className="text-gray-300 group-hover:text-primary transition-colors md:w-7 md:h-7" />
+      <div className="relative z-10 h-full flex flex-col p-10">
+        <div className="flex justify-between items-start mb-8">
+          <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center backdrop-blur-md group-hover:scale-110 group-hover:bg-primary/20 group-hover:border-primary/50 transition-all duration-300 shadow-[0_0_20px_rgba(0,0,0,0.2)]">
+            <service.icon size={24} className="text-gray-300 group-hover:text-primary transition-colors w-7 h-7" />
           </div>
           <span className="text-[10px] font-black text-primary/70 uppercase tracking-[0.2em] border border-primary/20 rounded-full px-4 py-1.5 backdrop-blur-md bg-black/20 group-hover:bg-primary/10 group-hover:text-primary transition-all">
             {service.subtitle}
           </span>
         </div>
         
-        <h3 className="text-2xl md:text-4xl font-black mb-4 text-white group-hover:text-primary transition-colors uppercase tracking-tight">{service.title}</h3>
-        <p className="text-gray-400 leading-relaxed mb-8 flex-grow font-light text-base md:text-lg">
+        <h3 className="text-4xl font-black mb-4 text-white group-hover:text-primary transition-colors uppercase tracking-tight">{service.title}</h3>
+        <p className="text-gray-400 leading-relaxed mb-8 flex-grow font-light text-lg">
           {service.description}
         </p>
 
@@ -186,7 +248,7 @@ function ServiceCard({ service, index, openQuote }: { service: ServiceItem; inde
           ))}
           
           {/* Inline CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4">
+          <div className="flex flex-row gap-3 mt-6 pt-4 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0">
              <button 
                onClick={openQuote}
                className="flex-1 bg-white/10 hover:bg-primary hover:text-black border border-white/10 text-white py-3 rounded-xl font-bold uppercase text-xs tracking-wider transition-all duration-300 flex items-center justify-center gap-2"
