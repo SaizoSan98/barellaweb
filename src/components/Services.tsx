@@ -2,7 +2,7 @@
 
 import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
 import { Snowflake, Zap, Layers, ThermometerSun, ArrowRight, Phone } from "lucide-react";
-import { MouseEvent, ElementType } from "react";
+import { MouseEvent, ElementType, useState } from "react";
 import Image from "next/image";
 import { useQuote } from "@/components/QuoteContext";
 
@@ -76,6 +76,10 @@ const services = [
 export function Services() {
   const { openQuote } = useQuote();
 
+  // Split services into two rows for desktop expanding layout
+  const firstRow = services.slice(0, 3);
+  const secondRow = services.slice(3, 6);
+
   return (
     <section id="services" className="py-20 md:py-32 bg-background relative border-t border-white/5 overflow-hidden">
       {/* Background Gradients */}
@@ -116,20 +120,93 @@ export function Services() {
             <div className="w-2 shrink-0" />
         </div>
 
-        {/* DESKTOP LAYOUT: Grid */}
-        <div className="hidden md:grid grid-cols-3 gap-6">
-          {services.map((service, index) => (
-            <ServiceCardDesktop 
-              key={service.title} 
-              service={service} 
-              index={index} 
-              openQuote={openQuote} 
-            />
-          ))}
+        {/* DESKTOP LAYOUT: Expanding Flex Cards */}
+        <div className="hidden md:flex flex-col gap-6">
+            <ExpandingRow services={firstRow} openQuote={openQuote} />
+            <ExpandingRow services={secondRow} openQuote={openQuote} />
         </div>
       </div>
     </section>
   );
+}
+
+function ExpandingRow({ services, openQuote }: { services: ServiceItem[], openQuote: () => void }) {
+    const [activeIndex, setActiveIndex] = useState<number | null>(0); // Default first item active
+
+    return (
+        <div className="flex w-full gap-4 h-[500px]" onMouseLeave={() => setActiveIndex(null)}>
+            {services.map((service, index) => (
+                <ServiceCardExpanding 
+                    key={service.title} 
+                    service={service} 
+                    isActive={activeIndex === index}
+                    onHover={() => setActiveIndex(index)}
+                    openQuote={openQuote}
+                />
+            ))}
+        </div>
+    );
+}
+
+function ServiceCardExpanding({ service, isActive, onHover, openQuote }: { service: ServiceItem; isActive: boolean; onHover: () => void; openQuote: () => void }) {
+    return (
+        <div 
+            className={`relative rounded-3xl overflow-hidden cursor-pointer transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group ${isActive ? 'flex-[3]' : 'flex-1'}`}
+            onMouseEnter={onHover}
+        >
+             {/* Background Image */}
+            <div className="absolute inset-0">
+                <Image
+                    src={service.image}
+                    alt={service.title}
+                    fill
+                    className={`object-cover transition-transform duration-700 ${isActive ? 'scale-105' : 'scale-100 grayscale-[50%]'}`}
+                    sizes="(max-width: 1200px) 33vw, 50vw"
+                />
+                <div className={`absolute inset-0 bg-black/60 transition-opacity duration-500 ${isActive ? 'opacity-40' : 'opacity-70 hover:opacity-50'}`} />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90" />
+            </div>
+
+            {/* Content */}
+            <div className="relative h-full flex flex-col justify-end p-8 z-10">
+                {/* Icon - Always visible but moves */}
+                <div className={`absolute top-8 left-8 transition-all duration-500 ${isActive ? 'bg-black/40 backdrop-blur-md w-16 h-16 rounded-2xl border border-white/10' : 'bg-transparent w-auto h-auto'}`}>
+                    <div className="w-full h-full flex items-center justify-center">
+                        <service.icon size={isActive ? 32 : 28} className={`text-primary transition-all duration-300 ${isActive ? 'scale-100' : 'scale-100'}`} />
+                    </div>
+                </div>
+
+                {/* Vertical Title for Inactive State */}
+                <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${isActive ? 'opacity-0 pointer-events-none' : 'opacity-100 delay-100'}`}>
+                    <h3 className="text-2xl font-black text-white uppercase tracking-widest [writing-mode:vertical-rl] rotate-180 whitespace-nowrap opacity-80">
+                        {service.title}
+                    </h3>
+                </div>
+
+                {/* Active Content */}
+                <div className={`transition-all duration-500 transform ${isActive ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0 pointer-events-none'}`}>
+                     <span className="inline-block px-3 py-1 rounded-full bg-primary/20 backdrop-blur-md border border-primary/30 text-primary text-[10px] font-bold uppercase tracking-widest mb-4">
+                        {service.subtitle}
+                     </span>
+                     <h3 className="text-4xl font-black text-white uppercase leading-none mb-4 drop-shadow-lg">
+                        {service.title}
+                     </h3>
+                     <p className="text-gray-300 text-base font-medium mb-8 max-w-lg line-clamp-3">
+                        {service.description}
+                     </p>
+
+                     <div className="flex gap-4">
+                        <button 
+                            onClick={(e) => { e.stopPropagation(); openQuote(); }}
+                            className="bg-primary hover:bg-white text-black py-3 px-6 rounded-xl font-bold uppercase text-xs tracking-wider transition-all duration-300 flex items-center gap-2"
+                        >
+                            Ajánlatkérés <ArrowRight size={16} />
+                        </button>
+                     </div>
+                </div>
+            </div>
+        </div>
+    )
 }
 
 function ServiceCardMobile({ service, index, openQuote }: { service: ServiceItem; index: number; openQuote: () => void }) {
@@ -187,89 +264,4 @@ function ServiceCardMobile({ service, index, openQuote }: { service: ServiceItem
             </div>
         </div>
     )
-}
-
-function ServiceCardDesktop({ service, index, openQuote }: { service: ServiceItem; index: number; openQuote: () => void }) {
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  const background = useMotionTemplate`
-    radial-gradient(
-      650px circle at ${mouseX}px ${mouseY}px,
-      rgba(45, 212, 191, 0.15),
-      transparent 80%
-    )
-  `;
-
-  function handleMouseMove({ currentTarget, clientX, clientY }: MouseEvent) {
-    const { left, top } = currentTarget.getBoundingClientRect();
-    mouseX.set(clientX - left);
-    mouseY.set(clientY - top);
-  }
-
-  return (
-    <div
-      className={`group relative rounded-3xl border border-white/10 bg-black overflow-hidden ${service.colSpan} flex flex-col`}
-      onMouseMove={handleMouseMove}
-    >
-      {/* Spotlight Effect */}
-      <motion.div
-        className="pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition duration-300 group-hover:opacity-100"
-        style={{ background }}
-      />
-
-      {/* Background Image */}
-      <div className="absolute inset-0 opacity-20 group-hover:opacity-40 transition-opacity duration-700 mix-blend-luminosity group-hover:mix-blend-normal transform scale-105 group-hover:scale-110 transition-transform">
-        <Image
-          src={service.image}
-          alt={service.title}
-          fill
-          className="object-cover object-center"
-          sizes="33vw"
-        />
-      </div>
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-black/40" />
-
-      <div className="relative z-10 h-full flex flex-col p-10">
-        <div className="flex justify-between items-start mb-8">
-          <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center backdrop-blur-md group-hover:scale-110 group-hover:bg-primary/20 group-hover:border-primary/50 transition-all duration-300 shadow-[0_0_20px_rgba(0,0,0,0.2)]">
-            <service.icon size={24} className="text-gray-300 group-hover:text-primary transition-colors w-7 h-7" />
-          </div>
-          <span className="text-[10px] font-black text-primary/70 uppercase tracking-[0.2em] border border-primary/20 rounded-full px-4 py-1.5 backdrop-blur-md bg-black/20 group-hover:bg-primary/10 group-hover:text-primary transition-all">
-            {service.subtitle}
-          </span>
-        </div>
-        
-        <h3 className="text-4xl font-black mb-4 text-white group-hover:text-primary transition-colors uppercase tracking-tight">{service.title}</h3>
-        <p className="text-gray-400 leading-relaxed mb-8 flex-grow font-light text-lg">
-          {service.description}
-        </p>
-
-        <div className="space-y-4 border-t border-white/5 pt-8 mt-auto">
-          {service.details.map((detail: string, i: number) => (
-            <div key={i} className="flex items-center gap-4 text-sm font-medium text-gray-500 group-hover:text-gray-300 transition-colors">
-              <div className="w-1.5 h-1.5 rounded-full bg-primary/50 group-hover:bg-primary group-hover:shadow-[0_0_10px_rgba(45,212,191,0.5)] transition-all" />
-              {detail}
-            </div>
-          ))}
-          
-          {/* Inline CTA Buttons */}
-          <div className="flex flex-row gap-3 mt-6 pt-4 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0">
-             <button 
-               onClick={openQuote}
-               className="flex-1 bg-white/10 hover:bg-primary hover:text-black border border-white/10 text-white py-3 rounded-xl font-bold uppercase text-xs tracking-wider transition-all duration-300 flex items-center justify-center gap-2"
-             >
-               Ajánlatkérés <ArrowRight size={14} />
-             </button>
-             <a 
-               href="tel:+36301738866"
-               className="flex-1 bg-transparent hover:bg-white/10 border border-white/10 text-white py-3 rounded-xl font-bold uppercase text-xs tracking-wider transition-all duration-300 flex items-center justify-center gap-2"
-             >
-               Hívás <Phone size={14} />
-             </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
 }
