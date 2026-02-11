@@ -22,7 +22,7 @@ const services = [
     title: "KLÍMATECHNIKA",
     subtitle: "Intelligens Hűtés",
     description: "Feltöltés alatt..",
-    image: "https://images.unsplash.com/photo-1617103996702-96ff29b1c467?q=80&w=2070&auto=format&fit=crop", // Abstract AC/Air flow
+    image: "/images/climate1.jpg", // Local image
     details: ["Daikin, Gree, Mitsubishi rendszerek", "Rejtett csövezés", "Wi-Fi vezérlés", "Éves karbantartás"],
     colSpan: "md:col-span-2",
   },
@@ -31,7 +31,7 @@ const services = [
     title: "HŐSZIVATTYÚK",
     subtitle: "Zöld Energia",
     description: "Feltöltés alatt..",
-    image: "https://images.unsplash.com/photo-1581094288338-2314dddb7ece?q=80&w=2070&auto=format&fit=crop", // Industrial/Tech
+    image: "/images/heatpump.jpeg", // Local image
     details: ["COP 4.0+ hatékonyság", "Padlófűtéshez optimalizálva", "HMV készítés"],
     colSpan: "md:col-span-1",
   },
@@ -40,7 +40,7 @@ const services = [
     title: "PADLÓFŰTÉS",
     subtitle: "Láthatatlan Komfort",
     description: "Feltöltés alatt..",
-    image: "https://images.unsplash.com/photo-1507646227500-4d389b0012be?q=80&w=2070&auto=format&fit=crop", // Underfloor heating pipes
+    image: "/images/padlofutes.jpg", // Local image
     details: ["Tacker rendszer", "Osztó-gyűjtő szerelés", "Betonozás"],
     colSpan: "md:col-span-1",
   },
@@ -49,7 +49,7 @@ const services = [
     title: "MENNYEZETFŰTÉS",
     subtitle: "Sugárzó Technológia",
     description: "Feltöltés alatt..",
-    image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=2070&auto=format&fit=crop", // Modern interior ceiling
+    image: "/images/mennyezetfutes.jpg", // Local image
     details: ["Nincs légmozgás", "Ideális allergiásoknak", "Gyors reagálás"],
     colSpan: "md:col-span-2",
   },
@@ -58,7 +58,7 @@ const services = [
     title: "KLÍMATISZTÍTÁS",
     subtitle: "Higiénikus Levegő",
     description: "Feltöltés alatt..",
-    image: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=2069&auto=format&fit=crop", // Clean AC Unit
+    image: "/images/climate2.jpg", // Local image
     details: [],
     colSpan: "md:col-span-1",
   },
@@ -67,7 +67,7 @@ const services = [
     title: "VÍZVEZETÉK–CSATORNA",
     subtitle: "Kivitelezés",
     description: "Feltöltés alatt..",
-    image: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?q=80&w=2070&auto=format&fit=crop",
+    image: "/images/vizvezetek.jpg", // Local image
     details: [],
     colSpan: "md:col-span-1",
   },
