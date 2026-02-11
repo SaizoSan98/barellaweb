@@ -28,10 +28,10 @@ export function QuoteModal() {
 
       {/* Modal Container - Instant appearance */}
       <div
-        className="fixed inset-0 z-[101] flex items-center justify-center p-0 md:p-4 pointer-events-none"
+        className="fixed inset-0 z-[101] flex items-center justify-center p-4 pointer-events-none"
       >
         {/* Modal Content - Changed to Light/White Theme */}
-        <div className="bg-white text-black w-full md:max-w-2xl h-full md:h-auto md:rounded-3xl shadow-2xl overflow-hidden pointer-events-auto relative flex flex-col md:max-h-[90vh]">
+        <div className="bg-white text-black w-full md:max-w-2xl h-auto max-h-[90vh] rounded-3xl shadow-2xl overflow-hidden pointer-events-auto relative flex flex-col">
           
           {/* Header */}
           <div className="p-6 border-b border-gray-100 flex items-center justify-between bg-gray-50 shrink-0">
@@ -41,7 +41,7 @@ export function QuoteModal() {
             </div>
             <button 
               onClick={closeQuote}
-              className="p-4 -m-4 md:p-2 md:m-0 hover:bg-gray-200 rounded-full transition-colors text-gray-400 hover:text-black active:scale-95 touch-manipulation"
+              className="p-2 -mr-2 hover:bg-gray-200 rounded-full transition-colors text-gray-400 hover:text-black active:scale-95 touch-manipulation"
               aria-label="Bezárás"
             >
               <X size={24} />
@@ -49,7 +49,7 @@ export function QuoteModal() {
           </div>
 
           {/* Form Body - Scrollable */}
-          <div className="p-6 overflow-y-auto custom-scrollbar space-y-6 flex-grow pb-24 md:pb-6">
+          <div className="p-6 overflow-y-auto custom-scrollbar space-y-6 flex-grow">
             
             {/* Section 1: Project Details */}
             <div className="space-y-4">
@@ -145,17 +145,17 @@ export function QuoteModal() {
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Footer Actions */}
-          <div className="p-6 border-t border-gray-100 bg-gray-50 shrink-0 relative">
-            <button className="w-full bg-black text-white py-4 rounded-xl font-bold uppercase tracking-wider hover:bg-primary hover:text-black transition-all duration-300 flex items-center justify-center gap-2 group">
-              <span>Ajánlatkérés Küldése</span>
-              <Send size={18} className="group-hover:translate-x-1 transition-transform" />
-            </button>
-            <p className="text-xs text-center text-gray-400 mt-4">
-              Az adatok elküldésével elfogadja az Adatvédelmi Tájékoztatót.
-            </p>
+            {/* Submit Button (Moved inside scrollable area) */}
+            <div className="pt-6 border-t border-gray-100 mt-4">
+              <button className="w-full bg-black text-white py-4 rounded-xl font-bold uppercase tracking-wider hover:bg-primary hover:text-black transition-all duration-300 flex items-center justify-center gap-2 group">
+                <span>Ajánlatkérés Küldése</span>
+                <Send size={18} className="group-hover:translate-x-1 transition-transform" />
+              </button>
+              <p className="text-xs text-center text-gray-400 mt-4">
+                Az adatok elküldésével elfogadja az Adatvédelmi Tájékoztatót.
+              </p>
+            </div>
           </div>
         </div>
       </div>
