@@ -58,7 +58,7 @@ function FAQItem({ faq }: { faq: any }) {
         className="w-full flex items-center justify-between p-6 text-left focus:outline-none"
       >
         <span className="text-lg font-bold text-white pr-8">{faq.question}</span>
-        <div className={`w-8 h-8 rounded-full border flex items-center justify-center transition-colors ${isOpen ? 'bg-primary border-primary text-black' : 'border-white/20 text-white'}`}>
+        <div className={`shrink-0 w-8 h-8 rounded-full border flex items-center justify-center transition-colors ${isOpen ? 'bg-primary border-primary text-black' : 'border-white/20 text-white'}`}>
           {isOpen ? <Minus size={16} /> : <Plus size={16} />}
         </div>
       </button>
