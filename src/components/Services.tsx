@@ -58,7 +58,7 @@ const services = [
     title: "KLÍMATISZTÍTÁS",
     subtitle: "Higiénikus Levegő",
     description: "Feltöltés alatt..",
-    image: "https://images.unsplash.com/photo-1599818818579-d41933b4972d?q=80&w=2070&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=2069&auto=format&fit=crop", // Clean AC Unit
     details: [],
     colSpan: "md:col-span-1",
   },
