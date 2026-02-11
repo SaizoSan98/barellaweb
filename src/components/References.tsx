@@ -1,8 +1,8 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useMotionValue, useMotionTemplate } from "framer-motion";
 import Image from "next/image";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, MouseEvent } from "react";
 import { ArrowUpRight, ArrowRight, Phone } from "lucide-react";
 import { projectsData } from "@/lib/data";
 import Link from "next/link";
@@ -13,11 +13,7 @@ const projects = projectsData.slice(0, 3);
 
 export function References() {
   const containerRef = useRef(null);
-
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"],
-  });
+  const { openQuote } = useQuote();
 
   return (
     <section id="references" ref={containerRef} className="py-20 md:py-32 bg-black relative overflow-hidden">
@@ -31,7 +27,7 @@ export function References() {
 
       <div className="container mx-auto px-4 relative z-10">
         <div
-          className="mb-12 md:mb-24 flex flex-col md:flex-row md:items-end justify-between gap-8"
+          className="mb-12 md:mb-20 flex flex-col md:flex-row md:items-end justify-between gap-8"
         >
           <div>
             <div className="flex items-center gap-4 mb-6">
@@ -51,121 +47,156 @@ export function References() {
           </a>
         </div>
 
-        <div className="space-y-20 md:space-y-32">
-          {projects.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} />
-          ))}
+        {/* Mobile Scroll Hint */}
+        <div className="md:hidden flex items-center gap-2 text-primary/60 text-xs font-bold uppercase tracking-widest mb-4 animate-pulse">
+            <ArrowRight size={16} />
+            <span>Húzza el a folytatáshoz</span>
+        </div>
+
+        {/* MOBILE LAYOUT: Horizontal Snap Scroll with "Extreme" Cards */}
+        <div className="md:hidden flex overflow-x-auto snap-x snap-mandatory gap-4 pb-8 -mx-4 px-4 scrollbar-hide">
+            {projects.map((project, index) => (
+                <div key={project.id} className="snap-center shrink-0 w-[85vw]">
+                     <ProjectCardMobile project={project} index={index} openQuote={openQuote} />
+                </div>
+            ))}
+            {/* Spacer for end of list */}
+            <div className="w-2 shrink-0" />
+        </div>
+
+        {/* DESKTOP LAYOUT: Expanding Flex Cards */}
+        <div className="hidden md:block">
+            <ExpandingProjectsRow projects={projects} />
         </div>
       </div>
     </section>
   );
 }
 
-function ProjectCard({ project, index }: { project: any, index: number }) {
-  const ref = useRef(null);
-  const { openQuote } = useQuote();
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
-  
-  const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
-  const isEven = index % 2 === 0;
+function ProjectCardMobile({ project, index, openQuote }: { project: any, index: number, openQuote: () => void }) {
+    return (
+        <div className="relative h-[500px] rounded-3xl overflow-hidden group border border-white/10 shadow-2xl">
+            {/* Full Height Background Image */}
+            <div className="absolute inset-0">
+                <Image
+                    src={project.coverImage || project.image}
+                    alt={project.title}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    sizes="85vw"
+                />
+                {/* Gradient Overlay - Darker at bottom */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
+            </div>
 
-  return (
-    <div 
-      className="flex flex-col md:flex-row gap-8 md:gap-12 items-center"
-    >
-      <div className={`w-full md:w-3/5 relative group perspective-1000 ${!isEven && "md:order-last"}`}>
-        <div className="overflow-hidden rounded-2xl shadow-2xl transition-all duration-700 group-hover:shadow-[0_20px_50px_rgba(45,212,191,0.2)]">
-          {/* Mobile: Static position. Desktop: Parallax y */}
-          <motion.div style={{ y: 0 }} className="hidden md:block relative aspect-[16/9] w-full transform transition-transform duration-700 group-hover:scale-105">
-             <Image
-              src={project.coverImage || project.image}
-              alt={project.title}
-              fill
-              className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-110"
-              sizes="60vw"
-              priority={index === 0}
-            />
-            <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-700" />
-            
-            {/* Overlay Content on Hover - Desktop Only */}
-            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                <div className="w-20 h-20 rounded-full border border-white/30 backdrop-blur-md flex items-center justify-center bg-black/20">
-                    <ArrowUpRight className="text-white w-8 h-8" />
+            {/* Content Container */}
+            <div className="relative h-full flex flex-col justify-end p-6">
+                
+                {/* Category Badge */}
+                <div className="absolute top-6 right-6">
+                    <span className="inline-block px-3 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-primary text-[10px] font-bold uppercase tracking-widest">
+                        {project.category}
+                    </span>
+                </div>
+
+                <div className="mb-2">
+                     <h3 className="text-3xl font-black text-white uppercase leading-none mb-2 drop-shadow-lg">
+                        {project.title}
+                     </h3>
+                </div>
+
+                <p className="text-gray-300 text-sm font-medium mb-6 line-clamp-3">
+                    {project.description}
+                </p>
+
+                {/* Action Buttons */}
+                <div className="grid grid-cols-2 gap-3">
+                    <Link 
+                        href={`/referenciak/${project.id}`}
+                        className="bg-primary text-black py-3 rounded-xl font-bold uppercase text-xs tracking-wider flex items-center justify-center gap-2 hover:bg-white transition-colors"
+                    >
+                        Megtekintés <ArrowUpRight size={14} />
+                    </Link>
+                    <button 
+                        onClick={openQuote}
+                        className="bg-white/10 backdrop-blur-md border border-white/20 text-white py-3 rounded-xl font-bold uppercase text-xs tracking-wider flex items-center justify-center gap-2 hover:bg-white/20 transition-colors"
+                    >
+                        Ajánlat <ArrowRight size={14} />
+                    </button>
                 </div>
             </div>
-          </motion.div>
+        </div>
+    )
+}
 
-          {/* Mobile Image Version (Static, Optimized) */}
-          <div className="md:hidden relative aspect-[16/9] w-full">
-             <Image
-              src={project.coverImage || project.image}
-              alt={project.title}
-              fill
-              className="object-cover"
-              sizes="100vw"
-              priority={index === 0}
-            />
-            {/* Mobile "Open" Badge */}
-            <div className="absolute bottom-4 right-4 bg-primary text-black text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1 shadow-lg z-10">
-              MEGNYITÁS <ArrowUpRight size={12} />
+function ExpandingProjectsRow({ projects }: { projects: any[] }) {
+    const [activeIndex, setActiveIndex] = useState<number | null>(0); // Default first item active
+
+    return (
+        <div className="flex w-full gap-4 h-[600px]" onMouseLeave={() => setActiveIndex(null)}>
+            {projects.map((project, index) => (
+                <ProjectCardExpanding 
+                    key={project.id} 
+                    project={project} 
+                    isActive={activeIndex === index}
+                    onHover={() => setActiveIndex(index)}
+                />
+            ))}
+        </div>
+    );
+}
+
+function ProjectCardExpanding({ project, isActive, onHover }: { project: any; isActive: boolean; onHover: () => void }) {
+    return (
+        <Link
+            href={`/referenciak/${project.id}`}
+            className={`relative rounded-3xl overflow-hidden cursor-pointer transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group ${isActive ? 'flex-[2]' : 'flex-1'}`}
+            onMouseEnter={onHover}
+        >
+             {/* Background Image */}
+            <div className="absolute inset-0">
+                <Image
+                    src={project.coverImage || project.image}
+                    alt={project.title}
+                    fill
+                    className={`object-cover transition-transform duration-700 ${isActive ? 'scale-105' : 'scale-100 grayscale-[50%]'}`}
+                    sizes="(max-width: 1200px) 33vw, 60vw"
+                />
+                <div className={`absolute inset-0 bg-black/60 transition-opacity duration-500 ${isActive ? 'opacity-30' : 'opacity-60 hover:opacity-40'}`} />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90" />
             </div>
-          </div>
-        </div>
-        
-        {/* Corner Accents - Enhanced (Desktop Only) */}
-        <div className="hidden md:block">
-            <div className="absolute -top-4 -left-4 w-16 h-16 border-t-2 border-l-2 border-primary/50 opacity-0 group-hover:opacity-100 transition-all duration-500 delay-100" />
-            <div className="absolute -bottom-4 -right-4 w-16 h-16 border-b-2 border-r-2 border-primary/50 opacity-0 group-hover:opacity-100 transition-all duration-500 delay-100" />
-        </div>
-      </div>
 
-      <div className="w-full md:w-2/5 md:px-8">
-        <div className="flex items-center gap-4 mb-4">
-            <div className="h-[1px] w-8 bg-primary/50" />
-            <span className="text-primary font-black tracking-[0.2em] text-xs uppercase">{project.category}</span>
-        </div>
-        <h3 className="text-3xl md:text-5xl font-black text-white mb-4 md:mb-6 uppercase tracking-tighter leading-none">
-            {project.title}
-        </h3>
-        <p className="text-gray-400 text-base md:text-lg leading-relaxed mb-6 md:mb-8 font-light border-l-2 border-white/10 pl-6">
-          {project.description}
-        </p>
-        
-        <div className="flex flex-col gap-4">
-            <Link 
-              href={`/referenciak/${project.id}`}
-              prefetch={false}
-              className="group inline-flex items-center gap-4 text-white font-bold text-sm uppercase tracking-widest hover:text-primary transition-colors"
-            >
-              <span className="relative">
-                Projekt megtekintése
-                <span className="absolute -bottom-2 left-0 w-0 h-[1px] bg-primary transition-all duration-300 group-hover:w-full" />
-              </span>
-              <div className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center group-hover:border-primary group-hover:bg-primary group-hover:text-black transition-all duration-300">
-                <ArrowUpRight size={14} />
-              </div>
-            </Link>
+            {/* Content */}
+            <div className="relative h-full flex flex-col justify-end p-8 z-10">
+                
+                {/* Vertical Title for Inactive State */}
+                <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${isActive ? 'opacity-0 pointer-events-none' : 'opacity-100 delay-100'}`}>
+                    <h3 className="text-3xl font-black text-white uppercase tracking-widest [writing-mode:vertical-rl] rotate-180 whitespace-nowrap opacity-80">
+                        {project.title}
+                    </h3>
+                </div>
 
-            {/* Inline CTA Buttons for Mobile */}
-            <div className="md:hidden flex gap-3 mt-2">
-                 <button 
-                   onClick={openQuote}
-                   className="flex-1 bg-white/10 text-white py-3 rounded-xl font-bold uppercase text-xs tracking-wider flex items-center justify-center gap-2"
-                 >
-                   Ajánlatkérés <ArrowRight size={14} />
-                 </button>
-                 <a 
-                   href="tel:+36301738866"
-                   className="flex-1 border border-white/10 text-white py-3 rounded-xl font-bold uppercase text-xs tracking-wider flex items-center justify-center gap-2"
-                 >
-                   Hívás <Phone size={14} />
-                 </a>
+                {/* Active Content */}
+                <div className={`transition-all duration-500 transform ${isActive ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0 pointer-events-none'}`}>
+                     <span className="inline-block px-3 py-1 rounded-full bg-primary/20 backdrop-blur-md border border-primary/30 text-primary text-[10px] font-bold uppercase tracking-widest mb-4">
+                        {project.category}
+                     </span>
+                     <h3 className="text-5xl font-black text-white uppercase leading-none mb-6 drop-shadow-lg">
+                        {project.title}
+                     </h3>
+                     <p className="text-gray-300 text-lg font-medium mb-8 max-w-xl line-clamp-3">
+                        {project.description}
+                     </p>
+
+                     <div className="flex gap-4">
+                        <div 
+                            className="bg-white text-black py-4 px-8 rounded-xl font-bold uppercase text-sm tracking-wider transition-all duration-300 flex items-center gap-2 group-hover:bg-primary"
+                        >
+                            Projekt Megtekintése <ArrowUpRight size={18} />
+                        </div>
+                     </div>
+                </div>
             </div>
-        </div>
-      </div>
-    </div>
-  );
+        </Link>
+    )
 }
