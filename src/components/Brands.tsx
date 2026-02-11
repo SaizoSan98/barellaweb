@@ -1,16 +1,17 @@
 "use client";
 
-// Simple SVG placeholders for brands if real logos are not available.
-// In a real project, these should be replaced with actual brand SVG logos.
+import Image from "next/image";
+
+// Brand data with logo paths
 const brands = [
-  { name: "Daikin", color: "#0099D8" },
-  { name: "Mitsubishi", color: "#E60012" },
-  { name: "Panasonic", color: "#00438F" },
-  { name: "Gree", color: "#009743" },
-  { name: "Bosch", color: "#E20015" },
-  { name: "Toshiba", color: "#0096D6" },
-  { name: "Samsung", color: "#FF0000" },
-  { name: "LG", color: "#1428A0" },
+  { name: "Daikin", logo: "/images/brands/daikin.svg" },
+  { name: "Mitsubishi", logo: "/images/brands/mitsubishi.svg" },
+  { name: "Panasonic", logo: "/images/brands/panasonic.svg" },
+  { name: "Gree", logo: "/images/brands/gree.svg" },
+  { name: "Bosch", logo: "/images/brands/bosch.svg" },
+  { name: "Toshiba", logo: "/images/brands/toshiba.svg" },
+  { name: "Samsung", logo: "/images/brands/samsung.svg" },
+  { name: "LG", logo: "/images/brands/lg.svg" },
 ];
 
 export function Brands() {
@@ -32,36 +33,51 @@ export function Brands() {
           {/* First set of brands */}
           <div className="flex gap-12 md:gap-24 px-6 md:px-12 items-center">
             {brands.map((brand, index) => (
-              <span 
+              <div 
                 key={`b1-${index}`} 
-                className="text-xl md:text-2xl font-black text-gray-600 uppercase tracking-widest hover:text-white transition-colors cursor-default select-none"
+                className="relative w-32 h-12 md:w-40 md:h-16 opacity-50 hover:opacity-100 transition-opacity duration-300 grayscale hover:grayscale-0 cursor-default"
               >
-                {brand.name}
-              </span>
+                <Image
+                  src={brand.logo}
+                  alt={`${brand.name} logo`}
+                  fill
+                  className="object-contain"
+                />
+              </div>
             ))}
           </div>
           
           {/* Second set of brands */}
           <div className="flex gap-12 md:gap-24 px-6 md:px-12 items-center">
             {brands.map((brand, index) => (
-              <span 
+              <div 
                 key={`b2-${index}`} 
-                className="text-xl md:text-2xl font-black text-gray-600 uppercase tracking-widest hover:text-white transition-colors cursor-default select-none"
+                className="relative w-32 h-12 md:w-40 md:h-16 opacity-50 hover:opacity-100 transition-opacity duration-300 grayscale hover:grayscale-0 cursor-default"
               >
-                {brand.name}
-              </span>
+                <Image
+                  src={brand.logo}
+                  alt={`${brand.name} logo`}
+                  fill
+                  className="object-contain"
+                />
+              </div>
             ))}
           </div>
 
           {/* Third set of brands for ultra-wide screens to ensure coverage */}
           <div className="flex gap-12 md:gap-24 px-6 md:px-12 items-center">
             {brands.map((brand, index) => (
-              <span 
+              <div 
                 key={`b3-${index}`} 
-                className="text-xl md:text-2xl font-black text-gray-600 uppercase tracking-widest hover:text-white transition-colors cursor-default select-none"
+                className="relative w-32 h-12 md:w-40 md:h-16 opacity-50 hover:opacity-100 transition-opacity duration-300 grayscale hover:grayscale-0 cursor-default"
               >
-                {brand.name}
-              </span>
+                <Image
+                  src={brand.logo}
+                  alt={`${brand.name} logo`}
+                  fill
+                  className="object-contain"
+                />
+              </div>
             ))}
           </div>
         </div>
@@ -69,3 +85,4 @@ export function Brands() {
     </section>
   );
 }
+

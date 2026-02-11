@@ -6,18 +6,30 @@ Ez a dokumentum részletezi a BARELLA weboldal jelenlegi funkcióit, technológi
 - **Keretrendszer:** Next.js 16 (App Router)
 - **Nyelv:** TypeScript
 - **Stílus:** Tailwind CSS v4
-- **Animációk:** Framer Motion
+- **Animációk:** Framer Motion & CSS Marquee
 - **Ikonkészlet:** Lucide React
+- **Képkezelés:** Next.js Image Optimization (SVG & WebP)
 - **Hosting/Build:** Vercel kompatibilis (Static Export támogatás)
 
 ## 🌟 Fő Funkciók
 
 ### 1. Kezdőlap (Landing Page)
 - **Hero Szekció:**
+  - **ÚJ:** Logó integráció a főcím bal oldalán (Desktop) és középen (Mobile).
   - Dinamikus, mozgó szöveges háttér (marquee effect) "BARELLA ÉPÜLETGÉPÉSZET", "HŐSZIVATTYÚK", stb. feliratokkal.
   - Prémium "Dark Mode" esztétika neon cián (teal-400) kiemelésekkel.
   - Mobilon optimalizált animáció sebesség (2x gyorsabb a dinamikusabb hatásért).
-- **Szolgáltatások:** Kártyás elrendezésű szolgáltatás bemutató, hover effektekkel.
+- **Forgalmazott Márkák (ÚJ!):**
+  - Automatikusan görgető (marquee) sáv a partnerek logóival.
+  - SVG logók (Daikin, Mitsubishi, Panasonic, Gree, Bosch, Toshiba, Samsung, LG).
+  - Interaktív hover effektek: Szürkeárnyalatosból színesre váltás és átlátszóság változás.
+- **Szolgáltatások:** Kártyás elrendezésű szolgáltatás bemutató, spotlight hover effektekkel.
+- **Hogyan dolgozunk? (Folyamat) (ÚJ!):**
+  - Lépésről lépésre bemutatott munkafolyamat (Kapcsolatfelvétel -> Felmérés -> Tervezés -> Kivitelezés).
+  - Vizuális összekötő elemek és számozott lépések.
+- **Gyakori Kérdések (FAQ) (ÚJ!):**
+  - Harmonika (Accordion) stílusú lenyíló kérdés-válasz szekció.
+  - Kategorizált kérdések a könnyebb átláthatóságért.
 - **Referenciák ízelítő:** Kiemelt projektek megjelenítése.
 - **Kapcsolat űrlap & Lábléc:** Közvetlen elérhetőségek és gyorslinkek.
 
@@ -32,7 +44,7 @@ Ez a dokumentum részletezi a BARELLA weboldal jelenlegi funkcióit, technológi
   - **Galéria:** Nagy felbontású képek grid elrendezésben.
   - **Navigáció:** "Vissza a referenciákhoz" gomb.
 
-### 3. Hasznos Cikkek (Blog) - **ÚJ!**
+### 3. Hasznos Cikkek (Blog)
 - **Lista oldal (`/cikkek`):**
   - A referenciákhoz hasonló vizuális stílus, de tartalom-fókuszú elrendezéssel.
   - Kártyákon kategória, dátum és rövid bevezető (excerpt) megjelenítése.

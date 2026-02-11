@@ -75,9 +75,11 @@ export function QuoteModal() {
                   <div className="relative">
                      <select className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 px-4 text-black focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all appearance-none">
                         <option>Klíma telepítés</option>
+                        <option>Klímatisztítás</option>
                         <option>Hőszivattyú rendszer</option>
                         <option>Padlófűtés</option>
                         <option>Mennyezetfűtés</option>
+                        <option>Vízvezeték–csatorna kivitelezés</option>
                         <option>Komplex gépészet</option>
                         <option>Egyéb / Tanácsadás</option>
                      </select>
