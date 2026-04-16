@@ -186,7 +186,7 @@ export function Services({ services: dbServices }: { services: Service[] }) {
   }));
 
   return (
-    <section id="services" className="py-20 md:py-32 bg-background relative border-t border-white/5 overflow-hidden">
+    <section id="services" className="py-12 md:py-24 bg-background relative border-t border-white/5 overflow-hidden">
       {/* Background Gradients */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[128px]" />
@@ -194,17 +194,16 @@ export function Services({ services: dbServices }: { services: Service[] }) {
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
-        <div className="mb-12 md:mb-20">
-          <div className="flex items-center gap-4 mb-6">
+        <div className="mb-10 md:mb-16">
+          <div className="flex items-center gap-4 mb-4">
              <div className="h-[1px] w-12 bg-primary" />
-             <span className="text-primary font-bold tracking-[0.2em] uppercase text-sm">Szolgáltatások</span>
+             <span className="text-primary font-bold tracking-[0.3em] uppercase text-[10px] md:text-sm">Szolgáltatások</span>
           </div>
-          <h2 className="text-4xl md:text-6xl font-black tracking-tighter text-white mb-6 uppercase">
+          <h2 className="text-4xl md:text-6xl font-black tracking-tighter text-white mb-4 uppercase">
             Mérnöki <span className="text-gray-600">megoldások</span>
           </h2>
-          <p className="text-xl text-gray-400 max-w-2xl font-light">
+          <p className="text-lg md:text-xl text-gray-400 max-w-2xl font-light">
             Nem csak szerelünk. Tervezünk, optimalizálunk és rendszert építünk.
-            Kattintson a szolgáltatásokra a részletes leírásért.
           </p>
         </div>
 
@@ -224,8 +223,8 @@ export function Services({ services: dbServices }: { services: Service[] }) {
             <div className="w-2 shrink-0" />
         </div>
 
-        {/* DESKTOP LAYOUT: Grid with Expandable Cards */}
-        <div className="hidden md:grid grid-cols-3 gap-6">
+        {/* DESKTOP LAYOUT: Balanced Bento Grid */}
+        <div className="hidden md:grid grid-cols-3 gap-4 lg:gap-6">
             {services.map((service) => (
                 <ServiceCardDesktop 
                     key={service.title} 
@@ -254,9 +253,9 @@ export function Services({ services: dbServices }: { services: Service[] }) {
 function ServiceCardDesktop({ service, openQuote, onExpand }: { service: ServiceItem; openQuote: () => void; onExpand: () => void }) {
     return (
         <motion.div 
-            className="relative h-[480px] rounded-3xl overflow-hidden cursor-pointer group border border-white/10 hover:border-primary/50 transition-all duration-300"
+            className={`relative h-[480px] rounded-2xl overflow-hidden cursor-pointer group border border-white/5 hover:border-primary/40 transition-all duration-500 ${service.colSpan}`}
             onClick={onExpand}
-            whileHover={{ y: -8 }}
+            whileHover={{ y: -4 }}
             transition={{ duration: 0.3 }}
         >
             {/* Background Image */}
@@ -287,13 +286,13 @@ function ServiceCardDesktop({ service, openQuote, onExpand }: { service: Service
 
                 {/* Bottom: Text */}
                 <div>
-                    <span className="inline-block px-3 py-1 rounded-full bg-primary/20 backdrop-blur-md border border-primary/30 text-primary text-[10px] font-bold uppercase tracking-widest mb-3">
+                    <span className="inline-block px-3 py-1 rounded-full bg-primary/20 backdrop-blur-md border border-primary/30 text-primary text-[9px] font-bold uppercase tracking-[0.2em] mb-3">
                         {service.subtitle}
                     </span>
-                    <h3 className="text-2xl font-black text-white uppercase leading-tight mb-3">
+                    <h3 className="text-2xl font-black text-white uppercase leading-tight mb-3 tracking-tighter">
                         {service.title}
                     </h3>
-                    <p className="text-gray-300 text-sm font-medium line-clamp-2 mb-4">
+                    <p className="text-gray-400 text-sm font-medium line-clamp-2 mb-4">
                         {service.description}
                     </p>
                     
