@@ -16,6 +16,8 @@ export default function ProductsAdminPage() {
   const [vatLabel, setVatLabel] = useState("");
   const [availabilityInfo, setAvailabilityInfo] = useState("");
   const [modalVatInfo, setModalVatInfo] = useState("");
+  const [sectionTitle, setSectionTitle] = useState("");
+  const [sectionDescription, setSectionDescription] = useState("");
 
   useEffect(() => {
     fetch("/api/admin/products").then(r => r.json()).then(setProductList);
@@ -24,6 +26,8 @@ export default function ProductsAdminPage() {
       setVatLabel(data.product_card_vat_label || "ÁFA-val");
       setAvailabilityInfo(data.product_card_availability_info || "A termék elérhetőségéről tájékozódjon telefonon, vagy valamelyik elérhetőségünkön!");
       setModalVatInfo(data.product_modal_vat_info || "Az árak tartalmazzák az ÁFÁT!");
+      setSectionTitle(data.product_section_title || "Premium kínálat");
+      setSectionDescription(data.product_section_description || "Kiváló minőségű klíma és fűtési rendszerek modern technológiával, szakértői telepítéssel");
     });
   }, []);
 
@@ -160,6 +164,8 @@ export default function ProductsAdminPage() {
           product_card_vat_label: vatLabel,
           product_card_availability_info: availabilityInfo,
           product_modal_vat_info: modalVatInfo,
+          product_section_title: sectionTitle,
+          product_section_description: sectionDescription,
         }),
       });
       alert("Beállítások sikeresen mentve!");
@@ -229,7 +235,29 @@ export default function ProductsAdminPage() {
 
         {/* Global Product Settings */}
         <div className="bg-white border border-gray-200 rounded-xl p-6 mb-8">
-          <h3 className="font-bold text-gray-900 mb-4 uppercase text-sm tracking-wider">Termék kártya feliratok</h3>
+          <h3 className="font-bold text-gray-900 mb-4 uppercase text-sm tracking-wider text-primary">Szekció Fejléc</h3>
+          <div className="space-y-4 mb-8 pb-8 border-b border-gray-100">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Szekció címe (pl. Premium kínálat)</label>
+              <input
+                type="text"
+                value={sectionTitle}
+                onChange={e => setSectionTitle(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 bg-white focus:outline-none focus:border-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Szekció leírása (cím alatt)</label>
+              <textarea
+                value={sectionDescription}
+                onChange={e => setSectionDescription(e.target.value)}
+                rows={2}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 bg-white focus:outline-none focus:border-blue-500"
+              />
+            </div>
+          </div>
+
+          <h3 className="font-bold text-gray-900 mb-4 uppercase text-sm tracking-wider text-primary">Termék kártya és modál feliratok</h3>
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">ÁFA felirat (pl. ÁFA-val)</label>
