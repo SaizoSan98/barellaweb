@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ArrowRight, Phone, Check, Tag } from "lucide-react";
+import { X, ArrowRight, Phone, Check, Tag, ChevronDown } from "lucide-react";
 import type { Product } from "@/db/schema";
 import { useQuote } from "@/components/QuoteContext";
 
@@ -219,7 +219,7 @@ function ProductDetailModal({ product, settings, onClose, openQuote }: { product
           </AnimatePresence>
           
           {images.length > 1 && (
-            <div className="absolute bottom-6 left-0 right-0 flex justify-center gap-2 z-10 px-4">
+            <div className="absolute bottom-14 md:bottom-6 left-0 right-0 flex justify-center gap-2 z-10 px-4">
               {images.map((_ ,idx) => (
                 <button
                   key={idx}
@@ -234,6 +234,14 @@ function ProductDetailModal({ product, settings, onClose, openQuote }: { product
               <span className="bg-primary text-black text-[10px] md:text-xs font-bold px-3 py-1.5 rounded-md uppercase tracking-wider shadow-md">
                 {product.exclusiveLabel || "BARELLA EXCLUSIVE"}
               </span>
+          </div>
+
+          {/* Mobile scroll indicator */}
+          <div className="absolute bottom-3 left-0 right-0 flex justify-center md:hidden z-20 pointer-events-none">
+            <div className="flex flex-col items-center animate-bounce text-gray-800 bg-white/80 backdrop-blur-sm px-4 py-1.5 rounded-full shadow-sm border border-white/50">
+              <span className="text-[9px] font-black uppercase tracking-widest">Részletek & Árak</span>
+              <ChevronDown size={14} className="mt-0.5" />
+            </div>
           </div>
         </div>
 
