@@ -189,13 +189,13 @@ function ProductDetailModal({ product, settings, onClose, openQuote }: { product
         </button>
 
         {/* Left Aspect: Immersive Visuals */}
-        <div className="relative w-full md:w-[55%] h-[40vh] md:h-full overflow-hidden bg-black">
+        <div className="relative w-full md:w-1/2 h-[45vh] md:h-full overflow-hidden bg-zinc-900 border-r border-white/5">
           <AnimatePresence mode="wait">
             <motion.div 
               key={currentImageIndex}
-              initial={{ opacity: 0, scale: 1.2 }}
+              initial={{ opacity: 0, scale: 1.1 }}
               animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
+              exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.8 }}
               className="absolute inset-0"
             >
@@ -204,22 +204,22 @@ function ProductDetailModal({ product, settings, onClose, openQuote }: { product
                 alt={product.brand}
                 fill
                 className="object-cover"
-                sizes="(max-width: 768px) 100vw, 60vw"
+                sizes="(max-width: 768px) 100vw, 50vw"
                 priority
               />
             </motion.div>
           </AnimatePresence>
           
-          <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:to-[#050505]/30" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#050505]/60 via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:to-[#050505]/20" />
           
           {/* Slider controls */}
           {images.length > 1 && (
-            <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-3 z-10 px-4">
+            <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-2.5 z-10 px-4">
               {images.map((_ ,idx) => (
                 <button
                   key={idx}
                   onClick={() => setCurrentImageIndex(idx)}
-                  className={`h-1.5 transition-all duration-500 rounded-full shadow-lg ${idx === currentImageIndex ? 'w-10 bg-primary' : 'w-2 bg-white/20 hover:bg-white/40'}`}
+                  className={`h-1 transition-all duration-500 rounded-full shadow-lg ${idx === currentImageIndex ? 'w-10 bg-primary' : 'w-2 bg-white/20 hover:bg-white/40'}`}
                 />
               ))}
             </div>
@@ -233,12 +233,12 @@ function ProductDetailModal({ product, settings, onClose, openQuote }: { product
 
         {/* Right Aspect: Editorial Content */}
         <div className="relative flex-1 flex flex-col h-[60vh] md:h-auto overflow-y-auto no-scrollbar bg-[#050505] border-l border-white/5">
-          <div className="p-8 md:p-16 flex-1">
-            <div className="mb-4">
-               <span className="text-primary text-xs font-black uppercase tracking-[0.5em] mb-4 block">BARELLA EXCLUSIVE</span>
-               <h2 className="text-5xl md:text-8xl font-black text-white uppercase tracking-tighter leading-[0.85] mb-6">
+          <div className="p-8 md:p-14 lg:p-20 flex-1">
+            <div className="mb-8">
+               <span className="text-primary text-[10px] md:text-sm font-black uppercase tracking-[0.4em] mb-4 block">BARELLA EXCLUSIVE</span>
+               <h2 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter leading-[1.1] mb-6">
                 {product.brand} <br />
-                <span className="text-zinc-800">{product.type}</span>
+                <span className="text-zinc-700">{product.type}</span>
               </h2>
             </div>
 
@@ -282,19 +282,19 @@ function ProductDetailModal({ product, settings, onClose, openQuote }: { product
           </div>
 
           {/* Sticky Bottom UX for high conversion */}
-          <div className="sticky bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-[#050505] via-[#050505] to-transparent pt-12 md:px-16 md:pb-16">
+          <div className="sticky bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-[#050505] via-[#050505] to-transparent pt-12 md:px-14 md:pb-14">
             <div className="flex flex-col sm:flex-row gap-4">
               <button 
                 onClick={() => { onClose(); openQuote(); }}
-                className="flex-[3] bg-primary hover:bg-white text-black py-5 md:py-8 rounded-[2rem] md:rounded-[2.5rem] font-black uppercase text-sm md:text-xl tracking-[0.2em] transition-all transform hover:scale-[1.02] active:scale-95 shadow-[0_20px_40px_rgba(45,212,191,0.3)] flex items-center justify-center gap-4"
+                className="flex-[1.8] bg-primary hover:bg-white text-black py-4 md:py-6 rounded-2xl md:rounded-3xl font-black uppercase text-xs md:text-base tracking-[0.1em] transition-all transform hover:scale-[1.01] active:scale-95 shadow-2xl shadow-primary/20 flex items-center justify-center gap-2"
               >
-                AJÁNLATOT KÉREK <ArrowRight size={24} />
+                INGYENES AJÁNLATOT KÉREK <ArrowRight size={20} />
               </button>
               <a 
                 href="tel:+36301738866"
-                className="flex-1 bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 text-white py-5 md:py-8 rounded-[2rem] md:rounded-[2.5rem] font-black uppercase text-sm md:text-xl tracking-[0.2em] transition-all flex items-center justify-center gap-4"
+                className="flex-1 bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-white py-4 md:py-6 rounded-2xl md:rounded-3xl font-black uppercase text-xs md:text-base tracking-[0.1em] transition-all flex items-center justify-center gap-2"
               >
-                <Phone size={24} /> HÍVÁS
+                <Phone size={20} /> HÍVÁS
               </a>
             </div>
           </div>
