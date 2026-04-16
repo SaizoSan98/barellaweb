@@ -121,7 +121,7 @@ export function Products({ products, settings }: { products: Product[], settings
                             {formatPrice(displayPrice)} <span className="text-[10px] md:text-xs opacity-40 ml-1 uppercase">FT</span>
                           </span>
                           <span className="text-[10px] text-zinc-600 uppercase font-bold tracking-tighter mt-0.5">
-                            {product.vatInfo || settings.product_card_vat_label || "ÁFA-val"}
+                            {product.vatInfo || "ÁFA-val"}
                           </span>
                         </div>
                       ) : (
@@ -229,7 +229,7 @@ function ProductDetailModal({ product, settings, onClose, openQuote }: { product
 
           <div className="absolute top-6 left-6 z-10">
               <span className="bg-primary text-black text-[10px] md:text-xs font-bold px-3 py-1.5 rounded-md uppercase tracking-wider shadow-md">
-                {product.exclusiveLabel || settings.product_modal_exclusive_label || "BARELLA EXCLUSIVE"}
+                {product.exclusiveLabel || "BARELLA EXCLUSIVE"}
               </span>
           </div>
         </div>
@@ -244,7 +244,7 @@ function ProductDetailModal({ product, settings, onClose, openQuote }: { product
                 {product.brand} <span className="font-light text-gray-500">{product.type}</span>
               </h2>
               <div className="inline-flex items-center px-3 py-1 bg-green-50 text-green-700 border border-green-200 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-wider">
-                {product.availabilityInfo || settings.product_card_availability_info || "RAKTÁRKÉSZLETEN"}
+                {product.availabilityInfo || "RAKTÁRKÉSZLETEN"}
               </div>
             </div>
 
@@ -271,28 +271,28 @@ function ProductDetailModal({ product, settings, onClose, openQuote }: { product
             )}
 
             {/* Pricing Box */}
-            <div className="bg-gray-50 p-5 md:p-6 rounded-2xl border border-gray-100 mb-6">
-              <div className="flex flex-col">
-                <span className="text-gray-500 text-[10px] md:text-xs font-bold uppercase tracking-widest mb-2">
-                  {product.priceTitle || settings.product_price_title || "VÁRHATÓ KIVITELEZÉSI ÁR"}
-                </span>
-                
-                {displayPrice ? (
-                  <div className="flex items-baseline gap-2 mb-1">
-                    <span className="text-gray-900 text-3xl md:text-5xl font-black tracking-tight">
-                      {formatPrice(displayPrice)}
-                    </span>
-                    <span className="text-gray-500 font-bold text-lg">Ft</span>
-                  </div>
-                ) : (
-                  <span className="text-gray-900 text-2xl font-bold mb-1">Ár kérésre</span>
-                )}
-
-                {(displayPrice ?? 0) > 0 && (
-                  <p className="text-gray-500 text-[10px] md:text-xs font-semibold uppercase tracking-wider">
-                    {product.vatInfo || settings.product_modal_vat_info || "AZ ÁRAK TARTALMAZZÁK AZ ÁFÁT"}
-                  </p>
-                )}
+             <div className="bg-gray-50 p-5 md:p-6 rounded-2xl border border-gray-100 mb-6">
+               <div className="flex flex-col">
+                 <span className="text-gray-500 text-[10px] md:text-xs font-bold uppercase tracking-widest mb-2">
+                   {product.priceTitle || "VÁRHATÓ KIVITELEZÉSI ÁR"}
+                 </span>
+                 
+                 {displayPrice ? (
+                   <div className="flex items-baseline gap-2 mb-1">
+                     <span className="text-gray-900 text-3xl md:text-5xl font-black tracking-tight">
+                       {formatPrice(displayPrice)}
+                     </span>
+                     <span className="text-gray-500 font-bold text-lg">Ft</span>
+                   </div>
+                 ) : (
+                   <span className="text-gray-900 text-2xl font-bold mb-1">Ár kérésre</span>
+                 )}
+ 
+                 {(displayPrice ?? 0) > 0 && (
+                   <p className="text-gray-500 text-[10px] md:text-xs font-semibold uppercase tracking-wider">
+                     {product.vatInfo || "AZ ÁRAK TARTALMAZZÁK AZ ÁFÁT"}
+                   </p>
+                 )}
 
                 {product.priceIncludes && (
                   <div className="mt-4 pt-4 border-t border-gray-200">
