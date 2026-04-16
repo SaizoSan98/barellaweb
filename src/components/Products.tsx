@@ -183,12 +183,12 @@ export function Products({ products, settings }: { products: Product[], settings
                           <span className="text-gray-500 text-lg">Ár egyeztetés alatt</span>
                         )}
                       </div>
-                      <p className="text-sm text-gray-500">Az árak tartalmazzák az ÁFÁT!</p>
+                      <p className="text-sm text-gray-500">{settings.product_modal_vat_info || "Az árak tartalmazzák az ÁFÁT!"}</p>
                     </div>
 
                     <div className="bg-gray-50 border border-gray-200 rounded-xl p-6">
                       <p className="text-gray-700 text-sm">
-                        A termék elérhetőségéről tájékozódjon telefonon, vagy valamelyik elérhetőségünkön!
+                        {settings.product_card_availability_info || "A termék elérhetőségéről tájékozódjon telefonon, vagy valamelyik elérhetőségünkön!"}
                       </p>
                     </div>
 
