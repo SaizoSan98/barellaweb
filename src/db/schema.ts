@@ -1,7 +1,7 @@
 import { pgTable, serial, varchar, text, timestamp, boolean, integer, json } from 'drizzle-orm/pg-core';
 
 // Site-wide text settings (hero, contact, footer etc.)
-// Updated author settings for Matahari13 - Deployment retry
+// Final deployment trigger - Matahari13
 export const siteSettings = pgTable('site_settings', {
   id: serial('id').primaryKey(),
   key: varchar('key', { length: 100 }).notNull().unique(),
