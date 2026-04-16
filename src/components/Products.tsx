@@ -99,7 +99,9 @@ export function Products({ products, settings }: { products: Product[], settings
                   {/* Dynamic Tags */}
                   <div className="absolute top-4 left-4 flex flex-col gap-2">
                     {hasSale && (
-                      <span className="bg-red-500 text-white text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-tighter shadow-xl">HOT SALE</span>
+                      <span className="bg-red-500 text-white text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-tighter shadow-xl">
+                        {settings.product_sale_label || "AKCIÓ"}
+                      </span>
                     )}
                     <span className="bg-white/5 backdrop-blur-xl border border-white/10 text-white text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-[0.2em]">{product.brand}</span>
                   </div>
@@ -235,7 +237,9 @@ function ProductDetailModal({ product, settings, onClose, openQuote }: { product
         <div className="relative flex-1 flex flex-col h-[60vh] md:h-auto overflow-y-auto no-scrollbar bg-[#050505] border-l border-white/5">
           <div className="p-8 md:p-14 lg:p-20 flex-1">
             <div className="mb-8">
-               <span className="text-primary text-[10px] md:text-sm font-black uppercase tracking-[0.4em] mb-4 block">BARELLA EXCLUSIVE</span>
+               <span className="text-primary text-[10px] md:text-sm font-black uppercase tracking-[0.4em] mb-4 block">
+                 {settings.product_modal_exclusive_label || "BARELLA EXCLUSIVE"}
+               </span>
                <h2 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter leading-[1.1] mb-6">
                 {product.brand} <br />
                 <span className="text-zinc-700">{product.type}</span>
@@ -243,7 +247,7 @@ function ProductDetailModal({ product, settings, onClose, openQuote }: { product
             </div>
 
             <p className="text-zinc-400 text-base md:text-xl leading-relaxed mb-12 font-light max-w-lg">
-              {product.description || "Ez a prémium berendezés a legmagasabb minőséget képviseli kínálatunkban. Kimagasló mérnöki munka, hosszú élettartam és esztétikus megjelenés jellemzi minden modellünket."}
+              {product.description || "Ez a prémium berendezés a legmagasabb minőséget képviseli kínálatunkbal. Kimagasló mérnöki munka, hosszú élettartam és esztétikus megjelenés jellemzi minden modellünket."}
             </p>
 
             {/* Bento Grid Specifications */}
@@ -263,7 +267,9 @@ function ProductDetailModal({ product, settings, onClose, openQuote }: { product
                <div className="absolute top-0 right-0 w-40 h-40 bg-primary/5 rounded-full blur-[60px] group-hover:bg-primary/10 transition-colors" />
                <div className="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-8">
                   <div>
-                    <span className="text-zinc-500 text-[10px] font-black uppercase tracking-[0.4em] mb-4 block">VÁRHATÓ KIVITELEZÉSI ÁR</span>
+                    <span className="text-zinc-500 text-[10px] font-black uppercase tracking-[0.4em] mb-4 block">
+                      {settings.product_price_title || "VÁRHATÓ KIVITELEZÉSI ÁR"}
+                    </span>
                     <div className="flex items-baseline gap-2">
                       <span className="text-white text-5xl md:text-7xl font-black tracking-tighter leading-none">
                         {formatPrice(product.salePrice || product.price)}
@@ -271,6 +277,12 @@ function ProductDetailModal({ product, settings, onClose, openQuote }: { product
                       <span className="text-primary text-xl md:text-2xl font-black uppercase ml-1 opacity-80 tracking-tighter">FT</span>
                     </div>
                     <p className="text-zinc-600 text-[10px] md:text-xs mt-4 font-black uppercase tracking-widest">{settings.product_modal_vat_info || "AZ ÁRAK TARTALMAZZÁK AZ ÁFÁT"}</p>
+                    
+                    {product.priceIncludes && (
+                      <p className="text-primary/70 text-[10px] md:text-xs mt-3 font-bold uppercase tracking-wider max-w-sm italic">
+                        * {product.priceIncludes}
+                      </p>
+                    )}
                   </div>
                   
                   <div className="flex flex-col gap-1 items-start md:items-end">

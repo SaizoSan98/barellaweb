@@ -18,6 +18,9 @@ export default function ProductsAdminPage() {
   const [modalVatInfo, setModalVatInfo] = useState("");
   const [sectionTitle, setSectionTitle] = useState("");
   const [sectionDescription, setSectionDescription] = useState("");
+  const [saleLabel, setSaleLabel] = useState("");
+  const [exclusiveLabel, setExclusiveLabel] = useState("");
+  const [priceTitle, setPriceTitle] = useState("");
 
   useEffect(() => {
     fetch("/api/admin/products").then(r => r.json()).then(setProductList);
@@ -28,6 +31,9 @@ export default function ProductsAdminPage() {
       setModalVatInfo(data.product_modal_vat_info || "Az árak tartalmazzák az ÁFÁT!");
       setSectionTitle(data.product_section_title || "Premium kínálat");
       setSectionDescription(data.product_section_description || "Kiváló minőségű klíma és fűtési rendszerek modern technológiával, szakértői telepítéssel");
+      setSaleLabel(data.product_sale_label || "AKCIÓ");
+      setExclusiveLabel(data.product_modal_exclusive_label || "BARELLA EXCLUSIVE");
+      setPriceTitle(data.product_price_title || "Készülék ára");
     });
   }, []);
 
@@ -112,6 +118,7 @@ export default function ProductsAdminPage() {
           price: 0,
           salePrice: 0,
           sale: false,
+          priceIncludes: "",
           order: newOrder,
           published: true,
         }),
@@ -166,6 +173,9 @@ export default function ProductsAdminPage() {
           product_modal_vat_info: modalVatInfo,
           product_section_title: sectionTitle,
           product_section_description: sectionDescription,
+          product_sale_label: saleLabel,
+          product_modal_exclusive_label: exclusiveLabel,
+          product_price_title: priceTitle,
         }),
       });
       alert("Beállítások sikeresen mentve!");
@@ -283,6 +293,33 @@ export default function ProductsAdminPage() {
                 type="text"
                 value={modalVatInfo}
                 onChange={e => setModalVatInfo(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 bg-white focus:outline-none focus:border-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Akció felirat (pl. AKCIÓ vagy HOT SALE)</label>
+              <input
+                type="text"
+                value={saleLabel}
+                onChange={e => setSaleLabel(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 bg-white focus:outline-none focus:border-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Modál kiemelt felirat (pl. BARELLA EXCLUSIVE)</label>
+              <input
+                type="text"
+                value={exclusiveLabel}
+                onChange={e => setExclusiveLabel(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 bg-white focus:outline-none focus:border-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Ár megnevezése (pl. Készülék ára)</label>
+              <input
+                type="text"
+                value={priceTitle}
+                onChange={e => setPriceTitle(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 bg-white focus:outline-none focus:border-blue-500"
               />
             </div>
@@ -408,6 +445,16 @@ export default function ProductsAdminPage() {
                       value={product.description || ""}
                       onChange={(e) => handleChange(product.id, "description", e.target.value)}
                       rows={3}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 bg-white focus:outline-none focus:border-blue-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Mit tartalmaz az ár? (megjelenik a részletes nézetben)</label>
+                    <textarea
+                      value={product.priceIncludes || ""}
+                      onChange={(e) => handleChange(product.id, "priceIncludes", e.target.value)}
+                      rows={2}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 bg-white focus:outline-none focus:border-blue-500"
                     />
                   </div>

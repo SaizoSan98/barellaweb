@@ -30,6 +30,7 @@ export async function POST(request: NextRequest) {
       price: body.price || 0,
       salePrice: body.salePrice || 0,
       sale: body.sale || false,
+      priceIncludes: body.priceIncludes || "",
       order: body.order || 0,
       published: body.published ?? true,
     }).returning();

@@ -94,6 +94,7 @@ export const products = pgTable('products', {
   price: integer('price').default(0),
   salePrice: integer('sale_price').default(0),
   sale: boolean('sale').default(false),
+  priceIncludes: text('price_includes'),
   order: integer('order').default(0),
   published: boolean('published').default(true),
   createdAt: timestamp('created_at').defaultNow(),

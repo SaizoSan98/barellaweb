@@ -21,6 +21,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
         price: body.price,
         salePrice: body.salePrice,
         sale: body.sale,
+        priceIncludes: body.priceIncludes,
         order: body.order,
         published: body.published,
         updatedAt: new Date(),
