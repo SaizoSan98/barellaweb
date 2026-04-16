@@ -10,6 +10,7 @@ import { Logo } from "@/components/Logo";
 const navItems = [
   { name: "Kezdőlap", href: "/" },
   { name: "Szolgáltatások", href: "/#services" },
+  { name: "Termékeink", href: "/#products" },
   { name: "Hasznos cikkek", href: "/cikkek" },
   { name: "Kapcsolat", href: "#contact" },
 ];
