@@ -1,10 +1,7 @@
 export const dynamic = 'force-dynamic';
 
-import { QuoteProvider } from "@/components/QuoteContext";
-import { QuoteModal } from "@/components/QuoteModal";
 import { Hero } from "@/components/Hero";
 import { Navbar } from "@/components/Navbar";
-import { ScrollToTop } from "@/components/ScrollToTop";
 import { Services } from "@/components/Services";
 import { Contact } from "@/components/Contact";
 import { Process } from "@/components/Process";
@@ -28,19 +25,15 @@ export default async function Home() {
   for (const s of settingsRows) settings[s.key] = s.value ?? "";
 
   return (
-    <QuoteProvider>
-      <main className="min-h-screen bg-background text-foreground">
-        <Navbar />
-        <Hero settings={settings} />
-        <Brands />
-        <Services services={serviceRows} />
-        <Process />
-        {settings.show_products === 'true' && <Products products={productRows} settings={settings} />}
-        <FAQ />
-        <Contact settings={settings} />
-        <QuoteModal />
-        <ScrollToTop />
-      </main>
-    </QuoteProvider>
+    <main className="min-h-screen bg-background text-foreground">
+      <Navbar />
+      <Hero settings={settings} />
+      <Brands />
+      <Services services={serviceRows} />
+      <Process />
+      {settings.show_products === 'true' && <Products products={productRows} settings={settings} />}
+      <FAQ />
+      <Contact settings={settings} />
+    </main>
   );
 }
