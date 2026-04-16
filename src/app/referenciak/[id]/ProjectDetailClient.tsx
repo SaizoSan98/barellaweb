@@ -137,8 +137,6 @@ export default function ProjectDetailClient({ project, settings = {} }: { projec
       <Contact settings={settings} />
     </main>
   );
-}rovider>
-  );
 }
 
 // Helper component to use quote context
