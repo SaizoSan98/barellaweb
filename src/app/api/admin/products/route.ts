@@ -31,6 +31,10 @@ export async function POST(request: NextRequest) {
       salePrice: body.salePrice || 0,
       sale: body.sale || false,
       priceIncludes: body.priceIncludes || "",
+      priceTitle: body.priceTitle || null,
+      vatInfo: body.vatInfo || null,
+      availabilityInfo: body.availabilityInfo || null,
+      exclusiveLabel: body.exclusiveLabel || null,
       order: body.order || 0,
       published: body.published ?? true,
     }).returning();

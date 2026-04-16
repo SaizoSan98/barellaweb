@@ -450,6 +450,46 @@ export default function ProductsAdminPage() {
                   </div>
 
                   <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Ár megnevezése (pl. Készülék ára, Várható kivitelezési ár)</label>
+                    <input
+                      type="text"
+                      value={product.priceTitle || ""}
+                      onChange={(e) => handleChange(product.id, "priceTitle", e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 bg-white focus:outline-none focus:border-blue-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">ÁFA tájékoztató (pl. ÁFA-val, Az árak tartalmazzák az ÁFÁT)</label>
+                    <input
+                      type="text"
+                      value={product.vatInfo || ""}
+                      onChange={(e) => handleChange(product.id, "vatInfo", e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 bg-white focus:outline-none focus:border-blue-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Elérhetőség / Állapot (pl. RAKTÁRKÉSZLETEN)</label>
+                    <input
+                      type="text"
+                      value={product.availabilityInfo || ""}
+                      onChange={(e) => handleChange(product.id, "availabilityInfo", e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 bg-white focus:outline-none focus:border-blue-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Kiemelt felirat (pl. BARELLA EXCLUSIVE)</label>
+                    <input
+                      type="text"
+                      value={product.exclusiveLabel || ""}
+                      onChange={(e) => handleChange(product.id, "exclusiveLabel", e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 bg-white focus:outline-none focus:border-blue-500"
+                    />
+                  </div>
+
+                  <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Mit tartalmaz az ár? (megjelenik a részletes nézetben)</label>
                     <textarea
                       value={product.priceIncludes || ""}

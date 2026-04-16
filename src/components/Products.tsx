@@ -121,7 +121,7 @@ export function Products({ products, settings }: { products: Product[], settings
                             {formatPrice(displayPrice)} <span className="text-[10px] md:text-xs opacity-40 ml-1 uppercase">FT</span>
                           </span>
                           <span className="text-[10px] text-zinc-600 uppercase font-bold tracking-tighter mt-0.5">
-                            {settings.product_card_vat_label || "ÁFA-val"}
+                            {product.vatInfo || settings.product_card_vat_label || "ÁFA-val"}
                           </span>
                         </div>
                       ) : (
@@ -166,141 +166,160 @@ function ProductDetailModal({ product, settings, onClose, openQuote }: { product
     return new Intl.NumberFormat('hu-HU').format(price);
   };
 
+  const hasSale = product.sale && product.salePrice && product.salePrice > 0;
+  const displayPrice = hasSale ? product.salePrice : product.price;
+
   return (
     <motion.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[200] flex items-center justify-center bg-black/95 backdrop-blur-2xl p-4 md:p-8"
+      className="fixed inset-0 z-[200] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 md:p-8"
       onClick={onClose}
     >
       <motion.div 
-        initial={{ y: 30, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        exit={{ y: 30, opacity: 0 }}
-        className="relative w-full h-[90vh] md:h-auto md:max-w-6xl md:max-h-[85vh] bg-[#050505] md:rounded-[3rem] overflow-hidden flex flex-col md:flex-row shadow-2xl border border-white/5"
+        initial={{ y: 30, opacity: 0, scale: 0.95 }}
+        animate={{ y: 0, opacity: 1, scale: 1 }}
+        exit={{ y: 30, opacity: 0, scale: 0.95 }}
+        transition={{ type: "spring", duration: 0.5 }}
+        className="relative w-full h-[90vh] md:h-auto md:max-w-5xl md:max-h-[85vh] bg-white md:rounded-3xl overflow-hidden flex flex-col md:flex-row shadow-2xl"
         onClick={e => e.stopPropagation()}
       >
-        {/* Discrete Close button */}
+        {/* Close button */}
         <button 
           onClick={onClose}
-          className="absolute top-4 right-4 z-[250] w-10 h-10 md:w-12 md:h-12 rounded-full bg-black/50 backdrop-blur-md border border-white/10 flex items-center justify-center text-white hover:bg-primary hover:text-black transition-all"
+          className="absolute top-4 right-4 z-[250] w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/80 md:bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-800 transition-all shadow-sm md:shadow-none"
         >
           <X size={20} className="md:size-24" />
         </button>
 
-        {/* Left Section: Immersive but stable Visuals */}
-        <div className="relative w-full md:w-1/2 h-[30vh] md:h-auto bg-zinc-900 overflow-hidden border-b md:border-b-0 md:border-r border-white/5">
+        {/* Left Section: Image Gallery */}
+        <div className="relative w-full md:w-1/2 h-[35vh] md:h-auto bg-gray-50 flex-shrink-0">
           <AnimatePresence mode="wait">
             <motion.div 
               key={currentImageIndex}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.5 }}
+              transition={{ duration: 0.3 }}
               className="absolute inset-0"
             >
               <Image
                 src={images[currentImageIndex]}
                 alt={product.brand}
                 fill
-                className="object-cover opacity-90"
+                className="object-cover"
                 sizes="(max-width: 768px) 100vw, 50vw"
                 priority
               />
             </motion.div>
           </AnimatePresence>
           
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:to-black/30" />
-          
           {images.length > 1 && (
-            <div className="absolute bottom-6 left-0 right-0 flex justify-center gap-2.5 z-10 px-4">
+            <div className="absolute bottom-6 left-0 right-0 flex justify-center gap-2 z-10 px-4">
               {images.map((_ ,idx) => (
                 <button
                   key={idx}
                   onClick={() => setCurrentImageIndex(idx)}
-                  className={`h-1 transition-all duration-300 rounded-full ${idx === currentImageIndex ? 'w-10 bg-primary' : 'w-2 bg-white/30 hover:bg-white/50'}`}
+                  className={`h-2 transition-all duration-300 rounded-full ${idx === currentImageIndex ? 'w-8 bg-primary' : 'w-2 bg-white/80 hover:bg-white'} shadow-sm`}
                 />
               ))}
             </div>
           )}
 
-          <div className="absolute top-8 left-8 z-10">
-              <span className="bg-primary/20 backdrop-blur-md text-primary text-[10px] font-bold px-4 py-1.5 rounded-full uppercase tracking-widest border border-primary/30">Premium Selection</span>
+          <div className="absolute top-6 left-6 z-10">
+              <span className="bg-primary text-black text-[10px] md:text-xs font-bold px-3 py-1.5 rounded-md uppercase tracking-wider shadow-md">
+                {product.exclusiveLabel || settings.product_modal_exclusive_label || "BARELLA EXCLUSIVE"}
+              </span>
           </div>
         </div>
 
-        {/* Right Section: Balanced Content */}
-        <div className="relative flex-1 flex flex-col min-h-0 bg-[#050505] overflow-hidden">
-          <div className="p-4 md:p-12 lg:p-16 flex-1 overflow-y-auto">
-            <div className="mb-6 md:mb-10">
-               <span className="text-primary/70 text-[10px] md:text-xs font-bold uppercase tracking-[0.4em] mb-4 block">
-                 {settings.product_modal_exclusive_label || "BARELLA EXCLUSIVE"}
-               </span>
-               <h2 className="text-2xl md:text-5xl lg:text-6xl font-black text-white uppercase tracking-tight leading-tight mb-4">
-                {product.brand} <span className="text-zinc-600 ml-2">{product.type}</span>
+        {/* Right Section: Content */}
+        <div className="flex-1 flex flex-col min-h-0 bg-white">
+          <div className="p-6 md:p-10 flex-1 overflow-y-auto">
+            
+            {/* Header */}
+            <div className="mb-6">
+               <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+                {product.brand} <span className="font-light text-gray-500">{product.type}</span>
               </h2>
+              <div className="inline-flex items-center px-3 py-1 bg-green-50 text-green-700 border border-green-200 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-wider">
+                {product.availabilityInfo || settings.product_card_availability_info || "RAKTÁRKÉSZLETEN"}
+              </div>
             </div>
 
-            <p className="text-zinc-400 text-xs md:text-lg leading-relaxed mb-8 md:mb-12 max-w-xl font-light">
+            {/* Description */}
+            <p className="text-gray-600 text-sm md:text-base leading-relaxed mb-8">
               {product.description || "Ez a prémium berendezés a legmagasabb minőséget képviseli kínálatunkban. Kimagasló mérnöki munka, hosszú élettartam és esztétikus megjelenés jellemzi minden modellünket."}
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4 mb-8 md:mb-14">
-               {product.features?.map((f, i) => (
-                 <div key={i} className="bg-white/[0.03] border border-white/5 p-3 md:p-4 rounded-xl md:rounded-2xl flex items-center gap-3 md:gap-4 transition-colors hover:bg-white/5">
-                    <div className="w-6 h-6 md:w-8 md:h-8 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
-                       <Check size={14} className="md:size-16" />
-                    </div>
-                    <span className="text-white text-xs md:text-base font-medium tracking-tight">{f}</span>
-                 </div>
-               ))}
-            </div>
+            {/* Features */}
+            {product.features && product.features.length > 0 && (
+              <div className="mb-8">
+                <h3 className="text-xs font-bold text-gray-900 uppercase tracking-widest mb-4">Főbb jellemzők</h3>
+                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {product.features.map((f, i) => (
+                    <li key={i} className="flex items-start gap-3">
+                      <div className="mt-0.5 w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 text-primary">
+                        <Check size={12} strokeWidth={3} />
+                      </div>
+                      <span className="text-gray-700 text-sm font-medium">{f}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
-            <div className="relative p-4 md:p-12 rounded-[1.5rem] md:rounded-[2.5rem] bg-zinc-900/30 border border-white/5 backdrop-blur-sm overflow-hidden mb-8 md:mb-12">
-               <div className="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-8">
-                  <div>
-                    <span className="text-zinc-500 text-[10px] font-bold uppercase tracking-[0.4em] mb-4 block">
-                      {settings.product_price_title || "VÁRHATÓ KIVITELEZÉSI ÁR"}
+            {/* Pricing Box */}
+            <div className="bg-gray-50 p-5 md:p-6 rounded-2xl border border-gray-100 mb-6">
+              <div className="flex flex-col">
+                <span className="text-gray-500 text-[10px] md:text-xs font-bold uppercase tracking-widest mb-2">
+                  {product.priceTitle || settings.product_price_title || "VÁRHATÓ KIVITELEZÉSI ÁR"}
+                </span>
+                
+                {displayPrice ? (
+                  <div className="flex items-baseline gap-2 mb-1">
+                    <span className="text-gray-900 text-3xl md:text-5xl font-black tracking-tight">
+                      {formatPrice(displayPrice)}
                     </span>
-                    <div className="flex items-baseline gap-2">
-                      <span className="text-white text-3xl md:text-7xl font-black tracking-tighter leading-none">
-                        {formatPrice(product.salePrice || product.price)}
-                      </span>
-                      <span className="text-primary text-base md:text-xl font-bold uppercase ml-1">FT</span>
-                    </div>
-                    <p className="text-zinc-600 text-[10px] mt-2 md:mt-4 font-bold uppercase tracking-widest">{settings.product_modal_vat_info || "AZ ÁRAK TARTALMAZZÁK AZ ÁFÁT"}</p>
-                    
-                    {product.priceIncludes && (
-                      <p className="text-primary/70 text-[10px] md:text-xs mt-2 md:mt-4 font-bold uppercase tracking-wider italic border-t border-white/5 pt-2 md:pt-4">
-                        * {product.priceIncludes}
-                      </p>
-                    )}
+                    <span className="text-gray-500 font-bold text-lg">Ft</span>
                   </div>
-                  
-                  <div className="flex flex-col gap-1 items-start md:items-end">
-                     <span className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest mb-1">ÁLLAPOT</span>
-                     <span className="text-primary text-xs font-bold uppercase tracking-widest bg-primary/5 px-3 py-1 md:px-4 md:py-1.5 rounded-full border border-primary/20">{settings.product_card_availability_info || "RAKTÁRKÉSZLETEN"}</span>
+                ) : (
+                  <span className="text-gray-900 text-2xl font-bold mb-1">Ár kérésre</span>
+                )}
+
+                {(displayPrice ?? 0) > 0 && (
+                  <p className="text-gray-500 text-[10px] md:text-xs font-semibold uppercase tracking-wider">
+                    {product.vatInfo || settings.product_modal_vat_info || "AZ ÁRAK TARTALMAZZÁK AZ ÁFÁT"}
+                  </p>
+                )}
+
+                {product.priceIncludes && (
+                  <div className="mt-4 pt-4 border-t border-gray-200">
+                    <p className="text-gray-600 text-xs md:text-sm">
+                      <span className="font-bold text-gray-800 mr-1">Az ár tartalmazza:</span> 
+                      {product.priceIncludes}
+                    </p>
                   </div>
-               </div>
+                )}
+              </div>
             </div>
           </div>
 
-          <div className="sticky bottom-0 left-0 right-0 p-4 md:p-6 bg-gradient-to-t from-black via-black to-transparent pt-8 md:pt-12 md:px-16 md:pb-16">
-            <div className="flex flex-col sm:flex-row gap-3 md:gap-4 max-w-2xl">
-              <button 
-                onClick={() => { onClose(); openQuote(); }}
-                className="flex-[2] bg-primary hover:bg-white text-black py-3 md:py-5 rounded-xl md:rounded-2xl font-black uppercase text-xs md:text-base tracking-widest transition-all transform hover:scale-[1.01] active:scale-95 shadow-xl shadow-primary/10 flex items-center justify-center gap-3"
-              >
-                INGYENES AJÁNLATOT KÉREK <ArrowRight size={16} className="md:size-20" />
-              </button>
-              <a 
-                href="tel:+36301738866"
-                className="flex-1 bg-white/5 hover:bg-white/10 border border-white/10 text-white py-3 md:py-5 rounded-xl md:rounded-2xl font-black uppercase text-xs md:text-base tracking-widest transition-all flex items-center justify-center gap-3"
-              >
-                <Phone size={16} className="md:size-20" /> HÍVÁS
-              </a>
-            </div>
+          {/* Action Buttons - Sticky Bottom */}
+          <div className="p-4 md:p-6 bg-white border-t border-gray-100 flex flex-col sm:flex-row gap-3">
+            <button 
+              onClick={() => { onClose(); openQuote(); }}
+              className="flex-[2] bg-primary hover:bg-primary/90 text-black py-4 rounded-xl font-bold uppercase text-xs md:text-sm tracking-wider transition-colors flex items-center justify-center gap-2 shadow-sm"
+            >
+              Ingyenes ajánlatot kérek <ArrowRight size={18} />
+            </button>
+            <a 
+              href="tel:+36301738866"
+              className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-900 py-4 rounded-xl font-bold uppercase text-xs md:text-sm tracking-wider transition-colors flex items-center justify-center gap-2"
+            >
+              <Phone size={18} /> Hívás
+            </a>
           </div>
         </div>
       </motion.div>
