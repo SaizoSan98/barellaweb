@@ -5,6 +5,7 @@ import Image from "next/image";
 import { X, Check, Tag } from "lucide-react";
 import type { Product } from "@/db/schema";
 
+// Products component - displays product cards and modal
 export function Products({ products, settings }: { products: Product[], settings: Record<string, string> }) {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const publishedProducts = products.filter(p => p.published);
