@@ -174,17 +174,20 @@ function ProductDetailModal({ product, settings, onClose, openQuote }: { product
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[200] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 md:p-8"
+      className="fixed inset-0 z-[200] flex items-end md:items-center justify-center bg-black/60 backdrop-blur-sm md:p-8"
       onClick={onClose}
     >
       <motion.div 
-        initial={{ y: 30, opacity: 0, scale: 0.95 }}
-        animate={{ y: 0, opacity: 1, scale: 1 }}
-        exit={{ y: 30, opacity: 0, scale: 0.95 }}
-        transition={{ type: "spring", duration: 0.5 }}
-        className="relative w-full h-[90vh] md:h-auto md:max-w-5xl md:max-h-[85vh] bg-white md:rounded-3xl overflow-hidden flex flex-col md:flex-row shadow-2xl"
+        initial={{ y: "100%", opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ y: "100%", opacity: 0 }}
+        transition={{ type: "spring", bounce: 0, duration: 0.4 }}
+        className="relative w-full h-[90vh] md:h-auto md:max-w-5xl md:max-h-[85vh] bg-white rounded-t-3xl md:rounded-3xl overflow-y-auto md:overflow-hidden flex flex-col md:flex-row shadow-2xl"
         onClick={e => e.stopPropagation()}
       >
+        {/* Mobile handle indicator */}
+        <div className="absolute top-3 left-1/2 -translate-x-1/2 w-12 h-1.5 bg-gray-300 rounded-full md:hidden z-[260]" />
+
         {/* Close button */}
         <button 
           onClick={onClose}
@@ -194,7 +197,7 @@ function ProductDetailModal({ product, settings, onClose, openQuote }: { product
         </button>
 
         {/* Left Section: Image Gallery */}
-        <div className="relative w-full md:w-1/2 h-[35vh] md:h-auto bg-gray-50 flex-shrink-0">
+        <div className="relative w-full md:w-1/2 h-[40vh] md:h-auto bg-gray-50 flex-shrink-0">
           <AnimatePresence mode="wait">
             <motion.div 
               key={currentImageIndex}
@@ -236,7 +239,7 @@ function ProductDetailModal({ product, settings, onClose, openQuote }: { product
 
         {/* Right Section: Content */}
         <div className="flex-1 flex flex-col min-h-0 bg-white">
-          <div className="p-6 md:p-10 flex-1 overflow-y-auto">
+          <div className="p-6 md:p-10 flex-1">
             
             {/* Header */}
             <div className="mb-6">
@@ -307,7 +310,7 @@ function ProductDetailModal({ product, settings, onClose, openQuote }: { product
           </div>
 
           {/* Action Buttons - Sticky Bottom */}
-          <div className="p-4 md:p-6 bg-white border-t border-gray-100 flex flex-col sm:flex-row gap-3">
+          <div className="sticky bottom-0 left-0 right-0 p-4 md:p-6 bg-white border-t border-gray-100 flex flex-col sm:flex-row gap-3 mt-auto shadow-[0_-10px_20px_rgba(0,0,0,0.02)]">
             <button 
               onClick={() => { onClose(); openQuote(); }}
               className="flex-[2] bg-primary hover:bg-primary/90 text-black py-4 rounded-xl font-bold uppercase text-xs md:text-sm tracking-wider transition-colors flex items-center justify-center gap-2 shadow-sm"
