@@ -78,7 +78,7 @@ export function Products({ products, settings }: { products: Product[], settings
                 key={product.id}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, margin: "-50px" }}
                 transition={{ delay: idx * 0.05 }}
                 onClick={() => setSelectedProduct(product)}
                 className="group relative bg-[#0a0a0a] border border-white/5 rounded-[2.5rem] overflow-hidden transition-all duration-700 cursor-pointer hover:shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
