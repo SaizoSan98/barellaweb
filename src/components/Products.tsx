@@ -248,7 +248,7 @@ function ProductDetailModal({ product, settings, onClose, openQuote }: { product
 
             {/* Bento Grid Specifications */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-20">
-               {product.features.map((f, i) => (
+               {product.features?.map((f, i) => (
                  <div key={i} className="bg-white/[0.02] border border-white/5 p-4 rounded-3xl flex items-center gap-4 group hover:bg-white/[0.05] transition-colors">
                     <div className="w-10 h-10 rounded-2xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
                        <Check size={20} />

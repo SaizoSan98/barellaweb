@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 // Brand data with logo paths
 const brands = [
@@ -15,74 +16,59 @@ const brands = [
 ];
 
 export function Brands() {
+  // Triple the brands array to ensure a seamless infinite loop coverage
+  const duplicatedBrands = [...brands, ...brands, ...brands];
+
   return (
-    <section className="py-10 bg-black border-b border-white/5 overflow-hidden">
-      <div className="container mx-auto px-4 mb-6">
-        <p className="text-center text-gray-500 text-xs font-bold uppercase tracking-[0.2em]">
+    <section className="py-12 bg-black border-y border-white/5 overflow-hidden">
+      <div className="container mx-auto px-4 mb-8">
+        <motion.p 
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          className="text-center text-zinc-500 text-[10px] md:text-sm font-black uppercase tracking-[0.4em]"
+        >
           Kiemelt Technológiai Partnereink
-        </p>
+        </motion.p>
       </div>
       
-      <div className="relative flex overflow-hidden group">
-        {/* Gradient Masks */}
-        <div className="absolute top-0 left-0 w-20 md:w-40 h-full bg-gradient-to-r from-black to-transparent z-10 pointer-events-none" />
-        <div className="absolute top-0 right-0 w-20 md:w-40 h-full bg-gradient-to-l from-black to-transparent z-10 pointer-events-none" />
+      <div className="relative flex overflow-hidden">
+        {/* Deep Gradient Masks for high-end feel */}
+        <div className="absolute top-0 left-0 w-32 md:w-64 h-full bg-gradient-to-r from-black via-black/80 to-transparent z-20 pointer-events-none" />
+        <div className="absolute top-0 right-0 w-32 md:w-64 h-full bg-gradient-to-l from-black via-black/80 to-transparent z-20 pointer-events-none" />
 
-        {/* Marquee Container - duplicated content for seamless loop */}
-        <div className="flex animate-marquee whitespace-nowrap hover:[animation-play-state:paused]">
-          {/* First set of brands */}
-          <div className="flex gap-12 md:gap-24 px-6 md:px-12 items-center">
-            {brands.map((brand, index) => (
+        {/* Framer Motion Marquee - Perfectly smooth, independent of CSS loading */}
+        <motion.div 
+          className="flex whitespace-nowrap"
+          animate={{
+            x: [0, -1032], // Approximately -1/3 of the duplicated content width
+          }}
+          transition={{
+            x: {
+              repeat: Infinity,
+              repeatType: "loop",
+              duration: 35,
+              ease: "linear",
+            },
+          }}
+        >
+          <div className="flex gap-16 md:gap-32 px-12 items-center">
+            {duplicatedBrands.map((brand, index) => (
               <div 
-                key={`b1-${index}`} 
-                className="relative w-32 h-12 md:w-40 md:h-16 opacity-50 hover:opacity-100 transition-opacity duration-300 grayscale hover:grayscale-0 cursor-default"
+                key={`${brand.name}-${index}`} 
+                className="relative w-32 h-10 md:w-44 md:h-14 opacity-30 hover:opacity-100 transition-all duration-500 grayscale hover:grayscale-0 cursor-default"
               >
                 <Image
                   src={brand.logo}
                   alt={`${brand.name} logo`}
                   fill
                   className="object-contain"
+                  sizes="(max-width: 768px) 128px, 176px"
                 />
               </div>
             ))}
           </div>
-          
-          {/* Second set of brands */}
-          <div className="flex gap-12 md:gap-24 px-6 md:px-12 items-center">
-            {brands.map((brand, index) => (
-              <div 
-                key={`b2-${index}`} 
-                className="relative w-32 h-12 md:w-40 md:h-16 opacity-50 hover:opacity-100 transition-opacity duration-300 grayscale hover:grayscale-0 cursor-default"
-              >
-                <Image
-                  src={brand.logo}
-                  alt={`${brand.name} logo`}
-                  fill
-                  className="object-contain"
-                />
-              </div>
-            ))}
-          </div>
-
-          {/* Third set of brands for ultra-wide screens to ensure coverage */}
-          <div className="flex gap-12 md:gap-24 px-6 md:px-12 items-center">
-            {brands.map((brand, index) => (
-              <div 
-                key={`b3-${index}`} 
-                className="relative w-32 h-12 md:w-40 md:h-16 opacity-50 hover:opacity-100 transition-opacity duration-300 grayscale hover:grayscale-0 cursor-default"
-              >
-                <Image
-                  src={brand.logo}
-                  alt={`${brand.name} logo`}
-                  fill
-                  className="object-contain"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
 }
-

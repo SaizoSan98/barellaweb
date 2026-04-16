@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { QuoteProvider } from "@/components/QuoteContext";
 import { QuoteModal } from "@/components/QuoteModal";
 import { ScrollToTop } from "@/components/ScrollToTop";
+import { SmoothScroll } from "@/components/SmoothScroll";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -31,6 +32,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <QuoteProvider>
+          <SmoothScroll />
           {children}
           <QuoteModal />
           <ScrollToTop />
