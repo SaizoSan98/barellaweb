@@ -102,8 +102,9 @@ export function Contact({ settings }: ContactProps) {
              <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-gray-500 text-xs relative z-20 pb-8">
                 <p>© {new Date().getFullYear()} BARELLA Épületgépészet.</p>
                 <div className="flex gap-6">
-                    <a href="#" className="hover:text-primary transition-colors">Adatvédelem</a>
-                    <a href="#" className="hover:text-primary transition-colors">ÁSZF</a>
+                    <Link href="/adatvedelem" className="hover:text-primary transition-colors">Adatvédelem</Link>
+                    <Link href="/suti-kezeles" className="hover:text-primary transition-colors">Süti kezelés</Link>
+                    <Link href="/aszf" className="hover:text-primary transition-colors">ÁSZF</Link>
                 </div>
              </div>
         </div>

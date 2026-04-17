@@ -4,6 +4,7 @@ import { QuoteProvider } from "@/components/QuoteContext";
 import { QuoteModal } from "@/components/QuoteModal";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { SmoothScroll } from "@/components/SmoothScroll";
+import { CookieBanner } from "@/components/CookieBanner";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -19,6 +20,18 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "BARELLA Épületgépészet - Prémium Megoldások",
   description: "Ipari és lakossági épületgépészet felsőfokon. Klíma, hőszivattyú, légtechnika tervezés és kivitelezés.",
+  metadataBase: new URL("https://barella.hu"),
+  openGraph: {
+    title: "BARELLA Épületgépészet - Prémium Megoldások",
+    description: "Ipari és lakossági épületgépészet felsőfokon. Klíma, hőszivattyú, légtechnika tervezés és kivitelezés.",
+    url: "https://barella.hu",
+    siteName: "BARELLA Épületgépészet",
+    type: "website",
+    locale: "hu_HU",
+  },
+  alternates: {
+    canonical: "https://barella.hu",
+  },
 };
 
 export default function RootLayout({
@@ -36,6 +49,7 @@ export default function RootLayout({
           {children}
           <QuoteModal />
           <ScrollToTop />
+          <CookieBanner />
         </QuoteProvider>
       </body>
     </html>

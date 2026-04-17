@@ -11,7 +11,8 @@ import {
   X,
   ChevronDown,
   ChevronRight,
-  Package
+  Package,
+  Shield
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -50,6 +51,12 @@ const menuItems: MenuItem[] = [
     label: "Blog",
     icon: FileText,
     href: "/admin/blog",
+  },
+  {
+    id: "legal",
+    label: "Jogi oldalak",
+    icon: Shield,
+    href: "/admin/legal",
   },
   {
     id: "settings",

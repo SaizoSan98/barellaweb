@@ -107,3 +107,15 @@ export const products = pgTable('products', {
 
 export type Product = typeof products.$inferSelect;
 export type NewProduct = typeof products.$inferInsert;
+
+// Legal pages (Adatvédelem, Süti, ÁSZF)
+export const legalPages = pgTable('legal_pages', {
+  id: serial('id').primaryKey(),
+  slug: varchar('slug', { length: 100 }).notNull().unique(),
+  title: varchar('title', { length: 255 }).notNull(),
+  content: text('content'),
+  updatedAt: timestamp('updated_at').defaultNow(),
+});
+
+export type LegalPage = typeof legalPages.$inferSelect;
+export type NewLegalPage = typeof legalPages.$inferInsert;
