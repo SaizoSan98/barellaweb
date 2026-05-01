@@ -123,11 +123,6 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  
-  /* Smooth scrolling */
-  html {
-    scroll-behavior: smooth;
-  }
 }
 
 /* Custom Scrollbar */
@@ -144,6 +139,21 @@
   .hero-marquee-row {
     animation-duration: calc(var(--base-duration, 40s) * 0.5) !important; /* 2x faster on mobile */
   }
+}
+
+/* Custom Scrollbar Utility */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(128, 128, 128, 0.3);
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(128, 128, 128, 0.5);
 }
 
 /* Hardware accelerated animations class */

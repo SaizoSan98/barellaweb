@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ArrowRight, Phone, Check, Tag, ChevronDown } from "lucide-react";
@@ -160,6 +160,16 @@ export function Products({ products, settings }: { products: Product[], settings
 
 function ProductDetailModal({ product, settings, onClose, openQuote }: { product: Product, settings: any, onClose: () => void, openQuote: () => void }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  // Scroll lock
+  useEffect(() => {
+    const originalStyle = window.getComputedStyle(document.body).overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = originalStyle;
+    };
+  }, []);
+
   const images = product.images || ["/images/ref1.jpg"];
   const formatPrice = (price: number | null | undefined) => {
     if (price === null || price === undefined) return "";

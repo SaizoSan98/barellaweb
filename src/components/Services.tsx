@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { Snowflake, Zap, Layers, ThermometerSun, ArrowRight, Phone, X, ChevronDown, Plug, Droplets } from "lucide-react";
-import { ElementType, useState } from "react";
+import { ElementType, useState, useEffect } from "react";
 import Image from "next/image";
 import { useQuote } from "@/components/QuoteContext";
 import type { Service } from "@/db/schema";
@@ -402,12 +402,21 @@ function ServiceCardMobile({ service, index, openQuote, onExpand }: { service: S
 }
 
 function ServiceDetailModal({ service, onClose, openQuote }: { service: ServiceItem; onClose: () => void; openQuote: () => void }) {
+    // Scroll lock
+    useEffect(() => {
+        const originalStyle = window.getComputedStyle(document.body).overflow;
+        document.body.style.overflow = 'hidden';
+        return () => {
+            document.body.style.overflow = originalStyle;
+        };
+    }, []);
+
     return (
         <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-hidden"
+            className="fixed inset-0 z-[200] flex items-center justify-center p-4 md:p-8 bg-black/90 backdrop-blur-md overflow-hidden"
             onClick={onClose}
         >
             <motion.div 
@@ -415,104 +424,117 @@ function ServiceDetailModal({ service, onClose, openQuote }: { service: ServiceI
                 animate={{ scale: 1, opacity: 1, y: 0 }}
                 exit={{ scale: 0.9, opacity: 0, y: 20 }}
                 transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-zinc-900 rounded-3xl border border-white/10 shadow-2xl"
+                className="relative w-full max-w-4xl max-h-[90vh] bg-zinc-950 rounded-[2rem] border border-white/10 shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)] overflow-hidden flex flex-col md:flex-row"
                 onClick={(e) => e.stopPropagation()}
             >
-                {/* Header Image */}
-                <div className="relative h-48 sm:h-64 overflow-hidden">
+                {/* Left Side: Image & Title (Sticky-like on desktop) */}
+                <div className="relative w-full md:w-2/5 h-64 md:h-auto overflow-hidden group">
                     <Image
                         src={service.image}
                         alt={service.title}
                         fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 100vw, 672px"
+                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                        sizes="(max-width: 768px) 100vw, 40vw"
+                        priority
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-zinc-900/50 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/40 to-transparent md:bg-gradient-to-r md:from-transparent md:to-zinc-950/20" />
                     
-                    {/* Close Button */}
-                    <button 
-                        onClick={onClose}
-                        className="absolute top-4 right-4 z-10 w-12 h-12 min-w-[44px] min-h-[44px] rounded-full bg-black/50 backdrop-blur-md border border-white/10 flex items-center justify-center text-white hover:bg-primary hover:text-black transition-all duration-300 active:scale-95"
-                    >
-                        <X size={24} />
-                    </button>
-
-                    {/* Title Overlay */}
-                    <div className="absolute bottom-0 left-0 right-0 p-6">
-                        <div className="flex items-center gap-3 mb-2">
-                            <div className="w-12 h-12 rounded-xl bg-primary/20 border border-primary/30 flex items-center justify-center">
-                                <service.icon size={24} className="text-primary" />
-                            </div>
-                            <span className="text-primary font-bold tracking-wider uppercase text-sm">
+                    {/* Floating Badge */}
+                    <div className="absolute top-6 left-6 z-10">
+                        <div className="px-4 py-2 rounded-full bg-primary/20 backdrop-blur-xl border border-primary/30 flex items-center gap-2">
+                             <service.icon size={16} className="text-primary" />
+                             <span className="text-primary font-bold tracking-widest uppercase text-[10px]">
                                 {service.subtitle}
                             </span>
                         </div>
-                        <h2 className="text-3xl sm:text-4xl font-black text-white uppercase leading-tight">
+                    </div>
+
+                    <div className="absolute bottom-6 left-6 right-6 md:hidden">
+                        <h2 className="text-3xl font-black text-white uppercase leading-tight">
                             {service.title}
                         </h2>
                     </div>
                 </div>
 
-                {/* Content */}
-                <div className="p-6 space-y-6">
+                {/* Right Side: Scrollable Content */}
+                <div className="flex-1 overflow-y-auto p-6 md:p-10 space-y-8 bg-zinc-950 custom-scrollbar">
+                    {/* Desktop Title */}
+                    <div className="hidden md:block">
+                         <h2 className="text-4xl lg:text-5xl font-black text-white uppercase leading-[0.9] mb-4">
+                            {service.title}
+                        </h2>
+                        <div className="h-1 w-20 bg-primary rounded-full" />
+                    </div>
+
                     {/* Description */}
                     <div className="prose prose-invert max-w-none">
-                        <p className="text-gray-300 leading-relaxed whitespace-pre-line">
+                        <p className="text-gray-300 text-base md:text-lg leading-relaxed whitespace-pre-line font-medium">
                             {service.fullDescription}
                         </p>
                     </div>
 
-                    {/* Details Grid */}
-                    <div>
-                        <h4 className="text-xs font-bold uppercase tracking-widest text-primary mb-3">Szolgáltatás jellemzők</h4>
-                        <div className="grid grid-cols-2 gap-2">
+                    {/* Features Grid */}
+                    <div className="space-y-4">
+                        <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary/60">Technikai részletek</h4>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             {service.details.map((detail, idx) => (
-                                <div key={idx} className="flex items-center gap-2 p-3 rounded-xl bg-white/5 border border-white/10">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-                                    <span className="text-sm text-gray-300">{detail}</span>
+                                <div key={idx} className="flex items-center gap-3 p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-primary/20 transition-colors group">
+                                    <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-black transition-colors">
+                                        <service.icon size={14} />
+                                    </div>
+                                    <span className="text-sm font-semibold text-gray-200">{detail}</span>
                                 </div>
                             ))}
                         </div>
                     </div>
 
-                    {/* Gallery Grid */}
+                    {/* Gallery Section */}
                     {service.gallery && service.gallery.length > 0 && (
-                        <div>
-                            <h4 className="text-xs font-bold uppercase tracking-widest text-primary mb-3">Referencia képek</h4>
+                        <div className="space-y-4">
+                            <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary/60">Referencia galéria</h4>
                             <div className="grid grid-cols-2 gap-3">
                                 {service.gallery.map((img, idx) => (
-                                    <div key={idx} className="relative aspect-[4/3] rounded-xl overflow-hidden bg-white/5 border border-white/10">
+                                    <div key={idx} className="relative aspect-square md:aspect-video rounded-2xl overflow-hidden bg-white/5 border border-white/10 group cursor-zoom-in">
                                         <Image
                                             src={img}
                                             alt={`${service.title} - ${idx + 1}`}
                                             fill
-                                            className="object-cover"
+                                            className="object-cover transition-transform duration-500 group-hover:scale-110"
                                             sizes="(max-width: 768px) 50vw, 300px"
                                         />
+                                        <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors" />
                                     </div>
                                 ))}
                             </div>
                         </div>
                     )}
 
-                    {/* CTA Buttons */}
-                    <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-white/10">
+                    {/* Action Buttons */}
+                    <div className="flex flex-col sm:flex-row gap-4 pt-8 border-t border-white/10">
                         <button 
                             onClick={() => { onClose(); openQuote(); }}
-                            className="flex-1 bg-primary hover:bg-white text-black py-4 rounded-xl font-bold uppercase text-sm tracking-wider transition-all duration-300 flex items-center justify-center gap-2"
+                            className="flex-[2] bg-primary hover:bg-white text-black py-5 rounded-2xl font-black uppercase text-xs tracking-[0.2em] transition-all duration-300 flex items-center justify-center gap-3 shadow-[0_10px_20px_-10px_rgba(var(--primary-rgb),0.3)]"
                         >
-                            Ajánlatkérés <ArrowRight size={18} />
+                            Ingyenes ajánlatkérés <ArrowRight size={18} />
                         </button>
                         <a 
                             href="tel:+36301738866"
-                            className="flex-1 bg-white/10 hover:bg-white/20 border border-white/20 text-white py-4 rounded-xl font-bold uppercase text-sm tracking-wider transition-all duration-300 flex items-center justify-center gap-2"
+                            className="flex-1 bg-white/5 hover:bg-white/10 border border-white/10 text-white py-5 rounded-2xl font-bold uppercase text-xs tracking-[0.2em] transition-all duration-300 flex items-center justify-center gap-3"
                         >
-                            <Phone size={18} />
-                            +36 30 173 88 66
+                            <Phone size={18} className="text-primary" />
+                            Hívás
                         </a>
                     </div>
                 </div>
+
+                {/* Close Button */}
+                <button 
+                    onClick={onClose}
+                    className="absolute top-6 right-6 z-50 w-12 h-12 rounded-full bg-black/50 backdrop-blur-xl border border-white/10 flex items-center justify-center text-white hover:bg-primary hover:text-black transition-all duration-300 group shadow-xl"
+                >
+                    <X size={24} className="transition-transform group-hover:rotate-90" />
+                </button>
             </motion.div>
         </motion.div>
-    )
+    );
 }

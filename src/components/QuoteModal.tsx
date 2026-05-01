@@ -13,8 +13,19 @@ export function QuoteModal() {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
     window.addEventListener("resize", checkMobile);
+    
+    // Scroll lock when open
+    if (isOpen) {
+      const originalStyle = window.getComputedStyle(document.body).overflow;
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = originalStyle;
+        window.removeEventListener("resize", checkMobile);
+      };
+    }
+    
     return () => window.removeEventListener("resize", checkMobile);
-  }, []);
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
