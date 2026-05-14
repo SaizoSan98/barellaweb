@@ -16,9 +16,14 @@ export function QuoteModal() {
     
     // Scroll lock when open
     if (isOpen) {
+      const handleEscape = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') closeQuote();
+      };
+      document.addEventListener('keydown', handleEscape);
       const originalStyle = window.getComputedStyle(document.body).overflow;
       document.body.style.overflow = 'hidden';
       return () => {
+        document.removeEventListener('keydown', handleEscape);
         document.body.style.overflow = originalStyle;
         window.removeEventListener("resize", checkMobile);
       };
@@ -158,17 +163,20 @@ export function QuoteModal() {
             </div>
 
             {/* Submit Button (Moved inside scrollable area) */}
-            <div className="pt-6 border-t border-gray-100 mt-4">
+            <div className="pt-6 border-t border-gray-100 mt-4 space-y-4">
+              <div className="flex items-center gap-3 px-3 py-4 bg-gray-50 rounded-xl border border-gray-200 cursor-pointer" onClick={() => {
+                const cb = document.getElementById('terms-quote') as HTMLInputElement;
+                if(cb) cb.click();
+              }}>
+                <input type="checkbox" id="terms-quote" className="w-5 h-5 shrink-0 accent-black rounded cursor-pointer pointer-events-none" required />
+                <label htmlFor="terms-quote" className="text-sm text-gray-700 leading-snug cursor-pointer select-none text-left pointer-events-none">
+                  Elfogadom az <a href="/documents/adatvedelmi_tajekoztato.pdf" target="_blank" rel="noopener noreferrer" className="font-bold underline hover:text-primary pointer-events-auto" onClick={e => e.stopPropagation()}>Adatvédelmi tájékoztatót</a> és az <a href="/documents/aszf.pdf" target="_blank" rel="noopener noreferrer" className="font-bold underline hover:text-primary pointer-events-auto" onClick={e => e.stopPropagation()}>ÁSZF</a>-et.
+                </label>
+              </div>
               <button className="w-full bg-black text-white py-4 rounded-xl font-bold uppercase tracking-wider hover:bg-primary hover:text-black transition-all duration-300 flex items-center justify-center gap-2 group">
                 <span>Ajánlatkérés Küldése</span>
                 <Send size={18} className="group-hover:translate-x-1 transition-transform" />
               </button>
-              <div className="mt-4 flex items-start gap-2 px-1">
-                <input type="checkbox" id="terms-quote" className="mt-1 shrink-0 accent-primary" required />
-                <label htmlFor="terms-quote" className="text-xs text-gray-500 leading-relaxed text-left">
-                  Az űrlap elküldésével elfogadom az <a href="/documents/adatvedelmi_tajekoztato.pdf" target="_blank" rel="noopener noreferrer" className="text-black hover:text-primary underline">Adatvédelmi tájékoztatót</a> és az <a href="/documents/aszf.pdf" target="_blank" rel="noopener noreferrer" className="text-black hover:text-primary underline">ÁSZF</a>-et.
-                </label>
-              </div>
             </div>
           </div>
         </div>

@@ -404,12 +404,17 @@ function ServiceCardMobile({ service, index, openQuote, onExpand }: { service: S
 function ServiceDetailModal({ service, onClose, openQuote }: { service: ServiceItem; onClose: () => void; openQuote: () => void }) {
     // Scroll lock
     useEffect(() => {
+        const handleEscape = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') onClose();
+        };
+        document.addEventListener('keydown', handleEscape);
         const originalStyle = window.getComputedStyle(document.body).overflow;
         document.body.style.overflow = 'hidden';
         return () => {
+            document.removeEventListener('keydown', handleEscape);
             document.body.style.overflow = originalStyle;
         };
-    }, []);
+    }, [onClose]);
 
     return (
         <motion.div 

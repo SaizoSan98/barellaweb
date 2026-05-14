@@ -163,12 +163,17 @@ function ProductDetailModal({ product, settings, onClose, openQuote }: { product
 
   // Scroll lock
   useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', handleEscape);
     const originalStyle = window.getComputedStyle(document.body).overflow;
     document.body.style.overflow = 'hidden';
     return () => {
+      document.removeEventListener('keydown', handleEscape);
       document.body.style.overflow = originalStyle;
     };
-  }, []);
+  }, [onClose]);
 
   const images = product.images || ["/images/ref1.jpg"];
   const formatPrice = (price: number | null | undefined) => {

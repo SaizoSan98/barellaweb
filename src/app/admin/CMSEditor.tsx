@@ -540,6 +540,14 @@ function ContentEditModal({ content, onClose, onSave, saving }: { content: CmsCo
   const [uploading, setUploading] = useState(false);
   const [previewUrl, setPreviewUrl] = useState(content.value || '');
 
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [onClose]);
+
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
