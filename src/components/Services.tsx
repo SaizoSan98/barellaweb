@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { Snowflake, Zap, Layers, ThermometerSun, ArrowRight, Phone, X, ChevronDown, Plug, Droplets } from "lucide-react";
+import { Snowflake, Zap, Layers, ThermometerSun, ArrowRight, Phone, X, ChevronDown, Plug, Droplets, ChevronLeft, ChevronRight } from "lucide-react";
 import { ElementType, useState, useEffect } from "react";
 import Image from "next/image";
 import { useQuote } from "@/components/QuoteContext";
@@ -404,7 +404,7 @@ function ServiceCardMobile({ service, index, openQuote, onExpand }: { service: S
 function ServiceDetailModal({ service, onClose, openQuote }: { service: ServiceItem; onClose: () => void; openQuote: () => void }) {
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-    // Scroll lock
+    // Scroll lock and Escape
     useEffect(() => {
         const handleEscape = (e: KeyboardEvent) => {
             if (e.key === 'Escape') {
@@ -423,6 +423,30 @@ function ServiceDetailModal({ service, onClose, openQuote }: { service: ServiceI
             document.body.style.overflow = originalStyle;
         };
     }, [onClose]);
+
+    // Keyboard navigation for image gallery
+    useEffect(() => {
+        if (!selectedImage) return;
+        
+        const handleArrowKeys = (e: KeyboardEvent) => {
+            if (e.key === 'ArrowLeft') {
+                setSelectedImage(prev => {
+                    if (!prev) return null;
+                    const idx = service.gallery.indexOf(prev);
+                    return idx <= 0 ? service.gallery[service.gallery.length - 1] : service.gallery[idx - 1];
+                });
+            } else if (e.key === 'ArrowRight') {
+                setSelectedImage(prev => {
+                    if (!prev) return null;
+                    const idx = service.gallery.indexOf(prev);
+                    return idx === service.gallery.length - 1 ? service.gallery[0] : service.gallery[idx + 1];
+                });
+            }
+        };
+        
+        document.addEventListener('keydown', handleArrowKeys);
+        return () => document.removeEventListener('keydown', handleArrowKeys);
+    }, [selectedImage, service.gallery]);
 
     return (
         <motion.div 
@@ -552,25 +576,65 @@ function ServiceDetailModal({ service, onClose, openQuote }: { service: ServiceI
                 <AnimatePresence>
                     {selectedImage && (
                         <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
+                            initial={{ opacity: 0, scale: 0.98 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.98 }}
+                            transition={{ duration: 0.15, ease: "easeOut" }}
                             onClick={() => setSelectedImage(null)}
-                            className="fixed inset-0 z-[300] bg-black/95 backdrop-blur-md flex items-center justify-center p-4 cursor-zoom-out"
+                            className="fixed inset-0 z-[300] bg-zinc-950/70 backdrop-blur-3xl flex items-center justify-center p-4 cursor-zoom-out"
                         >
                             <button
                                 onClick={(e) => { e.stopPropagation(); setSelectedImage(null); }}
-                                className="absolute top-6 right-6 z-[310] w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all duration-300 group"
+                                className="absolute top-6 right-6 z-[310] w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all duration-300 group shadow-xl"
                             >
                                 <X size={24} className="transition-transform group-hover:rotate-90" />
                             </button>
-                            <div className="relative w-full h-full max-w-6xl max-h-[90vh]">
+                            
+                            {/* Previous Button */}
+                            {service.gallery && service.gallery.length > 1 && (
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        const currentIndex = service.gallery.indexOf(selectedImage);
+                                        const newIndex = currentIndex <= 0 ? service.gallery.length - 1 : currentIndex - 1;
+                                        setSelectedImage(service.gallery[newIndex]);
+                                    }}
+                                    className="absolute left-2 md:left-8 top-1/2 -translate-y-1/2 z-[310] w-12 h-12 md:w-16 md:h-16 rounded-full bg-black/50 border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all duration-300 group shadow-2xl backdrop-blur-md"
+                                >
+                                    <ChevronLeft size={32} className="group-hover:-translate-x-1 transition-transform" />
+                                </button>
+                            )}
+
+                            {/* Next Button */}
+                            {service.gallery && service.gallery.length > 1 && (
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        const currentIndex = service.gallery.indexOf(selectedImage);
+                                        const newIndex = currentIndex === service.gallery.length - 1 ? 0 : currentIndex + 1;
+                                        setSelectedImage(service.gallery[newIndex]);
+                                    }}
+                                    className="absolute right-2 md:right-8 top-1/2 -translate-y-1/2 z-[310] w-12 h-12 md:w-16 md:h-16 rounded-full bg-black/50 border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all duration-300 group shadow-2xl backdrop-blur-md"
+                                >
+                                    <ChevronRight size={32} className="group-hover:translate-x-1 transition-transform" />
+                                </button>
+                            )}
+
+                            {/* Image Counter */}
+                            {service.gallery && service.gallery.length > 1 && (
+                                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-[310] px-5 py-2.5 rounded-full bg-black/60 backdrop-blur-xl border border-white/10 text-white text-[10px] font-black tracking-widest uppercase shadow-2xl">
+                                    {service.gallery.indexOf(selectedImage) + 1} / {service.gallery.length}
+                                </div>
+                            )}
+
+                            <div className="relative w-full h-full max-w-6xl max-h-[85vh]">
                                 <Image
                                     src={selectedImage}
                                     alt="Nagyított kép"
                                     fill
-                                    className="object-contain"
+                                    className="object-contain drop-shadow-[0_0_50px_rgba(0,0,0,0.5)]"
                                     sizes="100vw"
+                                    priority
                                 />
                             </div>
                         </motion.div>
