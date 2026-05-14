@@ -465,7 +465,7 @@ function ServiceDetailModal({ service, onClose, openQuote }: { service: ServiceI
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Left Side: Image & Title (Sticky-like on desktop) */}
-                <div className="relative w-full md:w-2/5 h-64 md:h-auto overflow-hidden group shrink-0">
+                <div className="relative w-full md:w-2/5 h-40 md:h-auto overflow-hidden group shrink-0">
                     <Image
                         src={service.image}
                         alt={service.title}
