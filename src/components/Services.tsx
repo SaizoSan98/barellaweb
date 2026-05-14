@@ -628,14 +628,17 @@ function ServiceDetailModal({ service, onClose, openQuote }: { service: ServiceI
                             )}
 
                             <div className="relative w-full h-full max-w-6xl max-h-[85vh]">
-                                <Image
-                                    src={selectedImage}
-                                    alt="Nagyított kép"
-                                    fill
-                                    className="object-contain drop-shadow-[0_0_50px_rgba(0,0,0,0.5)]"
-                                    sizes="100vw"
-                                    priority
-                                />
+                                {service.gallery.map((img, idx) => (
+                                    <Image
+                                        key={idx}
+                                        src={img}
+                                        alt="Nagyított kép"
+                                        fill
+                                        className={`object-contain drop-shadow-[0_0_50px_rgba(0,0,0,0.5)] transition-opacity duration-300 ${selectedImage === img ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+                                        sizes="100vw"
+                                        priority
+                                    />
+                                ))}
                             </div>
                         </motion.div>
                     )}
