@@ -29,9 +29,7 @@ export function getClientEmailHtml(data: QuoteFormData): string {
               <table width="100%" cellpadding="0" cellspacing="0">
                 <tr>
                   <td align="center">
-                    <img src="https://barella.hu/images/logo-color.svg" alt="Barella Logo" width="60" height="60" style="display:block;margin:0 auto 16px;" />
-                    <div style="font-size:24px;font-weight:900;color:#000;letter-spacing:2px;text-transform:uppercase;">BARELLA</div>
-                    <div style="font-size:11px;color:#6b7280;letter-spacing:3px;text-transform:uppercase;margin-top:4px;">ÉPÜLETGÉPÉSZET</div>
+                    <img src="https://barella.hu/images/logo-color.svg" alt="Barella Logo" width="160" style="display:block;margin:0 auto 16px;" />
                   </td>
                 </tr>
               </table>
@@ -134,8 +132,7 @@ export function getAdminEmailHtml(data: QuoteFormData): string {
           <!-- HEADER -->
           <tr>
             <td style="background:linear-gradient(135deg,#ffffff 0%,#f9fafb 100%);padding:36px 40px;text-align:center;border-bottom:1px solid #e5e7eb;">
-              <img src="https://barella.hu/images/logo-color.svg" alt="Barella Logo" width="50" height="50" style="display:block;margin:0 auto 12px;" />
-              <div style="font-size:20px;font-weight:900;color:#000;letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;">BARELLA</div>
+              <img src="https://barella.hu/images/logo-color.svg" alt="Barella Logo" width="140" style="display:block;margin:0 auto 16px;" />
               <h1 style="margin:16px 0 4px;font-size:22px;font-weight:900;color:#111827;letter-spacing:-0.5px;">🔔 ÚJ AJÁNLATKÉRÉS ÉRKEZETT!</h1>
               <p style="margin:0;font-size:13px;color:#6b7280;">Érkezett: ${now}</p>
             </td>
