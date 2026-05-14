@@ -163,9 +163,12 @@ export function QuoteModal() {
                 <span>Ajánlatkérés Küldése</span>
                 <Send size={18} className="group-hover:translate-x-1 transition-transform" />
               </button>
-              <p className="text-xs text-center text-gray-400 mt-4">
-                Az adatok elküldésével elfogadja az Adatvédelmi Tájékoztatót.
-              </p>
+              <div className="mt-4 flex items-start gap-2 px-1">
+                <input type="checkbox" id="terms-quote" className="mt-1 shrink-0 accent-primary" required />
+                <label htmlFor="terms-quote" className="text-xs text-gray-500 leading-relaxed text-left">
+                  Az űrlap elküldésével elfogadom az <a href="/documents/adatvedelmi_tajekoztato.pdf" target="_blank" rel="noopener noreferrer" className="text-black hover:text-primary underline">Adatvédelmi tájékoztatót</a> és az <a href="/documents/aszf.pdf" target="_blank" rel="noopener noreferrer" className="text-black hover:text-primary underline">ÁSZF</a>-et.
+                </label>
+              </div>
             </div>
           </div>
         </div>

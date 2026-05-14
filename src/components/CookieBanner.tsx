@@ -42,7 +42,7 @@ export function CookieBanner() {
                 <p className="text-gray-400 text-xs leading-relaxed">
                   Weboldalunk az alapvető működéshez és a felhasználói élmény javításához sütiket (cookie-kat) használ. 
                   További információért kérjük, olvassa el{" "}
-                  <Link href="/suti-kezeles" className="text-primary hover:underline">süti kezelési tájékoztatónkat</Link>.
+                  <a href="/documents/suti_tajekoztato.pdf" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">süti kezelési tájékoztatónkat</a>.
                 </p>
               </div>
             </div>
