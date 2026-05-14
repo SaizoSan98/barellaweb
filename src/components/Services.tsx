@@ -402,10 +402,18 @@ function ServiceCardMobile({ service, index, openQuote, onExpand }: { service: S
 }
 
 function ServiceDetailModal({ service, onClose, openQuote }: { service: ServiceItem; onClose: () => void; openQuote: () => void }) {
+    const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
     // Scroll lock
     useEffect(() => {
         const handleEscape = (e: KeyboardEvent) => {
-            if (e.key === 'Escape') onClose();
+            if (e.key === 'Escape') {
+                setSelectedImage(prev => {
+                    if (prev) return null;
+                    onClose();
+                    return null;
+                });
+            }
         };
         document.addEventListener('keydown', handleEscape);
         const originalStyle = window.getComputedStyle(document.body).overflow;
@@ -499,7 +507,7 @@ function ServiceDetailModal({ service, onClose, openQuote }: { service: ServiceI
                             <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary/60">Referencia galéria</h4>
                             <div className="grid grid-cols-2 gap-3">
                                 {service.gallery.map((img, idx) => (
-                                    <div key={idx} className="relative aspect-square md:aspect-video rounded-2xl overflow-hidden bg-white/5 border border-white/10 group cursor-zoom-in">
+                                    <div key={idx} onClick={() => setSelectedImage(img)} className="relative aspect-square md:aspect-video rounded-2xl overflow-hidden bg-white/5 border border-white/10 group cursor-zoom-in">
                                         <Image
                                             src={img}
                                             alt={`${service.title} - ${idx + 1}`}
@@ -539,6 +547,35 @@ function ServiceDetailModal({ service, onClose, openQuote }: { service: ServiceI
                 >
                     <X size={24} className="transition-transform group-hover:rotate-90" />
                 </button>
+
+                {/* Lightbox */}
+                <AnimatePresence>
+                    {selectedImage && (
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => setSelectedImage(null)}
+                            className="fixed inset-0 z-[300] bg-black/95 backdrop-blur-md flex items-center justify-center p-4 cursor-zoom-out"
+                        >
+                            <button
+                                onClick={(e) => { e.stopPropagation(); setSelectedImage(null); }}
+                                className="absolute top-6 right-6 z-[310] w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all duration-300 group"
+                            >
+                                <X size={24} className="transition-transform group-hover:rotate-90" />
+                            </button>
+                            <div className="relative w-full h-full max-w-6xl max-h-[90vh]">
+                                <Image
+                                    src={selectedImage}
+                                    alt="Nagyított kép"
+                                    fill
+                                    className="object-contain"
+                                    sizes="100vw"
+                                />
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </motion.div>
         </motion.div>
     );
