@@ -6,7 +6,8 @@ import { ArrowRight, Calendar } from 'lucide-react';
 import { Navbar } from '@/components/Navbar';
 import { Contact } from '@/components/Contact';
 
-export const revalidate = 60; // Revalidate every minute
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export const metadata = {
   title: 'Blog | BARELLA Épületgépészet',
@@ -14,12 +15,19 @@ export const metadata = {
 };
 
 export default async function BlogListPage() {
-  const [posts, settingsRows] = await Promise.all([
-    db.select().from(blogPosts).where(eq(blogPosts.published, true)).orderBy(desc(blogPosts.publishedAt)),
-    db.select().from(siteSettings),
-  ]);
-  const settings: Record<string, string> = {};
-  for (const s of settingsRows) settings[s.key] = s.value ?? "";
+  let posts: any[] = [];
+  let settings: Record<string, string> = {};
+  
+  try {
+    const [postsData, settingsRows] = await Promise.all([
+      db.select().from(blogPosts).where(eq(blogPosts.published, true)).orderBy(desc(blogPosts.publishedAt)),
+      db.select().from(siteSettings),
+    ]);
+    posts = postsData;
+    for (const s of settingsRows) settings[s.key] = s.value ?? "";
+  } catch (error) {
+    console.error('Blog page DB error:', error);
+  }
 
   return (
     <main className="min-h-screen bg-black text-white">

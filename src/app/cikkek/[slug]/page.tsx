@@ -7,7 +7,8 @@ import { ArrowLeft, Calendar, User } from 'lucide-react';
 import { Navbar } from '@/components/Navbar';
 import { Contact } from '@/components/Contact';
 
-export const revalidate = 60;
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -15,10 +16,15 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps) {
   const { slug } = await params;
-  const post = await db.select()
-    .from(blogPosts)
-    .where(and(eq(blogPosts.slug, slug), eq(blogPosts.published, true)))
-    .limit(1);
+  let post: any[] = [];
+  try {
+    post = await db.select()
+      .from(blogPosts)
+      .where(and(eq(blogPosts.slug, slug), eq(blogPosts.published, true)))
+      .limit(1);
+  } catch (error) {
+    console.error('generateMetadata DB error:', error);
+  }
 
   if (!post || post.length === 0) {
     return { title: 'Cikk nem található' };
@@ -72,12 +78,19 @@ function parseInline(text: string) {
 export default async function BlogPostPage({ params }: PageProps) {
   const { slug } = await params;
   
-  const [post, settingsRows] = await Promise.all([
-    db.select().from(blogPosts).where(and(eq(blogPosts.slug, slug), eq(blogPosts.published, true))).limit(1),
-    db.select().from(siteSettings),
-  ]);
-  const settings: Record<string, string> = {};
-  for (const s of settingsRows) settings[s.key] = s.value ?? "";
+  let post: any[] = [];
+  let settings: Record<string, string> = {};
+
+  try {
+    const [postData, settingsRows] = await Promise.all([
+      db.select().from(blogPosts).where(and(eq(blogPosts.slug, slug), eq(blogPosts.published, true))).limit(1),
+      db.select().from(siteSettings),
+    ]);
+    post = postData;
+    for (const s of settingsRows) settings[s.key] = s.value ?? "";
+  } catch (error) {
+    console.error('BlogPostPage DB error:', error);
+  }
 
   if (!post || post.length === 0) {
     notFound();
