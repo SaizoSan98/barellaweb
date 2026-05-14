@@ -172,83 +172,82 @@ export function QuoteModal() {
                   />
                 </div>
               </div>
-            </div>
 
-            {/* Section 2: Contact Info */}
-            <div className="space-y-4 pt-4 border-t border-gray-100">
-              <h3 className="text-primary text-xs font-bold uppercase tracking-widest flex items-center gap-2">
-                <User size={14} /> Elérhetőségek
-              </h3>
+              {/* Section 2: Contact Info */}
+              <div className="space-y-4 pt-4 border-t border-gray-100">
+                <h3 className="text-primary text-xs font-bold uppercase tracking-widest flex items-center gap-2">
+                  <User size={14} /> Elérhetőségek
+                </h3>
 
-              <div className="space-y-2">
-                <label className="text-sm text-gray-700 font-medium">Név / Cégnév</label>
-                <div className="relative">
-                  <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-                  <input 
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    placeholder="Az Ön neve"
-                    required
-                    className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 pl-10 pr-4 text-black focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
-                  />
+                <div className="space-y-2">
+                  <label className="text-sm text-gray-700 font-medium">Név / Cégnév</label>
+                  <div className="relative">
+                    <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                    <input 
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      placeholder="Az Ön neve"
+                      required
+                      className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 pl-10 pr-4 text-black focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm text-gray-700 font-medium">Email cím</label>
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                    <input 
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      placeholder="pelda@email.hu"
+                      required
+                      className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 pl-10 pr-4 text-black focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm text-gray-700 font-medium">Telefonszám</label>
+                  <div className="relative">
+                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                    <input 
+                      type="tel"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      placeholder="+36 30 123 4567"
+                      required
+                      className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 pl-10 pr-4 text-black focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
+                    />
+                  </div>
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <label className="text-sm text-gray-700 font-medium">Email cím</label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-                  <input 
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="pelda@email.hu"
-                    required
-                    className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 pl-10 pr-4 text-black focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
-                  />
+              {/* Submit */}
+              <div className="pt-6 border-t border-gray-100 space-y-4">
+                <div className="flex items-center gap-3 px-3 py-4 bg-gray-50 rounded-xl border border-gray-200 cursor-pointer" onClick={() => {
+                  const cb = document.getElementById('terms-quote') as HTMLInputElement;
+                  if(cb) cb.click();
+                }}>
+                  <input type="checkbox" id="terms-quote" className="w-5 h-5 shrink-0 accent-black rounded cursor-pointer pointer-events-none" required />
+                  <label htmlFor="terms-quote" className="text-sm text-gray-700 leading-snug cursor-pointer select-none text-left pointer-events-none">
+                    Elfogadom az <a href="/documents/adatvedelmi_tajekoztato.pdf" target="_blank" rel="noopener noreferrer" className="font-bold underline hover:text-primary pointer-events-auto" onClick={e => e.stopPropagation()}>Adatvédelmi tájékoztatót</a> és az <a href="/documents/aszf.pdf" target="_blank" rel="noopener noreferrer" className="font-bold underline hover:text-primary pointer-events-auto" onClick={e => e.stopPropagation()}>ÁSZF</a>-et.
+                  </label>
                 </div>
+                <button
+                  type="submit"
+                  disabled={status === 'sending'}
+                  className="w-full bg-black text-white py-4 rounded-xl font-bold uppercase tracking-wider hover:bg-primary hover:text-black transition-all duration-300 flex items-center justify-center gap-2 group disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  <span>{status === 'sending' ? 'Küldés...' : 'Ajánlatkérés Küldése'}</span>
+                  <Send size={18} className="group-hover:translate-x-1 transition-transform" />
+                </button>
               </div>
-
-              <div className="space-y-2">
-                <label className="text-sm text-gray-700 font-medium">Telefonszám</label>
-                <div className="relative">
-                  <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-                  <input 
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    placeholder="+36 30 123 4567"
-                    required
-                    className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 pl-10 pr-4 text-black focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Submit */}
-            <div className="pt-6 border-t border-gray-100 mt-4 space-y-4">
-              <div className="flex items-center gap-3 px-3 py-4 bg-gray-50 rounded-xl border border-gray-200 cursor-pointer" onClick={() => {
-                const cb = document.getElementById('terms-quote') as HTMLInputElement;
-                if(cb) cb.click();
-              }}>
-                <input type="checkbox" id="terms-quote" className="w-5 h-5 shrink-0 accent-black rounded cursor-pointer pointer-events-none" required />
-                <label htmlFor="terms-quote" className="text-sm text-gray-700 leading-snug cursor-pointer select-none text-left pointer-events-none">
-                  Elfogadom az <a href="/documents/adatvedelmi_tajekoztato.pdf" target="_blank" rel="noopener noreferrer" className="font-bold underline hover:text-primary pointer-events-auto" onClick={e => e.stopPropagation()}>Adatvédelmi tájékoztatót</a> és az <a href="/documents/aszf.pdf" target="_blank" rel="noopener noreferrer" className="font-bold underline hover:text-primary pointer-events-auto" onClick={e => e.stopPropagation()}>ÁSZF</a>-et.
-                </label>
-              </div>
-              <button
-                type="submit"
-                disabled={status === 'sending'}
-                className="w-full bg-black text-white py-4 rounded-xl font-bold uppercase tracking-wider hover:bg-primary hover:text-black transition-all duration-300 flex items-center justify-center gap-2 group disabled:opacity-60 disabled:cursor-not-allowed"
-              >
-                <span>{status === 'sending' ? 'Küldés...' : 'Ajánlatkérés Küldése'}</span>
-                <Send size={18} className="group-hover:translate-x-1 transition-transform" />
-              </button>
-            </div>
             </>
             )}
           </div>
