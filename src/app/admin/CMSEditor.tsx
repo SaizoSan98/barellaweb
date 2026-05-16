@@ -553,19 +553,11 @@ function ContentEditModal({ content, onClose, onSave, saving }: { content: CmsCo
     if (!file) return;
 
     setUploading(true);
-    const formData = new FormData();
-    formData.append('file', file);
-
     try {
-      const res = await fetch('/api/cms/upload', {
-        method: 'POST',
-        body: formData,
-      });
-      const data = await res.json();
-      if (data.url) {
-        setPreviewUrl(data.url);
-        onSave({ ...content, value: data.url });
-      }
+      const { uploadImage } = await import('@/lib/uploadImage');
+      const url = await uploadImage(file, '/api/cms/upload');
+      setPreviewUrl(url);
+      onSave({ ...content, value: url });
     } catch (err) {
       alert('Kép feltöltése sikertelen');
     } finally {

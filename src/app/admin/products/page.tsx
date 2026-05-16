@@ -59,27 +59,18 @@ export default function ProductsAdminPage() {
     if (!file) return;
     const uploadKey = `${productId}-${field}-${imageIndex ?? ""}`;
     setUploading(uploadKey);
-    const formData = new FormData();
-    formData.append("file", file);
     try {
-      const res = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
-      });
-      const data = await res.json();
-      if (data.url) {
-        const product = productList.find(p => p.id === productId);
-        if (!product) return;
-        const images = [...(product.images || [])];
-        if (imageIndex !== undefined) {
-          images[imageIndex] = data.url;
-        } else {
-          images.push(data.url);
-        }
-        handleChange(productId, "images", images);
-      }
+      const { uploadImage } = await import("@/lib/uploadImage");
+      const url = await uploadImage(file, "/api/upload");
+      const product = productList.find(p => p.id === productId);
+      if (!product) return;
+      const images = [...(product.images || [])];
+      if (imageIndex !== undefined) images[imageIndex] = url;
+      else images.push(url);
+      handleChange(productId, "images", images);
     } catch (e) {
       console.error("Upload error:", e);
+      alert("Kép feltöltése sikertelen");
     } finally {
       setUploading(null);
     }

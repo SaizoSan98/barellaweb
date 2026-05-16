@@ -50,12 +50,15 @@ export default function BlogAdminPage() {
     const file = e.target.files?.[0];
     if (!file) return;
     setUploading(true);
-    const fd = new FormData();
-    fd.append("file", file);
-    const res = await fetch("/api/upload", { method: "POST", body: fd });
-    const data = await res.json();
-    if (data.url) setFormData(p => ({ ...p, imageUrl: data.url }));
-    setUploading(false);
+    try {
+      const { uploadImage } = await import("@/lib/uploadImage");
+      const url = await uploadImage(file, "/api/upload");
+      setFormData(p => ({ ...p, imageUrl: url }));
+    } catch {
+      alert("Kép feltöltése sikertelen");
+    } finally {
+      setUploading(false);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
