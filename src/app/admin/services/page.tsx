@@ -48,21 +48,19 @@ export default function ServicesAdminPage() {
     if (!file) return;
     const uploadKey = `${serviceId}-${field}-${galleryIndex ?? ""}`;
     setUploading(uploadKey);
-    const formData = new FormData();
-    formData.append("file", file);
     try {
-      const res = await fetch("/api/upload", { method: "POST", body: formData });
-      const data = await res.json();
-      if (data.url) {
-        setServiceList(prev => prev.map(s => {
-          if (s.id !== serviceId) return s;
-          if (field === "image") return { ...s, image: data.url };
-          const gallery = [...(s.gallery || [])];
-          if (galleryIndex !== undefined) gallery[galleryIndex] = data.url;
-          else gallery.push(data.url);
-          return { ...s, gallery };
-        }));
-      }
+      const { uploadImage } = await import("@/lib/uploadImage");
+      const url = await uploadImage(file, "/api/upload");
+      setServiceList(prev => prev.map(s => {
+        if (s.id !== serviceId) return s;
+        if (field === "image") return { ...s, image: url };
+        const gallery = [...(s.gallery || [])];
+        if (galleryIndex !== undefined) gallery[galleryIndex] = url;
+        else gallery.push(url);
+        return { ...s, gallery };
+      }));
+    } catch {
+      alert("Kép feltöltése sikertelen");
     } finally {
       setUploading(null);
     }
