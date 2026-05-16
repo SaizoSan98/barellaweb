@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 
 type DbPost = {
   id: number;
@@ -44,10 +45,13 @@ export function BlogList({ posts }: { posts: DbPost[] }) {
             >
               <div className="aspect-[4/3] relative overflow-hidden">
                 {post.imageUrl ? (
-                  <img
+                  <Image
                     src={post.imageUrl}
                     alt={post.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-cover group-hover:scale-110 transition-transform duration-700"
+                    loading="lazy"
                   />
                 ) : (
                   <div className="w-full h-full bg-gradient-to-br from-zinc-800 to-zinc-900" />
